@@ -199,7 +199,7 @@ function Registration() {
         Number(idPlayer5) === Number(data.idPlayer2) ||
         Number(idPlayer5) === Number(data.idPlayer3) ||
         Number(idPlayer5) === Number(data.idPlayer4) ||
-        Number(idPlayer5) === Number(data.idPlayer5)
+        Number(idPlayer5) === (Number(data.idPlayer5) !== null)
       ) {
         e.preventDefault();
         const input = document.querySelector(".idPemain5");
@@ -207,8 +207,9 @@ function Registration() {
         input.classList.add("err");
         input.nextElementSibling.style.opacity = 1;
         input.nextElementSibling.innerHTML = "ID sudah terdaftar";
-      } else if (idPlayer5 !== "" && playerName5 === "") {
-        const input = document.querySelector(".namaPemain5");
+      } else if (idPlayer5 === '' && playerName5 !== '') {
+        e.preventDefault();
+        const input = document.querySelector(".idPemain5");
         input.focus();
         input.classList.add("err");
         input.nextElementSibling.style.opacity = 1;
@@ -270,7 +271,7 @@ function Registration() {
         playerName5 === data.playerName2 ||
         playerName5 === data.playerName3 ||
         playerName5 === data.playerName4 ||
-        playerName5 === data.playerName5
+        playerName5 === (data.playerName5 !== '')
       ) {
         e.preventDefault();
         const input = document.querySelector(".namaPemain5");
@@ -278,8 +279,9 @@ function Registration() {
         input.classList.add("err");
         input.nextElementSibling.style.opacity = 1;
         input.nextElementSibling.innerHTML = "Nama sudah terdaftar";
-      } else if (idPlayer5 === "" && playerName5 !== "") {
-        const input = document.querySelector(".idPemain5");
+      } else if (idPlayer5 !== '' && playerName5 === '') {
+        e.preventDefault();
+        const input = document.querySelector(".namaPemain5");
         input.focus();
         input.classList.add("err");
         input.nextElementSibling.style.opacity = 1;
@@ -326,7 +328,7 @@ function Registration() {
         <form
           className="kiri"
           encType="multipart/form-data"
-          action="http://pmtc-tourney.herokuapp.com/registration"
+          action="https://pmtc-tourney.herokuapp.com/registration"
           method="POST"
         >
           <h2 className="pendaftaran-title">Pendaftaran</h2>
