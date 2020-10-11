@@ -1,0 +1,33 @@
+.tournament-detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 120px;
+  padding: 5px 5px;
+  margin: 0 5px;
+  align-items: center;
+  border: 1px solid #959aa2;
+  border-radius: 5px;
+}
+
+.tournament-detail h5 {
+  font-size: 12px;
+  color: #959aa2;
+}
+
+.tournament-detail span {
+  display: block;
+  margin-top: -10px;
+  color: white;
+  font-size: 14px;
+  font-weight: bolder;
+}
+
+@media screen and (min-width: 976px) {
+  .tournament-detail {
+    width: 150px;
+    height: 70px;
+    border: none;
+    border-radius: 0;
+  }
+}

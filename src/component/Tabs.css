@@ -1,0 +1,31 @@
+.tab-wraper {
+  display: flex;
+  justify-content: left;
+  border-bottom: 1px solid rgb(87, 87, 87);
+  width: 95%;
+  margin: 0 auto 15px;
+  overflow: auto;
+}
+.tab-wraper button {
+  background: none;
+  color: rgba(255, 255, 255, 0.425);
+  border: none;
+  padding: 5px;
+  outline: none;
+  width: 100px;
+  font-size: 14px;
+  font-weight: 400;
+  text-transform: capitalize;
+  text-align: center;
+  vertical-align: baseline;
+  cursor: pointer;
+}
+.tab-wraper button:hover {
+  color: white;
+  text-decoration: none;
+}
+
+.tab.active {
+  color: white;
+  border-bottom: #00deab 2px solid;
+}

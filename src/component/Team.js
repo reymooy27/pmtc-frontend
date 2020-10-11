@@ -1,0 +1,117 @@
+import React, { Fragment, useContext, useEffect, useState } from "react";
+import TeamList from "./TeamList";
+import "./Team.css";
+import { StateContext } from "../StateProvider";
+
+function Team() {
+  const [confirm, setConfirm] = useState(false);
+  const [notConfirm, setNotConfirm] = useState(false);
+
+  const value = useContext(StateContext);
+
+  useEffect(() => {
+    let mounted = true;
+    if (mounted) {
+      value.data.map((t) => {
+        if (t.confirmed > 0) {
+          setConfirm(true);
+        }
+        if (!t.confirmed > 0) {
+          setNotConfirm(true);
+        }
+        return null;
+      });
+    }
+
+    return () => (mounted = false);
+  }, [value.data]);
+
+  const tlConfirmed = value.data.map((team) => {
+    if (team.confirmed) {
+      return (
+        <TeamList
+          key={team._id}
+          id={team._id}
+          teamName={team.teamName}
+          abbr={team.singkatanTeam}
+          logo={team.logo}
+          alt={team.teamName}
+          playerName1={team.playerName}
+          idPlayer1={team.idPlayer}
+          playerName2={team.playerName2}
+          idPlayer2={team.idPlayer2}
+          playerName3={team.playerName3}
+          idPlayer3={team.idPlayer3}
+          playerName4={team.playerName4}
+          idPlayer4={team.idPlayer4}
+          playerName5={team.playerName5}
+          idPlayer5={team.idPlayer5}
+        />
+      );
+    }
+    return null;
+  });
+  const tlNotConfirmed = value.data.map((team) => {
+    if (!team.confirmed) {
+      return (
+        <TeamList
+          key={team._id}
+          id={team._id}
+          teamName={team.teamName}
+          abbr={team.singkatanTeam}
+          logo={team.logo}
+          alt={team.teamName}
+          playerName1={team.playerName}
+          idPlayer1={team.idPlayer}
+          playerName2={team.playerName2}
+          idPlayer2={team.idPlayer2}
+          playerName3={team.playerName3}
+          idPlayer3={team.idPlayer3}
+          playerName4={team.playerName4}
+          idPlayer4={team.idPlayer4}
+          playerName5={team.playerName5}
+          idPlayer5={team.idPlayer5}
+        />
+      );
+    }
+    return null;
+  });
+
+  return (
+    <div className="container">
+      <div className="specialFont-wraper">
+        <h4 className="specialFont">Tim</h4>
+      </div>
+      <div className="team">
+        <div className="team-registered">
+          <h4>Tim : {value.data.length}</h4>
+          <h4>Slot Tersedia : 64</h4>
+        </div>
+        {value.data.length > 1 ? (
+          <Fragment>
+            <div
+              className="team-confirmed"
+              style={{ display: confirm ? "block" : "none" }}
+            >
+              <h4>Dikonfirmasi</h4>
+              {tlConfirmed}
+            </div>
+            <div
+              className="team-not-confirmed"
+              style={{ display: notConfirm ? "block" : "none" }}
+            >
+              <h4>Belum Dikonfirmasi</h4>
+              {tlNotConfirmed}
+            </div>
+          </Fragment>
+        ) : (
+          <div className="no-participant">
+            <h3>Belum Tersedia Saat Ini</h3>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default Team;

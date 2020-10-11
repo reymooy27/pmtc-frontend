@@ -1,0 +1,53 @@
+.leaderboard-group {
+  width: 100%;
+  height: 50px;
+  background-color: #070613;
+  color: #00deab;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  margin: 10px auto 0;
+  border: 0.8px rgba(255, 255, 255, 0.288) solid;
+  cursor: pointer;
+}
+.leaderboard-group:hover {
+  box-shadow: 0px 4px 5px 2px rgba(0, 0, 0, 0.26);
+}
+
+.leaderboard-group:after {
+  content: url("../img/iconmonstr-arrow-66-16.png");
+  float: right;
+  margin: 0 10px;
+  transition: ease-in-out 0.3s;
+}
+
+.leaderboard-group-active:after {
+  transform: rotate(180deg);
+}
+
+.leaderboard th {
+  color: #00deab;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.leaderboard-table {
+  width: 100%;
+  display: block;
+  overflow: auto;
+}
+
+.leaderboard-table table {
+  width: 100%;
+  display: table;
+  border-collapse: collapse;
+}
+.leaderboard-table table tr {
+  border-bottom: #636b86 1px solid;
+}
+.leaderboard-table table tr:hover {
+  background: #292e3575;
+}
+.leaderboard-table table tr td {
+  padding: 15px;
+}

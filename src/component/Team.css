@@ -1,0 +1,37 @@
+.team {
+  margin: 20px auto 0;
+  width: 100%;
+}
+
+.team-registered {
+  padding-left: 20px;
+  display: flex;
+  width: 100%;
+  align-items: baseline;
+  margin-top: 10px;
+}
+
+.team-registered h4 {
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 0px 10px 10px;
+}
+.team-confirmed,
+.team-not-confirmed {
+  margin-top: 10px;
+}
+.team-confirmed h4,
+.team-not-confirmed h4 {
+  margin-left: 20px;
+}
+
+@media screen and (min-width: 700px) {
+  .team {
+    margin: auto;
+  }
+  .team-confirmed h4,
+  .team-not-confirmed h4 {
+    margin-left: 60px;
+  }
+}

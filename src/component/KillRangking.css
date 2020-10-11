@@ -1,0 +1,64 @@
+.kill-rangking {
+  margin: 20px auto 0;
+  width: 90%;
+  color: white;
+  overflow: auto;
+}
+
+.kill-rangking table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.kill-rangking table tr {
+  border-bottom: #636b86 1px solid;
+}
+.kill-rangking table tr:hover {
+  background: #292e3575;
+}
+.kill-rangking table tr td {
+  padding: 15px;
+}
+.kill-rank {
+  min-width: 200px;
+  display: flex;
+  justify-content: left;
+  align-content: center;
+  position: relative;
+}
+.kill-rank a {
+  text-decoration: none;
+  display: flex;
+  color: white;
+}
+.kill-player-team-logo {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.kill-player-team-logo img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  max-width: 40px;
+  max-height: 40px;
+  padding: 0;
+}
+
+.kill-player-name {
+  display: flex;
+  justify-content: baseline;
+  text-align: left;
+  margin-top: 5px;
+}
+
+@media screen and (min-width: 976px) {
+  .kill-rangking {
+    margin: auto;
+  }
+}

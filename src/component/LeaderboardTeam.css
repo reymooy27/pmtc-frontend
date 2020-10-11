@@ -1,0 +1,37 @@
+.leaderboard-team-rank {
+  min-width: 200px;
+  display: flex;
+  justify-content: left;
+  align-content: center;
+  position: relative;
+}
+.leaderboard-team-rank a {
+  display: flex;
+  text-decoration: none;
+  color: white;
+}
+.leaderboard-team-logo {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.leaderboard-team-logo img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  max-width: 40px;
+  max-height: 40px;
+  padding: 0;
+}
+.leaderboard-team-name {
+  display: flex;
+  justify-content: baseline;
+  text-align: left;
+  margin-top: 5px;
+}

@@ -1,0 +1,193 @@
+.header {
+  margin: 4em auto 1em;
+  height: 430px;
+  width: 95%;
+  border-radius: 10px;
+  box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.712);
+  color: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  position: relative;
+}
+
+.header h1 {
+  font-size: 1.5em;
+  color: white;
+  font-family: "Oswald", sans-serif;
+  text-align: left;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+.header-1 {
+  position: absolute;
+  background: url("../img/unnamed.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #2bddb4b4;
+  background-blend-mode: multiply;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 65%;
+  display: flex;
+  flex-direction: column;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.header-1-1 {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.header-1-2 {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 1em;
+}
+
+.header-1-2 p {
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+}
+
+.header-1-2-1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  width: 160px;
+  height: 80px;
+}
+.header-wraper {
+  width: 96px;
+  position: absolute;
+  top: 1em;
+  left: 1em;
+  padding: 0;
+  margin: 0;
+}
+
+.header-wraper img {
+  padding: 0;
+  margin: 0;
+}
+.header-wraper {
+  position: absolute;
+  bottom: 3em;
+  left: 1em;
+}
+.header-title {
+  position: absolute;
+  bottom: 3em;
+  left: 1em;
+}
+
+.header-2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 35%;
+  background: #151a2c;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.header-tournament-detail {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  overflow: auto;
+  width: 95%;
+  padding-bottom: 1em;
+}
+
+.header-tournament-detail > a {
+  text-decoration: none;
+}
+.header-button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.header-button-disabled {
+  width: 180px;
+  height: 45px;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 10px;
+  border: 1px #00deab solid;
+  background-color: transparent;
+  text-transform: uppercase;
+  color: white;
+  text-decoration: none;
+  text-shadow: none;
+  outline: none;
+  cursor: not-allowed;
+}
+.header-button-registered {
+  display: inline-block;
+  width: 200px;
+  height: 40px;
+  padding: 11px 20px;
+  font-size: 0.75em;
+  font-weight: bold;
+  border-radius: 50px;
+  background: #00deab;
+  text-transform: uppercase;
+  color: black;
+  transition: ease-in-out 0.3s;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+.header-button-registered:hover {
+  background: rgb(4, 172, 132);
+  text-decoration: none;
+  color: black;
+}
+@media screen and (min-width: 976px) {
+  .header {
+    height: 350px;
+    margin-top: 5em;
+  }
+  .header-1 {
+    flex-direction: row;
+  }
+  .header-1-1 {
+    width: 50%;
+  }
+  .header-1-2 {
+    width: 50%;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+  .header-2 {
+    flex-direction: row;
+  }
+  .header-tournament-detail {
+    justify-content: left;
+    width: 60%;
+    flex-wrap: nowrap;
+    padding-bottom: 0;
+  }
+  .header-button {
+    width: 40%;
+  }
+  .header-button-registered {
+    font-size: 0.75em;
+  }
+}

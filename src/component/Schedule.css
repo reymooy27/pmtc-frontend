@@ -1,0 +1,42 @@
+.schedule {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto 0;
+  width: 90%;
+  color: white;
+  overflow: auto;
+}
+.schedule table {
+  width: 100%;
+  margin: auto;
+  font-size: 14px;
+  border-spacing: 0rem 0.6rem;
+  border-collapse: separate;
+}
+.schedule table tbody tr {
+  color: white;
+  font-size: 14px;
+  position: relative;
+  background: #070613;
+  border-radius: 5px;
+  border: 0.8px rgba(255, 255, 255, 0.288) solid;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.schedule table tbody td {
+  padding: 10px;
+  text-align: center;
+  border-top: 0.8px rgba(255, 255, 255, 0.288) solid;
+  border-bottom: 0.8px rgba(255, 255, 255, 0.288) solid;
+}
+
+.schedule table tbody td:first-child {
+  border-left: 0.8px rgba(255, 255, 255, 0.288) solid;
+}
+
+.schedule table tbody td:last-child {
+  border-right: 0.8px rgba(255, 255, 255, 0.288) solid;
+}
