@@ -16,7 +16,7 @@ export const StateProvider = ({ children }) => {
     let mounted = true;
 
     async function fetchDataParticipant() {
-      const req = await axios.get("/api/v1/register");
+      const req = await axios.post("/api/v1/teams");
       if (mounted) {
         setData(req.data);
         setLoading(false);
@@ -33,7 +33,7 @@ export const StateProvider = ({ children }) => {
   useEffect(() => {
     let mounted = true;
     async function fetchData() {
-      const req = await axios.get("/api/v1/tourney");
+      const req = await axios.post("/api/v1/tournaments");
       if (mounted) {
       }
       setData_(req.data[0]);

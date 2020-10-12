@@ -12,7 +12,7 @@ function TeamDetail() {
     const i = document.URL.match("teamdetail").index;
     let mounted = true;
     async function fetchData() {
-      const req = await axios.get(`/participant/${document.URL.slice(i + 11)}`);
+      const req = await axios.post(`/participant/${document.URL.slice(i + 11)}`);
       if (mounted) {
         setData(req.data);
         setLoading(false);
