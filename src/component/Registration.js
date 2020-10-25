@@ -330,7 +330,7 @@ function Registration() {
         <form
           className="kiri"
           encType="multipart/form-data"
-          action="http://localhost:8000/team/create"
+          action="https://pmtc-tourney.herokuapp.com/team/create"
           method="POST"
         >
           <h2 className="pendaftaran-title">Pendaftaran</h2>
