@@ -12,7 +12,7 @@ function TeamDetail() {
     const i = document.URL.match("teamdetail").index;
     let mounted = true;
     async function fetchData() {
-      const req = await axios.post(`/participant/${document.URL.slice(i + 11)}`);
+      const req = await axios.post(`/team/${document.URL.slice(i + 11)}`);
       if (mounted) {
         setData(req.data);
         setLoading(false);
@@ -56,7 +56,7 @@ function TeamDetail() {
               </div>
             </div>
           </div>
-          <h2>Roster</h2>
+          <h2 className='team-detail-roster-title'>Roster</h2>
           <div className="team-detail-roster">
             <PlayerDetail
               name={data.playerName}

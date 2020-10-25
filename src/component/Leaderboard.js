@@ -1,24 +1,25 @@
-import React, { useContext } from "react";
+import React from "react";
 import "./Leaderboard.css";
 import LeaderboardGroup from "./LeaderboardGroup";
 import GrandfinalGroup from "./GrandfinalGroup";
-import { StateContext } from "../StateProvider";
+import {selectTournament} from '../redux/reducers/tournamentSlice'
+import { useSelector } from "react-redux";
 
 function Leaderboard() {
-  const value = useContext(StateContext);
-
+  const tournament = useSelector(selectTournament)
+  
   return (
     <div className="container">
       <div className="specialFont-wraper">
         <h4 className="specialFont">Leaderboard</h4>
       </div>
-      {value.data_.showGroupStandings ? (
+      {tournament.showGroupStandings && tournament.teams.length >=1 ? (
         <div className="leaderboard">
           <LeaderboardGroup inGroup="A" />
           <LeaderboardGroup inGroup="B" />
           <LeaderboardGroup inGroup="C" />
           <LeaderboardGroup inGroup="D" />
-          {value.data_.showGrandFinal ? <GrandfinalGroup /> : ""}
+          {tournament.showGrandFinal ? <GrandfinalGroup /> : ""}
         </div>
       ) : (
         <div className="no-participant">

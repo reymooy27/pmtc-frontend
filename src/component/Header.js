@@ -1,11 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
 import TournamentDetail from "./TournamentDetail";
 import { Link } from "react-router-dom";
 import "./Header.css";
-import { StateContext } from "../StateProvider";
+import {selectTournament} from '../redux/reducers/tournamentSlice'
+import { useSelector } from "react-redux";
 
 function Header() {
-  const value = useContext(StateContext);
+  const tournament = useSelector(selectTournament)
+
 
   return (
     <div className="header">
@@ -15,36 +17,41 @@ function Header() {
             <img src="../logo.png" className="navbar-logo" alt="" />
           </div>
           <div className="header-title">
-            <h1>{value.data_.tournamentName}</h1>
+            <h1>{tournament.tournamentName}</h1>
+          </div>
+          <div className='header-prize-pool'>
+          <h1>{`Rp. ${new Intl.NumberFormat().format(
+              tournament.tournamentFirstPrize +tournament.tournamentSecondPrize +tournament.tournamentThirdPrize
+            )}`}</h1>
           </div>
         </div>
         <div className="header-1-2">
           <div className="header-1-2-1">
             <p>Pendaftaran Buka</p>
-            <span>{value.data_.registrationStart}</span>
+            <span>{tournament.registrationStart}</span>
           </div>
           <div className="header-1-2-1">
             <p>Turnamen Mulai</p>
-            <span>{value.data_.startDate}</span>
+            <span>{tournament.startDate}</span>
           </div>
         </div>
       </div>
       <div className="header-2">
         <div className="header-tournament-detail">
           <Link to="/team">
-            <TournamentDetail title="Tim" detail={`${value.data.length}/64`} />
+            <TournamentDetail title="Tim" detail={`${tournament.teams.length}/64`} />
           </Link>
           <TournamentDetail
             title="Biaya Pendaftaran"
             detail={`Rp. ${new Intl.NumberFormat().format(
-              value.data_.tournamentFee
+              tournament.tournamentFee
             )}`}
           />
           <TournamentDetail title="Mode" detail="Squad TPP" />
           <TournamentDetail title="Format Turnamen" detail="Eliminasi Grup" />
         </div>
         <div className="header-button">
-          {value.data_.registrationClosed ? (
+          {tournament.registrationClosed ? (
             <button className="header-button-disabled">
               Pendaftaran Tutup
             </button>

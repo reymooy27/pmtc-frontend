@@ -1,18 +1,19 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import TeamList from "./TeamList";
 import "./Team.css";
-import { StateContext } from "../StateProvider";
+import {selectTournament} from '../redux/reducers/tournamentSlice'
+import { useSelector } from "react-redux";
 
 function Team() {
   const [confirm, setConfirm] = useState(false);
   const [notConfirm, setNotConfirm] = useState(false);
-
-  const value = useContext(StateContext);
+  
+  const tournament = useSelector(selectTournament)
 
   useEffect(() => {
     let mounted = true;
     if (mounted) {
-      value.data.map((t) => {
+      tournament.teams.map((t) => {
         if (t.confirmed > 0) {
           setConfirm(true);
         }
@@ -24,9 +25,9 @@ function Team() {
     }
 
     return () => (mounted = false);
-  }, [value.data]);
+  }, [tournament.teams]);
 
-  const tlConfirmed = value.data.map((team) => {
+  const tlConfirmed = tournament.teams.map((team) => {
     if (team.confirmed) {
       return (
         <TeamList
@@ -51,7 +52,7 @@ function Team() {
     }
     return null;
   });
-  const tlNotConfirmed = value.data.map((team) => {
+  const tlNotConfirmed = tournament.teams.map((team) => {
     if (!team.confirmed) {
       return (
         <TeamList
@@ -84,10 +85,10 @@ function Team() {
       </div>
       <div className="team">
         <div className="team-registered">
-          <h4>Tim : {value.data.length}</h4>
+          <h4>Tim : {tournament.teams.length}</h4>
           <h4>Slot Tersedia : 64</h4>
         </div>
-        {value.data.length > 1 ? (
+        {tournament.teams.length >= 1 ? (
           <Fragment>
             <div
               className="team-confirmed"

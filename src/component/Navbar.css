@@ -8,7 +8,35 @@
   top: 0;
   left: 0;
   margin-left: 0px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   transition: all 0.3s ease;
+}
+.navbar-responsive a {
+  text-decoration: none;
+}
+
+.navbar-responsive .login-button {
+  display: inline-block;
+  margin: 5px;
+  width: 70px;
+  height: 35px;
+  padding: 5px 20px;
+  font-size: 0.75em;
+  font-weight: bold;
+  border-radius: 5px;
+  background: #00deab;
+  text-transform: uppercase;
+  color: black;
+  transition: ease-in-out 0.3s;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+
+.navbar-responsive .login-button:hover {
+  background: rgb(4, 172, 132);
 }
 
 .menuicon {
@@ -24,6 +52,9 @@
   background-position: 10px;
   z-index: 10;
   transition: all 0.3s ease;
+}
+.avatar {
+  margin-right: 20px;
 }
 @media screen and (min-width: 976px) {
   .navbar-responsive {

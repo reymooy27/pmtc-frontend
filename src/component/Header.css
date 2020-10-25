@@ -9,7 +9,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  position: relative;
 }
 
 .header h1 {
@@ -21,15 +20,12 @@
   line-height: 1.2;
 }
 .header-1 {
-  position: absolute;
   background: url("../img/unnamed.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
   background-color: #2bddb4b4;
   background-blend-mode: multiply;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 65%;
   display: flex;
@@ -40,7 +36,6 @@
 .header-1-1 {
   width: 100%;
   height: 100%;
-  position: relative;
 }
 .header-1-2 {
   width: 100%;
@@ -48,13 +43,16 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  padding: 1em;
 }
 
 .header-1-2 p {
   margin: 0;
   padding: 0;
   font-size: 12px;
+}
+.header-1-2 span {
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .header-1-2-1 {
@@ -85,9 +83,16 @@
   left: 1em;
 }
 .header-title {
-  position: absolute;
-  bottom: 3em;
-  left: 1em;
+  display: flex;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-bottom: 10px;
+}
+.header-prize-pool {
+  text-align: left;
+  padding-left: 20px;
+  display: flex;
+  justify-content: flex-start;
 }
 
 .header-2 {
@@ -98,9 +103,6 @@
   width: 100%;
   height: 35%;
   background: #151a2c;
-  position: absolute;
-  bottom: 0;
-  left: 0;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
@@ -169,11 +171,17 @@
   }
   .header-1-1 {
     width: 50%;
+    padding: 1em;
+    padding-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
   }
   .header-1-2 {
     width: 50%;
     justify-content: flex-end;
     align-items: flex-end;
+    padding: 1em;
   }
   .header-2 {
     flex-direction: row;

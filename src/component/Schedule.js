@@ -11,24 +11,24 @@ function Schedule() {
           <thead>
             <tr>
               <td>Round</td>
-              <td>Best Of</td>
+              <td>Match</td>
               <td>Maps</td>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td>Round 1</td>
-              <td>BO3</td>
+              <td>3</td>
               <td>Miramar, Erangel, Vikendi</td>
             </tr>
             <tr>
               <td>Round 1</td>
-              <td>BO3</td>
+              <td>3</td>
               <td>Miramar, Erangel, Vikendi</td>
             </tr>
             <tr>
-              <td>Round 1</td>
-              <td>BO3</td>
+              <td>Grandfinal</td>
+              <td>6</td>
               <td>Miramar, Erangel, Vikendi</td>
             </tr>
           </tbody>

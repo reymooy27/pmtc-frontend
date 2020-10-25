@@ -1,10 +1,11 @@
-import React, { Fragment, useContext, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import LeaderboardTeam from "./LeaderboardTeam";
 import "./LeaderboardGroup.css";
-import { StateContext } from "../StateProvider";
+import {selectTournament} from '../redux/reducers/tournamentSlice'
+import { useSelector } from "react-redux";
 
 function GrandfinalGroup(props) {
-  const value = useContext(StateContext);
+  const tournament = useSelector(selectTournament)
 
   const [show, setShow] = useState(false);
 
@@ -19,14 +20,14 @@ function GrandfinalGroup(props) {
   };
 
   useEffect(() => {
-    const grandfinalArray = value.data.filter((team) => {
+    const grandfinalArray = tournament.teams.filter((team) => {
       if (team.qualifyToGrandFinal) {
         return team;
       }
       return null;
     });
     setSome(grandfinalArray);
-  }, [value.data, props.inGroup]);
+  }, [tournament.teams, props.inGroup]);
 
   return (
     <Fragment>

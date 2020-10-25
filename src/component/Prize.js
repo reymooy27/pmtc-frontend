@@ -1,11 +1,37 @@
-import React, { useContext } from "react";
+import React, { useEffect, useState } from "react";
 import PrizeDetail from "./PrizeDetail";
 import "./Prize.css";
-import { StateContext } from "../StateProvider";
+import { useSelector } from "react-redux";
+import {selectTournament} from '../redux/reducers/tournamentSlice'
 
 function Prize() {
-  const value = useContext(StateContext);
-  const { firstWinner, secondWinner, thirdWinner } = useContext(StateContext);
+  
+  const tournament = useSelector(selectTournament)
+
+  const [firstWinner, setFirstWinner] = useState(false);
+  const [secondWinner, setSecondWinner] = useState(false);
+  const [thirdWinner, setThirdWinner] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+
+    if (mounted) {
+      tournament.teams.map((a) => {
+        if (a.tournamentFirstWinner === true) {
+          setFirstWinner(a);
+        }
+        if (a.tournamentSecondWinner === true) {
+          setSecondWinner(a);
+        }
+        if (a.tournamentThirdWinner === true) {
+          setThirdWinner(a);
+        }
+
+        return 0;
+      });
+    }
+    return () => (mounted = false);
+  }, [tournament.teams]);
 
   return (
     <div className=" tourneyInfoPrize">
@@ -23,11 +49,11 @@ function Prize() {
           winnerTeam={firstWinner ? firstWinner.teamName : ""}
           image={
             firstWinner
-              ? firstWinner.logo
+              ? firstWinner.logo !== null ? firstWinner.logo : "https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../assets/preview/2013/png/iconmonstr-trophy-13.png&r=255&g=215&b=0"
               : "https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../assets/preview/2013/png/iconmonstr-trophy-13.png&r=255&g=215&b=0"
           }
           prize={`Rp. ${new Intl.NumberFormat().format(
-            value.data_.tournamentFirstPrize
+            tournament.tournamentFirstPrize
           )}`}
         />
         <PrizeDetail
@@ -36,11 +62,11 @@ function Prize() {
           winnerTeam={secondWinner ? secondWinner.teamName : ""}
           image={
             secondWinner
-              ? secondWinner.logo
+              ? secondWinner.logo !== null ? secondWinner.logo : "https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../assets/preview/2013/png/iconmonstr-trophy-13.png&r=192&g=192&b=192"
               : "https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../assets/preview/2013/png/iconmonstr-trophy-13.png&r=192&g=192&b=192"
           }
           prize={`Rp. ${new Intl.NumberFormat().format(
-            value.data_.tournamentSecondPrize
+            tournament.tournamentSecondPrize
           )}`}
         />
         <PrizeDetail
@@ -49,11 +75,11 @@ function Prize() {
           winnerTeam={thirdWinner ? thirdWinner.teamName : ""}
           image={
             thirdWinner
-              ? thirdWinner.logo
+              ? thirdWinner.logo !== null ? thirdWinner.logo : "https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../assets/preview/2013/png/iconmonstr-trophy-13.png&r=203&g=126&b=50"
               : "https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../assets/preview/2013/png/iconmonstr-trophy-13.png&r=203&g=126&b=50"
           }
           prize={`Rp. ${new Intl.NumberFormat().format(
-            value.data_.tournamentThirdPrize
+            tournament.tournamentThirdPrize
           )}`}
         />
       </div>

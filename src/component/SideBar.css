@@ -40,10 +40,44 @@
   background: #151a2c;
   border-radius: 10px;
 }
+.nav {
+  display: flex;
+  height: 100%;
+}
+.sidebar-top {
+  padding: 5px;
+  border-bottom: 1px solid white;
+}
+.sidebar-bottom {
+  padding: 5px;
+}
+.sidebar-bottom button {
+  display: inline-block;
+  height: 50px;
+  width: 100%;
+  padding: 10px;
+  margin: 10px auto 0;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+  background-color: transparent;
+  color: white;
+  font-family: "Roboto";
+}
+
+.sidebar-bottom button:hover {
+  background: #151a2c;
+  border-radius: 10px;
+}
 
 @media screen and (min-width: 976px) {
   .side-bar {
     left: 0;
     top: 62.5px;
+  }
+  .sidebar-top {
+    border-bottom: none;
   }
 }

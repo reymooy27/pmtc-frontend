@@ -1,9 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { StateContext } from "../StateProvider";
+import {selectTournament} from '../redux/reducers/tournamentSlice'
+import { useSelector } from "react-redux";
 
 function Registration() {
-  const value = useContext(StateContext);
+  const tournament = useSelector(selectTournament)
+
   const [teamName, setTeamName] = useState("");
   const [teamAbbr, setTeamAbbr] = useState("");
   const [logoTeam, setLogoTeam] = useState(null);
@@ -127,7 +129,7 @@ function Registration() {
   };
 
   const submit = (e) => {
-    value.data.map((data) => {
+    tournament.teams.map((data) => {
       if (teamName.toLowerCase() === data.teamName.toLowerCase()) {
         e.preventDefault();
         const input = document.querySelector(".namaTeam");
@@ -328,7 +330,7 @@ function Registration() {
         <form
           className="kiri"
           encType="multipart/form-data"
-          action="https://pmtc-tourney.herokuapp.com/registration"
+          action="http://localhost:8000/team/create"
           method="POST"
         >
           <h2 className="pendaftaran-title">Pendaftaran</h2>

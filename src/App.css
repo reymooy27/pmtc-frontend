@@ -48,8 +48,6 @@ p {
   background: #070613;
   width: 100%;
   padding-left: 20px;
-  /* border-top: #00deab 2px solid;
-  border-left: #00deab 2px solid; */
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
@@ -96,18 +94,6 @@ img {
   width: 90px;
 }
 
-#grandfinal {
-  margin: 1em auto 0;
-}
-
-/* ======================================Tournament info=============================== */
-
-#menu h5 {
-  font-size: 1em;
-}
-
-/* =====================================Participant=================================== */
-
 .no-participant {
   display: flex;
   flex-direction: column;
@@ -119,55 +105,8 @@ img {
   color: rgba(168, 164, 168, 0.333);
 }
 
-.list {
-  background: #070613;
-  display: none;
-  width: 100%;
-  padding: 5px 8px;
-  margin-bottom: 10px;
-  border: 1px rgba(255, 255, 255, 0.479) solid;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-}
-
-.list ul {
-  display: flex;
-  flex-direction: column;
-  justify-content: baseline;
-  color: white;
-  margin: 1em 0;
-}
-
-.list ul li {
-  list-style: none;
-  padding: 10px 10px;
-}
-
-.list ul li span {
-  color: #00deab;
-  padding: 0 5px;
-}
-
-.kop-participant {
-  font-size: 18px;
-  text-align: center;
-  margin-bottom: -10px;
-}
-
 a .active :hover {
   color: #00deab;
-}
-
-#confirmed,
-#not-confirmed {
-  width: 100%;
-  margin: 10px;
-  color: white;
-  /* display: none; */
-}
-#confirmed h4,
-#not-confirmed h4 {
-  font-size: 16px;
 }
 
 /* =====================================Table Standings=================================== */
@@ -176,21 +115,6 @@ table td {
   font-size: 14px;
   font-weight: normal;
   text-align: center;
-}
-
-/* ==============================================Registrasi============================================ */
-.registration-closed {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #16191e;
-  width: 100%;
-  height: 100vh;
-}
-
-.registration-closed-title {
-  color: #00deab;
-  font-size: 4em;
 }
 
 .pendaftaran-title {
@@ -435,121 +359,6 @@ label {
   margin: 0 auto;
 }
 
-/* =======================================Footer================================ */
-footer {
-  background: #2d303e;
-  box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.712);
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  height: 100%;
-  margin: 0 auto;
-  padding: 20px;
-  width: 95%;
-  color: #00deab;
-  line-height: 45px;
-  clear: both;
-  font-size: 16px;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-}
-
-footer h4 {
-  font-size: 1.25em;
-  color: white;
-  font-weight: bold;
-}
-
-footer p {
-  margin: 0;
-}
-
-.footer-content {
-  width: 100%;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-}
-
-.content-1 {
-  width: 90%;
-  padding: 1em;
-}
-
-.content-2-wraper {
-  display: flex;
-  flex-direction: column;
-}
-
-.content-2 {
-  width: 90%;
-  padding: 1em;
-}
-
-.profile {
-  width: 46px;
-  border-radius: 100px;
-  padding: 0;
-}
-
-.profile::after {
-  content: "r3tr0";
-}
-
-.icon-social {
-  width: 46px;
-  padding: 0;
-}
-
-.icon-social-wraper {
-  display: flex;
-  flex-direction: row;
-  width: 90%;
-  justify-content: center;
-  padding: 1em;
-  margin-top: 1em;
-}
-
-.icon-social-wraper a {
-  margin: 1em 10px;
-}
-
-.btnEntrance {
-  animation-duration: 0.5s;
-  animation-fill-mode: both;
-  animation-name: btnEntrance;
-}
-
-@keyframes btnEntrance {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 100%, 0);
-  }
-
-  to {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-.btnExit {
-  animation-duration: 0.25s;
-  animation-fill-mode: both;
-  animation-name: btnExit;
-}
-
-@keyframes btnExit {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0;
-    transform: translate3d(0, 100%, 0);
-  }
-}
-
 @media screen and (max-width: 576px) {
   /* Home */
 
@@ -601,11 +410,6 @@ footer p {
   p {
     font-size: 1em;
   }
-
-  #menu h5 {
-    font-size: 1em;
-  }
-
   /* ===============================================Navbar===================================================== */
 
   .tombolkembali {
@@ -616,52 +420,6 @@ footer p {
   .tombolkembali a img {
     width: 32px;
     color: #ffa500;
-  }
-
-  /* ===============================================Tournament Information===================================================== */
-
-  .list ul {
-    display: flex;
-    flex-direction: row;
-    justify-content: baseline;
-    color: white;
-  }
-
-  /* ===============================================Banner===================================================== */
-
-  .btn-registered.top {
-    top: 5px;
-    right: 10px;
-    width: 200px;
-  }
-
-  .button2-wraper {
-    flex-direction: row;
-  }
-
-  /* ===============================================Footer===================================================== */
-  footer {
-    height: 180px;
-  }
-
-  .background-overlay {
-    height: 250px;
-  }
-
-  .footer-content {
-    flex-direction: row;
-  }
-
-  .content-1 {
-    width: 33%;
-  }
-
-  .content-2 {
-    width: 33%;
-  }
-
-  .icon-social-wraper {
-    width: 33%;
   }
 
   /* ===============================================Registration===================================================== */
@@ -692,11 +450,11 @@ footer p {
 @media screen and (min-width: 976px) {
   ::-webkit-scrollbar {
     background: #070613;
-    width: 5px;
+    width: 8px;
     height: 10px;
   }
   ::-webkit-scrollbar-thumb {
-    background: #00deab;
+    background: #2d303e;
     border-radius: 10px;
     height: 30px;
     width: 30px;
@@ -716,15 +474,6 @@ footer p {
     align-items: center;
     width: 350px;
     height: 50px;
-  }
-
-  /* ===============================================Format & Prize===================================================== */
-
-  .btn-registered.top {
-    top: 10px;
-  }
-  .info {
-    margin: 0 auto 1em;
   }
 }
 

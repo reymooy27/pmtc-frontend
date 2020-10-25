@@ -79,8 +79,42 @@
   color: #00deab;
   text-transform: uppercase;
 }
+.list {
+  background: #070613;
+  display: none;
+  width: 100%;
+  padding: 5px 8px;
+  margin-bottom: 10px;
+  border: 1px rgba(255, 255, 255, 0.479) solid;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+.list ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: baseline;
+  color: white;
+  margin: 1em 0;
+}
+
+.list ul li {
+  list-style: none;
+  padding: 10px 10px;
+}
+
+.list ul li span {
+  color: #00deab;
+  padding: 0 5px;
+}
 @media screen and (min-width: 700px) {
   .team-list {
     font-size: 16px;
+  }
+
+  .list ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: baseline;
+    color: white;
   }
 }

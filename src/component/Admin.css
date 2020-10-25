@@ -1,0 +1,60 @@
+.admin {
+  margin-top: 4em;
+  overflow: auto;
+  padding: 20px;
+}
+
+.admin table {
+  border-collapse: collapse;
+  border: 1px solid white;
+}
+
+.admin table tr td {
+  padding: 10px;
+  border: 1px solid white;
+}
+.admin table tr th {
+  padding: 10px;
+  border: 1px solid white;
+}
+
+.admin input {
+  width: 40px;
+  height: 30px;
+  outline: none;
+  border: none;
+  text-align: center;
+}
+.action {
+  display: flex;
+  justify-content: space-between;
+}
+.update_button {
+  background-color: #41c62a;
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+  outline: none;
+  border: none;
+  width: 70px;
+  height: 30px;
+  margin: 5px;
+  border-radius: 10px;
+}
+.delete_button {
+  background-color: #ec3f3f;
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+  outline: none;
+  border: none;
+  width: 70px;
+  height: 30px;
+  margin: 5px;
+
+  border-radius: 10px;
+}
+
+.tournament_table input {
+  width: 120px;
+}

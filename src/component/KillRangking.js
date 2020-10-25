@@ -1,10 +1,11 @@
-import React, { Fragment, useContext, useEffect } from "react";
+import React, { Fragment, useEffect } from "react";
 import "./KillRangking.css";
-import { StateContext } from "../StateProvider";
 import { Link } from "react-router-dom";
+import {selectTournament} from '../redux/reducers/tournamentSlice'
+import { useSelector } from "react-redux";
 
 function KillRangking() {
-  const value = useContext(StateContext);
+  const tournament = useSelector(selectTournament)
 
   function sortTable() {
     var table, i, x, y;
@@ -39,19 +40,19 @@ function KillRangking() {
   }
   useEffect(() => {
     let mounted = true;
-    if (mounted && value.data_.showKillStanding) {
+    if (mounted && tournament.showKillStanding && tournament.teams.length >= 1 ) {
       sortTable();
       pos();
     }
     return () => (mounted = false);
-  }, [value.data_.showKillStanding]);
+  }, [tournament.showKillStanding,tournament.teams.length]);
 
   return (
     <div className="container">
       <div className="specialFont-wraper">
         <h4 className="specialFont">Kill Rangking</h4>
       </div>
-      {value.data_.showKillStanding ? (
+      {tournament.showKillStanding && tournament.teams.length >= 1 ? (
         <div className="kill-rangking">
           <table id="kill-rangking-table">
             <thead>
@@ -62,7 +63,7 @@ function KillRangking() {
               </tr>
             </thead>
             <tbody>
-              {value.data.map((player, index) => (
+              {tournament.teams.map((player, index) => (
                 <Fragment key={player._id}>
                   <tr>
                     <td className="pos">{index + 1}</td>

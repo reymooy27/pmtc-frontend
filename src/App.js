@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -20,12 +20,51 @@ import Leaderboard from "./component/Leaderboard";
 import Registration from "./component/Registration";
 import EmailConfirmation from "./component/EmailConfirmation";
 import Loader from "react-loader-spinner";
-import { StateContext } from "./StateProvider";
+import Login from "./component/Login";
+import Admin from "./component/Admin";
+import {login} from './redux/reducers/userSlice'
+import {getTournamentData, selectTournament} from './redux/reducers/tournamentSlice'
+import {useSelector, useDispatch} from 'react-redux'
+import axios from './axios'
+import Signup from "./component/Signup";
+import Profile from "./component/Profile";
 
 function App() {
-  const value = useContext(StateContext);
+  const dispatch = useDispatch()
 
+  const tournament = useSelector(selectTournament)
+
+  const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
+   
+
+ useEffect(() => {
+    let mounted = true;
+    async function fetchData() {
+      const req = await axios.post("/tournament/5ef4596040d71032dc8bc81d");
+      if (mounted) {
+        dispatch(getTournamentData(req.data))
+        setLoading(false);
+      }
+    }
+    setTimeout(() => {
+      fetchData();
+    }, 300);
+
+    return () => (mounted = false);
+  }, [dispatch]);
+
+useEffect(() => {
+  async function checkAuth(){
+    const req = await axios.get('/status')
+    if(req.status === 200){
+      const r = await axios.post(`user/${req.data.user._id}`)
+      dispatch(login(r.data))
+      }
+  }
+  checkAuth()
+}, [dispatch])
+
 
   const click = () => {
     if (open === false) {
@@ -37,7 +76,7 @@ function App() {
 
   return (
     <Router>
-      {value.loading ? (
+      {loading ? (
         <Loader
           className="loader"
           type="ThreeDots"
@@ -48,11 +87,37 @@ function App() {
       ) : (
         <Fragment>
           <Switch>
+            {/* <Route path="/admin">
+              <Navbar onClick={click} />
+              <SideBar open={open} />
+              <div
+                  onClick={() => setOpen(false)}
+                  className="main-content-wraper"
+                >
+                  <Admin />
+              </div>
+            </Route>
+            <Route path="/profile">
+              <Navbar onClick={click} />
+              <SideBar open={open} />
+              <div
+                  onClick={() => setOpen(false)}
+                  className="main-content-wraper"
+                >
+                  <Profile />
+              </div>
+            </Route>
+            <Route path="/signup">
+              <Signup />
+            </Route>
+            <Route path="/login">
+              <Login />
+            </Route> */}
             <Route path="/registration/email-confirmation">
               <EmailConfirmation />
             </Route>
             <Route path="/registration">
-              {value.data_.registrationClosed ? (
+              {tournament.registrationClosed ? (
                 <Redirect to="/" />
               ) : (
                 <Registration />
@@ -125,7 +190,7 @@ function App() {
               >
                 <Header />
                 <Tabs tab={5} />
-                <Prize />
+                <Prize/>
               </div>
             </Route>
             <Route path="/">
