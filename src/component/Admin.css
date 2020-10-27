@@ -1,6 +1,5 @@
 .admin {
   margin-top: 4em;
-  overflow: auto;
   padding: 20px;
 }
 
@@ -24,6 +23,10 @@
   outline: none;
   border: none;
   text-align: center;
+}
+
+.admin-teams {
+  overflow: auto;
 }
 .action {
   display: flex;

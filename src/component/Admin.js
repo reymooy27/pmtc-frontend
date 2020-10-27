@@ -106,7 +106,8 @@ useEffect(() => {
             </select>
             <br></br>
             <br></br>
-            <table>
+            <div className='admin-teams'>
+              <table>
               <thead>
                 <tr>
                   <th>Nama</th>
@@ -146,6 +147,8 @@ useEffect(() => {
                 </>}
               </tbody>
             </table>
+            </div>
+            
             <br></br>
             <br></br>
             <br></br>
