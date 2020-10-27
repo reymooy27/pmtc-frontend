@@ -107,7 +107,7 @@ useEffect(() => {
                 <Registration />
               )}
             </Route>
-            <Route path="/team/teamdetail">
+            <Route path="/team/:id">
               <Navbar/>
               <SideBar/>
               <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>

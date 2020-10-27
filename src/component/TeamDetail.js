@@ -3,16 +3,19 @@ import "./TeamDetail.css";
 import axios from "../axios";
 import Loader from "react-loader-spinner";
 import PlayerDetail from "./PlayerDetail";
+import { useRouteMatch } from "react-router-dom";
 
 function TeamDetail() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  let {url} = useRouteMatch();
+
+
   useEffect(() => {
-    const i = document.URL.match("teamdetail").index;
     let mounted = true;
     async function fetchData() {
-      const req = await axios.post(`/team/${document.URL.slice(i + 11)}`);
+      const req = await axios.post(url);
       if (mounted) {
         setData(req.data);
         setLoading(false);
@@ -22,7 +25,7 @@ function TeamDetail() {
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [url]);
 
   return (
     <Fragment>

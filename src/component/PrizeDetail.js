@@ -7,7 +7,7 @@ function PrizeDetail({ id, position, image, winnerTeam, prize }) {
     <div className="prize-details">
         <span>{position}</span>
         {id ?
-      <Link to={`/team/teamdetail/${id}`}>
+      <Link to={`/team/${id}`}>
         <img className="prize-img" src={image} alt="prize-details" />
         <h3 className="prize-winnerTeam">{winnerTeam}</h3>
       </Link> : <img className="prize-img" src={image} alt="prize-details" />

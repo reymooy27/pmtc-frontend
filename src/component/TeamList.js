@@ -19,7 +19,7 @@ function TeamList(props) {
         onClick={click}
         className={show ? "team-list team-list-active " : "team-list"}
       >
-        <Link to={`/team/teamdetail/${props.id}`}>
+        <Link to={`/team/${props.id}`}>
           <div className="logo-team">
             <img src={props.logo} alt="" />
           </div>

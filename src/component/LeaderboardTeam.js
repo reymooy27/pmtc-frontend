@@ -8,7 +8,7 @@ function LeaderboardTeam(props) {
       <tr>
         <td>{props.pos}</td>
         <td className="leaderboard-team-rank">
-          <Link to={`/team/teamdetail/${props.id}`}>
+          <Link to={`/team/${props.id}`}>
             <div className="leaderboard-team-logo">
               <img src={props.logo} alt="" />
             </div>
