@@ -97,10 +97,10 @@ useEffect(() => {
             <Route path="/login">
               <Login />
             </Route>
-            <Route path="/registration/email-confirmation">
+            <Route path="/email-confirmation">
               <EmailConfirmation />
             </Route>
-            <Route path="/registration">
+            <Route path="/team/create/:id">
               {tournament.registrationClosed ? (
                 <Redirect to="/" />
               ) : (

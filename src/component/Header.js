@@ -57,7 +57,7 @@ function Header() {
               Pendaftaran Tutup
             </button>
           ) : (
-            <Link to="/registration">
+            <Link to={`/team/create/${tournamentID}`}>
               <button className="header-button-registered">Daftar</button>
             </Link>
           )}

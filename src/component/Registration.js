@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 import {selectTournament} from '../redux/reducers/tournamentSlice'
 import { useSelector } from "react-redux";
 
 function Registration() {
   const tournament = useSelector(selectTournament)
-
+  let {url} = useRouteMatch();
+  console.log(tournament);
+  
   const [teamName, setTeamName] = useState("");
   const [teamAbbr, setTeamAbbr] = useState("");
   const [logoTeam, setLogoTeam] = useState(null);
@@ -330,7 +332,7 @@ function Registration() {
         <form
           className="kiri"
           encType="multipart/form-data"
-          action="http://localhost:8000/team/create"
+          action={`http://localhost:8000${url}`}
           method="POST"
         >
           <h2 className="pendaftaran-title">Pendaftaran</h2>
