@@ -54,7 +54,19 @@
 
   border-radius: 10px;
 }
+.create-button {
+  background-color: #00dbae;
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+  outline: none;
+  border: none;
+  width: 70px;
+  height: 30px;
+  margin: 5px;
+  border-radius: 10px;
+}
 
 .tournament_table input {
-  width: 120px;
+  width: 150px;
 }

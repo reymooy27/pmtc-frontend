@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./SideBar.css";
+import {sideBarOpen} from '../redux/reducers/appSlice'
 import {selectUser,logout} from '../redux/reducers/userSlice'
 import { useDispatch, useSelector } from "react-redux";
 
@@ -9,12 +10,13 @@ function SideBar(props) {
 const dispatch = useDispatch()
   
 const user = useSelector(selectUser)
+const open = useSelector(sideBarOpen)
 
   return (
-    <nav className={props.open ? "side-bar active" : "side-bar"}>
+    <nav className={open ? "side-bar active" : "side-bar"}>
       <div className="nav">
         <div className='sidebar-top'>
-          <Link to="/">Home</Link>
+          <Link to="/">Turnamen</Link>
          {user ? <Link to="/admin">Admin</Link> : ''}
         <a
           target="_blank"

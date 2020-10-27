@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Tabs.css";
-function Tabs({ tab }) {
-  const [active, setActive] = useState(1);
+import {selectTournamentID} from '../redux/reducers/tournamentSlice'
+import { useSelector } from "react-redux";
 
+function Tabs({ tab}) {
+  const tournamentID = useSelector(selectTournamentID)
+
+  const [active, setActive] = useState(1);
+  
   const tabs = [
     { label: "Jadwal", to: "/schedule", value: 1 },
     { label: "Tim", to: "/team", value: 2 },
@@ -20,7 +25,7 @@ function Tabs({ tab }) {
   return (
     <div className="tab-wraper">
       {tabs.map((tab) => (
-        <Link key={tab.label} to={tab.to}>
+        <Link key={tab.label} to={`/tournament/${tournamentID}${tab.to}`}>
           <button className={active === tab.value ? "tab active" : "tab"}>
             {tab.label}
           </button>

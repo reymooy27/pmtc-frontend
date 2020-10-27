@@ -2,11 +2,12 @@ import React from "react";
 import TournamentDetail from "./TournamentDetail";
 import { Link } from "react-router-dom";
 import "./Header.css";
-import {selectTournament} from '../redux/reducers/tournamentSlice'
+import {selectTournament,selectTournamentID} from '../redux/reducers/tournamentSlice'
 import { useSelector } from "react-redux";
 
 function Header() {
   const tournament = useSelector(selectTournament)
+  const tournamentID = useSelector(selectTournamentID)
 
 
   return (
@@ -38,7 +39,7 @@ function Header() {
       </div>
       <div className="header-2">
         <div className="header-tournament-detail">
-          <Link to="/team">
+          <Link to={`/tournament/${tournamentID}/team`}>
             <TournamentDetail title="Tim" detail={`${tournament.teams.length}/64`} />
           </Link>
           <TournamentDetail
