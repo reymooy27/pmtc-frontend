@@ -11,7 +11,6 @@ function Admin() {
 
   const allTournament = useSelector(selectAllTournament)
   const user = useSelector(selectUser)
-
   const [tournamentName, setTournamentName] = useState('')
   const [tournamentFirstPrize, setTournamentFirstPrize] = useState('')
   const [tournamentSecondPrize, setTournamentSecondPrize] = useState('')
@@ -214,8 +213,8 @@ useEffect(() => {
                   <td>Registrasi Mulai</td>
                   <td>
                     <input
-                    type='text'
-                    value={registrationStart}
+                    type='date'
+                    value={registrationStart.slice(0,10)}
                     onChange={e=>setRegistrationStart(e.target.value)}>
                     </input>
                   </td>
@@ -224,8 +223,8 @@ useEffect(() => {
                   <td>Turnamen Mulai</td>
                   <td>
                     <input
-                    type='text'
-                    value={startDate}
+                    type='date'
+                    value={startDate.slice(0,10)}
                     onChange={e=>setStartDate(e.target.value)}>
                     </input>
                   </td>
@@ -234,8 +233,8 @@ useEffect(() => {
                   <td>Grand Final Mulai</td>
                    <td>
                     <input
-                    type='text'
-                    value={grandFinalDate}
+                    type='date'
+                    value={grandFinalDate.slice(0,10)}
                     onChange={e=>setGrandFinalDate(e.target.value)}>
                     </input>
                   </td>

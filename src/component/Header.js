@@ -29,11 +29,11 @@ function Header() {
         <div className="header-1-2">
           <div className="header-1-2-1">
             <p>Pendaftaran Buka</p>
-            <span>{tournament.registrationStart}</span>
+            <span>{new Date(tournament.registrationStart).toUTCString().slice(0,17)}</span>
           </div>
           <div className="header-1-2-1">
             <p>Turnamen Mulai</p>
-            <span>{tournament.startDate}</span>
+            <span>{new Date(tournament.startDate).toUTCString().slice(0,17)}</span>
           </div>
         </div>
       </div>

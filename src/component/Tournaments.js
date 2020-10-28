@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './Tournaments.css'
 import axios from '../axios'
 import { Link } from 'react-router-dom'
-import {getTournamentData, getTournamentID, selectAllTournament} from '../redux/reducers/tournamentSlice'
+import {getAllTournament, getTournamentData, getTournamentID, selectAllTournament} from '../redux/reducers/tournamentSlice'
 import { useDispatch, useSelector } from 'react-redux'
 
 function Tournaments() {
@@ -15,6 +15,25 @@ function Tournaments() {
         dispatch(getTournamentData(req.data))
         dispatch(getTournamentID(req.data._id))
     }
+    
+  useEffect(() => {
+  let mounted = true
+
+  async function getTournaments(){
+    const res = await axios.post('/api/v1/tournaments')
+    if(mounted){
+      dispatch(getAllTournament(res.data))
+
+    }
+  }
+
+  setTimeout(() => {
+  getTournaments()
+  },300)
+  
+  return ()=> mounted = false
+}, [dispatch])
+
   return (
     <div className='tournaments'>
       <h2 className='tournaments-title'>Turnamen</h2>
@@ -28,7 +47,7 @@ function Tournaments() {
               t.tournamentFirstPrize +t.tournamentSecondPrize +t.tournamentThirdPrize
             )}`}</h3>
               <div className='tournament-bottom'>
-                <span>{t.startDate}</span>
+                <span>{new Date(t.startDate).toUTCString().slice(0,12)}</span>
                 <span>TPP Squad</span>
                 <span>{`${t.teams.length}/64 slot`}</span>
               </div>
