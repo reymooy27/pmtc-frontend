@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import './Tournaments.css'
 import axios from '../axios'
 import { Link } from 'react-router-dom'
-import {getAllTournament, getTournamentData, getTournamentID, selectAllTournament} from '../redux/reducers/tournamentSlice'
+import {getAllTournament, selectAllTournament} from '../redux/reducers/tournamentSlice'
 import { useDispatch, useSelector } from 'react-redux'
 
 function Tournaments() {
@@ -10,12 +10,6 @@ function Tournaments() {
   const allTournament = useSelector(selectAllTournament)
   const dispatch = useDispatch()
 
-  async function fetchData(id) {
-      const req = await axios.post("/tournament/" + id);
-        dispatch(getTournamentData(req.data))
-        dispatch(getTournamentID(req.data._id))
-    }
-    
   useEffect(() => {
   let mounted = true
 
@@ -39,7 +33,7 @@ function Tournaments() {
       <h2 className='tournaments-title'>Turnamen</h2>
       <div className='tournament-container'>
         {allTournament.map(t=>(
-          <Link to={`tournament/${t._id}`} onClick={()=> fetchData(t._id)} key={t._id}>
+          <Link to={`tournament/${t._id}`} key={t._id}>
             <div className='tournament'>
               <div className='pubg-logo'></div>
               <h3>{t.tournamentName}</h3>
