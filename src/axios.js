@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:8000",withCredentials: true
+  baseURL: "https://pmtc-tourney.herokuapp.com",withCredentials: true
 });
-
+// https://pmtc-tourney.herokuapp.com/
+// 'http://localhost:8000'
 export default instance;
