@@ -1,28 +1,35 @@
-import React, { useState } from "react";
-import { Link, useRouteMatch } from "react-router-dom";
-import {selectTournament} from '../redux/reducers/tournamentSlice'
-import { useSelector } from "react-redux";
+import React, { useCallback, useEffect, useState } from "react";
+import { Link, Redirect, useRouteMatch } from "react-router-dom";
+import axios from "../axios";
 
 function Registration() {
-  const tournament = useSelector(selectTournament)
   let {url} = useRouteMatch();
-  console.log(tournament);
   
-  const [teamName, setTeamName] = useState("");
-  const [teamAbbr, setTeamAbbr] = useState("");
-  const [logoTeam, setLogoTeam] = useState(null);
-  const [idPlayer1, setIdPlayer1] = useState("");
-  const [idPlayer2, setIdPlayer2] = useState("");
-  const [idPlayer3, setIdPlayer3] = useState("");
-  const [idPlayer4, setIdPlayer4] = useState("");
-  const [idPlayer5, setIdPlayer5] = useState("");
-  const [playerName1, setPlayerName1] = useState("");
-  const [playerName2, setPlayerName2] = useState("");
-  const [playerName3, setPlayerName3] = useState("");
-  const [playerName4, setPlayerName4] = useState("");
-  const [playerName5, setPlayerName5] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState("");
+  const initialState = {
+  teamName: '',
+  singkatanTeam: '',
+  logoTeam: null,
+  idPlayer: '',
+  idPlayer2: '',
+  idPlayer3: '',
+  idPlayer4: '',
+  idPlayer5: '',
+  playerName: '',
+  playerName2: '',
+  playerName3: '',
+  playerName4: '',
+  playerName5: '',
+  handphoneNumber: '',
+  email: '',} 
+
+  const [formValues, setFormValues] = useState(initialState)
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [loginSuccess, setLoginSuccess] = useState('')
+  const [redirectTo, setRedirectTo] = useState(false)
+
+  const [logoTeam, setLogoTeam] = useState(null)
+  const [previewLogo, setpreviewLogo] = useState(null)
 
   const [logoValid, setLogoValid] = useState(false);
 
@@ -56,11 +63,11 @@ function Registration() {
           input.nextElementSibling.innerHTML = "Format harus .png";
         } else {
           input.nextElementSibling.style.opacity = 0;
-          setLogoTeam(reader.result);
+          setpreviewLogo(reader.result);
           setLogoValid(true);
         }
       } else {
-        setLogoTeam(null);
+        setpreviewLogo(null);
 
         setLogoValid(true);
       }
@@ -68,246 +75,137 @@ function Registration() {
     reader.readAsDataURL(file);
   };
 
-  const onBlur = (e) => {
-    if (e.target.value.length < 1) {
-      e.target.nextElementSibling.style.opacity = 1;
-      e.target.nextElementSibling.innerHTML = "Tidak boleh kosong";
-      e.target.classList.add("err");
-    } else {
-      e.target.nextElementSibling.style.opacity = 0;
-      e.target.classList.remove("err");
-    }
-  };
-
   const handleLogoChange = (e) => {
     if (e.target.files[0]) {
       if (validImageRes(e)) {
         previewImage(e);
+        setLogoTeam(e.target.files[0])
       } else {
         console.log("salah");
       }
     }
   };
 
-  const handleIdInput = (e, setter) => {
-    if (isNaN(e.target.value)) {
-      e.preventDefault();
-      e.target.focus();
-      e.target.classList.add("err");
-      e.target.nextElementSibling.style.opacity = 1;
-      e.target.nextElementSibling.innerHTML = "Id harus angka";
-    } else if (e.target.value.length < 8) {
-      e.target.focus();
-      e.target.classList.add("err");
-      e.target.nextElementSibling.style.opacity = 1;
-      e.target.nextElementSibling.innerHTML = "Id tidak boleh kurang dari 8";
-    } else {
-      e.target.classList.remove("err");
-      e.target.nextElementSibling.style.opacity = 0;
-    }
-    setter(e.target.value);
+    const formData = new FormData()
+    formData.append("teamName", formValues.teamName)
+    formData.append("singkatanTeam", formValues.singkatanTeam)
+    formData.append("logo", logoTeam,)
+    formData.append("idPlayer", formValues.idPlayer)
+    formData.append("idPlayer2", formValues.idPlayer2)
+    formData.append("idPlayer3", formValues.idPlayer3)
+    formData.append("idPlayer4", formValues.idPlayer4)
+    formData.append("idPlayer5", formValues.idPlayer5)
+    formData.append("playerName", formValues.playerName)
+    formData.append("playerName2", formValues.playerName2)
+    formData.append("playerName3", formValues.playerName3)
+    formData.append("playerName4", formValues.playerName4)
+    formData.append("playerName5", formValues.playerName5)
+    formData.append("handphoneNumber", formValues.handphoneNumber)
+    formData.append("email", formValues.email)
+
+const submitForm = useCallback(
+  () => {
+    axios({
+  method: 'post',
+  url: url,
+  data: formData,
+  headers: {
+          'Content-Type': 'multipart/form-data',
+          'Accept': 'application/json'
+        },
+  }).then(res=> {
+    setLoginSuccess(res.data)
+    setRedirectTo(true)
+  })
+  .catch(err=> {
+    setFormErrors({err})
+  })
+  },
+  [url,formData],
+)
+
+const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
   };
 
-  const idInputBlur = (e) => {
-    if (e.target.value.length < 1) {
-      e.preventDefault();
-      e.target.nextElementSibling.style.opacity = 1;
-      e.target.nextElementSibling.innerHTML = "Tidak boleh kosong";
-      e.target.classList.add("err");
-    } else if (isNaN(e.target.value)) {
-      e.preventDefault();
-      e.target.classList.add("err");
-      e.target.nextElementSibling.style.opacity = 1;
-      e.target.nextElementSibling.innerHTML = "Id harus angka";
-    } else if (e.target.value.length < 8) {
-      e.preventDefault();
-      e.target.classList.add("err");
-      e.target.nextElementSibling.style.opacity = 1;
-      e.target.nextElementSibling.innerHTML = "Id tidak boleh kurang dari 8";
-    } else {
-      e.target.classList.remove("err");
-      e.target.nextElementSibling.style.opacity = 0;
-    }
+const handleSubmit = (e) => {
+    e.preventDefault();
+    setFormErrors(validate(formValues));
+    setIsSubmitting(true);
   };
 
-  const submit = (e) => {
-    tournament.teams.map((data) => {
-      if (teamName.toLowerCase() === data.teamName.toLowerCase()) {
-        e.preventDefault();
-        const input = document.querySelector(".namaTeam");
-        input.focus();
-        input.classList.add("err");
-        input.nextElementSibling.style.opacity = 1;
-        input.nextElementSibling.innerHTML = "Tim sudah terdaftar";
-      } else if (teamAbbr.toLowerCase() === data.singkatanTeam.toLowerCase()) {
-        e.preventDefault();
-        const input = document.querySelector(".singkatanTeam");
-        input.focus();
-        input.classList.add("err");
-        input.nextElementSibling.style.opacity = 1;
-        input.nextElementSibling.innerHTML = "Sudah terpakai";
-      } else if (
-        Number(idPlayer1) === Number(data.idPlayer) ||
-        Number(idPlayer1) === Number(data.idPlayer2) ||
-        Number(idPlayer1) === Number(data.idPlayer3) ||
-        Number(idPlayer1) === Number(data.idPlayer4) ||
-        Number(idPlayer1) === Number(data.idPlayer5)
-      ) {
-        e.preventDefault();
-        const input = document.querySelector(".idPemain");
-        input.focus();
-        input.classList.add("err");
-        input.nextElementSibling.style.opacity = 1;
-        input.nextElementSibling.innerHTML = "ID sudah terdaftar";
-      } else if (
-        Number(idPlayer2) === Number(data.idPlayer) ||
-        Number(idPlayer2) === Number(data.idPlayer2) ||
-        Number(idPlayer2) === Number(data.idPlayer3) ||
-        Number(idPlayer2) === Number(data.idPlayer4) ||
-        Number(idPlayer2) === Number(data.idPlayer5)
-      ) {
-        e.preventDefault();
-        const input = document.querySelector(".idPemain2");
-        input.focus();
-        input.classList.add("err");
-        input.nextElementSibling.style.opacity = 1;
-        input.nextElementSibling.innerHTML = "ID sudah terdaftar";
-      } else if (
-        Number(idPlayer3) === Number(data.idPlayer) ||
-        Number(idPlayer3) === Number(data.idPlayer2) ||
-        Number(idPlayer3) === Number(data.idPlayer3) ||
-        Number(idPlayer3) === Number(data.idPlayer4) ||
-        Number(idPlayer3) === Number(data.idPlayer5)
-      ) {
-        e.preventDefault();
-        const input = document.querySelector(".idPemain3");
-        input.focus();
-        input.classList.add("err");
-        input.nextElementSibling.style.opacity = 1;
-        input.nextElementSibling.innerHTML = "ID sudah terdaftar";
-      } else if (
-        Number(idPlayer4) === Number(data.idPlayer) ||
-        Number(idPlayer4) === Number(data.idPlayer2) ||
-        Number(idPlayer4) === Number(data.idPlayer3) ||
-        Number(idPlayer4) === Number(data.idPlayer4) ||
-        Number(idPlayer4) === Number(data.idPlayer5)
-      ) {
-        e.preventDefault();
-        const input = document.querySelector(".idPemain4");
-        input.focus();
-        input.classList.add("err");
-        input.nextElementSibling.style.opacity = 1;
-        input.nextElementSibling.innerHTML = "ID sudah terdaftar";
-      } else if (
-        Number(idPlayer5) === Number(data.idPlayer) ||
-        Number(idPlayer5) === Number(data.idPlayer2) ||
-        Number(idPlayer5) === Number(data.idPlayer3) ||
-        Number(idPlayer5) === Number(data.idPlayer4) ||
-        Number(idPlayer5) === (Number(data.idPlayer5) !== null)
-      ) {
-        e.preventDefault();
-        const input = document.querySelector(".idPemain5");
-        input.focus();
-        input.classList.add("err");
-        input.nextElementSibling.style.opacity = 1;
-        input.nextElementSibling.innerHTML = "ID sudah terdaftar";
-      } else if (idPlayer5 === '' && playerName5 !== '') {
-        e.preventDefault();
-        const input = document.querySelector(".idPemain5");
-        input.focus();
-        input.classList.add("err");
-        input.nextElementSibling.style.opacity = 1;
-        input.nextElementSibling.innerHTML = "Tidak boleh kososng";
-      } else if (
-        playerName1 === data.playerName ||
-        playerName1 === data.playerName2 ||
-        playerName1 === data.playerName3 ||
-        playerName1 === data.playerName4 ||
-        playerName1 === data.playerName5
-      ) {
-        e.preventDefault();
-        const input = document.querySelector(".namaPemain");
-        input.focus();
-        input.classList.add("err");
-        input.nextElementSibling.style.opacity = 1;
-        input.nextElementSibling.innerHTML = "Nama sudah terdaftar";
-      } else if (
-        playerName2 === data.playerName ||
-        playerName2 === data.playerName2 ||
-        playerName2 === data.playerName3 ||
-        playerName2 === data.playerName4 ||
-        playerName2 === data.playerName5
-      ) {
-        e.preventDefault();
-        const input = document.querySelector(".namaPemain2");
-        input.focus();
-        input.classList.add("err");
-        input.nextElementSibling.style.opacity = 1;
-        input.nextElementSibling.innerHTML = "Nama sudah terdaftar";
-      } else if (
-        playerName3 === data.playerName ||
-        playerName3 === data.playerName2 ||
-        playerName3 === data.playerName3 ||
-        playerName3 === data.playerName4 ||
-        playerName3 === data.playerName5
-      ) {
-        e.preventDefault();
-        const input = document.querySelector(".namaPemain3");
-        input.focus();
-        input.classList.add("err");
-        input.nextElementSibling.style.opacity = 1;
-        input.nextElementSibling.innerHTML = "Nama sudah terdaftar";
-      } else if (
-        playerName4 === data.playerName ||
-        playerName4 === data.playerName2 ||
-        playerName4 === data.playerName3 ||
-        playerName4 === data.playerName4 ||
-        playerName4 === data.playerName5
-      ) {
-        e.preventDefault();
-        const input = document.querySelector(".namaPemain4");
-        input.focus();
-        input.classList.add("err");
-        input.nextElementSibling.style.opacity = 1;
-        input.nextElementSibling.innerHTML = "Nama sudah terdaftar";
-      } else if (
-        playerName5 === data.playerName ||
-        playerName5 === data.playerName2 ||
-        playerName5 === data.playerName3 ||
-        playerName5 === data.playerName4 ||
-        playerName5 === (data.playerName5 !== '')
-      ) {
-        e.preventDefault();
-        const input = document.querySelector(".namaPemain5");
-        input.focus();
-        input.classList.add("err");
-        input.nextElementSibling.style.opacity = 1;
-        input.nextElementSibling.innerHTML = "Nama sudah terdaftar";
-      } else if (idPlayer5 !== '' && playerName5 === '') {
-        e.preventDefault();
-        const input = document.querySelector(".namaPemain5");
-        input.focus();
-        input.classList.add("err");
-        input.nextElementSibling.style.opacity = 1;
-        input.nextElementSibling.innerHTML = "Tidak boleh kososng";
-      } else if (Number(phoneNumber) === Number(data.handphoneNumber)) {
-        e.preventDefault();
-        const input = document.querySelector(".noHP_");
-        input.focus();
-        input.classList.add("err");
-        input.nextElementSibling.style.opacity = 1;
-        input.nextElementSibling.innerHTML = "Nomor sudah terdaftar";
-      } else if (email === data.email) {
-        e.preventDefault();
-        const input = document.querySelector(".email_");
-        input.focus();
-        input.classList.add("err");
-        input.nextElementSibling.style.opacity = 1;
-        input.nextElementSibling.innerHTML = "Email sudah terdaftar";
-      }
-      return 0;
-    });
+  const validate = (values) => {
+    let errors = {};
+    if (!values.teamName) {
+      errors.teamName = "Tidak boleh kososng";
+    }
+
+    if (!values.singkatanTeam) {
+      errors.singkatanTeam = "Tidak boleh kososng";
+    }
+
+    if (!values.playerName) {
+      errors.playerName = "Tidak boleh kososng";
+    }
+    if (!values.playerName2) {
+      errors.playerName2 = "Tidak boleh kososng";
+    }
+    if (!values.playerName3) {
+      errors.playerName3 = "Tidak boleh kososng";
+    }
+    if (!values.playerName4) {
+      errors.playerName4 = "Tidak boleh kososng";
+    }
+
+    if (!values.idPlayer) {
+      errors.idPlayer = "Tidak boleh kososng";
+    } else if (values.idPlayer.length < 8) {
+      errors.idPlayer = "Tidak boleh kurang dari 8 karakter";
+    }
+
+    if (!values.idPlayer2) {
+      errors.idPlayer2 = "Tidak boleh kososng";
+    } else if (values.idPlayer2.length < 8) {
+      errors.idPlayer2 = "Tidak boleh kurang dari 8 karakter";
+    }
+
+    if (!values.idPlayer3) {
+      errors.idPlayer3 = "Tidak boleh kososng";
+    } else if (values.idPlayer3.length < 8) {
+      errors.idPlayer3 = "Tidak boleh kurang dari 8 karakter";
+    }
+
+    if (!values.idPlayer4) {
+      errors.idPlayer4 = "Tidak boleh kososng";
+    } else if (values.idPlayer4.length < 8) {
+      errors.idPlayer4 = "Tidak boleh kurang dari 8 karakter";
+    }
+
+    if (!values.email) {
+      errors.email = "Tidak boleh kososng";
+    }
+
+    if (!values.handphoneNumber) {
+      errors.handphoneNumber = "Tidak boleh kososng";
+    } else if (values.handphoneNumber.length < 8) {
+      errors.handphoneNumber = "Tidak boleh kurang dari 8 karakter";
+    }
+    return errors;
   };
+
+  useEffect(() => {
+    if (Object.keys(formErrors).length === 0 && isSubmitting) {
+      submitForm();
+      localStorage.setItem('teamName', formValues.teamName)
+      localStorage.setItem('email', formValues.email)
+    }
+  }, [formErrors, isSubmitting, submitForm,formValues.teamName,formValues.email]);
+  
+if(redirectTo){
+  return(<Redirect to='/email-confirmation'/>)
+}
+
 
   return (
     <div>
@@ -329,31 +227,26 @@ function Registration() {
         </div>
       </div>
       <div className="form">
-        <form
-          className="kiri"
-          encType="multipart/form-data"
-          action={`http://localhost:8000${url}`}
-          method="POST"
-        >
+        <form encType="multipart/form-data" className="kiri" onSubmit={handleSubmit}>
           <h2 className="pendaftaran-title">Pendaftaran</h2>
+          {loginSuccess ? loginSuccess : ''}
+          {formErrors.err ? <span>{formErrors.err.response.data.msg}</span> : ''}
           <div className="team-data">
             <h4>Data Tim</h4>
             <div className="teamname">
-              <label htmlFor="namaTeam">Nama Tim </label>
+              <label htmlFor="teamName">Nama Tim </label>
               <br />
               <input
                 title="Masukan Nama Tim Anda"
                 type="text"
                 name="teamName"
-                className="namaTeam"
+                className={formErrors.teamName || formErrors.err  ? 'namaTeam err' : 'namaTeam'}
                 placeholder="Nama Tim"
-                required
                 autoFocus
-                value={teamName}
-                onChange={(e) => setTeamName(e.target.value)}
-                onBlur={onBlur}
+                value={formValues.teamName}
+                onChange={handleChange}
               />
-              <span className="error-msg">error</span>
+              <span className="error-msg" style={{opacity:formErrors.teamName ? 1 : 0 }}>{formErrors.teamName ? formErrors.teamName : 'error'}</span>
             </div>
             <div className="abbrteam">
               <label htmlFor="singkatanTeam">Abbr </label>
@@ -361,19 +254,14 @@ function Registration() {
               <input
                 title="Masukan Singkatan Tim Anda"
                 type="text"
-                required
                 name="singkatanTeam"
-                className="singkatanTeam"
+                className={formErrors.singkatanTeam || formErrors.err  ? 'singkatanTeam err' : 'singkatanTeam'}
                 maxLength="5"
                 placeholder="ABBR"
-                value={teamAbbr}
-                onChange={(e) => {
-                  localStorage.setItem("teamName", e.target.value);
-                  setTeamAbbr(e.target.value);
-                }}
-                onBlur={onBlur}
+                value={formValues.singkatanTeam}
+                onChange={handleChange}
               />
-              <span className="error-msg">error</span>
+              <span className="error-msg" style={{opacity:formErrors.singkatanTeam ? 1 : 0 }}>{formErrors.singkatanTeam ? formErrors.singkatanTeam : 'error'}</span>
             </div>
             <br />
             <div className="logo-input-wraper">
@@ -389,11 +277,11 @@ function Registration() {
                   accept="image/png"
                   onChange={handleLogoChange}
                 />
-                <span className="error-msg">error</span>
+                <span className="error-msg"></span>
                 <div className="image-preview" id="imagePreview">
                   <img
                     style={{ display: logoValid ? "block" : "none" }}
-                    src={logoTeam}
+                    src={previewLogo}
                     alt="Logo Preview"
                     className="image-preview-image"
                     id="imagePreviewImage"
@@ -415,189 +303,168 @@ function Registration() {
             <ul>
               <li>
                 <div className="id1">
-                  <label htmlFor="idPemain">ID In Game #1</label>
+                  <label htmlFor="idPlayer">ID In Game #1</label>
                   <br />
                   <input
                     title="Masukan ID In Game Anda"
                     type="text"
-                    required
                     name="idPlayer"
-                    className="idPemain"
-                    minLength="8"
+                    className={formErrors.idPlayer || formErrors.err  ? 'idPemain err' : 'idPemain'}
                     maxLength="10"
                     pattern="[0-9]+"
-                    value={idPlayer1}
+                    value={formValues.idPlayer}
                     placeholder="1234567890"
-                    onChange={(e) => handleIdInput(e, setIdPlayer1)}
-                    onBlur={idInputBlur}
+                    onChange={handleChange}
                   />
-                  <span className="error-msg">error</span>
+                  <span className="error-msg" style={{opacity:formErrors.idPlayer ? 1 : 0 }}>{formErrors.idPlayer ? formErrors.idPlayer : 'error'}</span>
                 </div>
                 <div className="player1">
-                  <label htmlFor="namaPemain">Nama Pemain #1</label>
+                  <label htmlFor="playerName">Nama Pemain #1</label>
                   <br />
                   <input
                     title="Masukan Nama In Game Anda"
                     type="text"
-                    required
                     name="playerName"
                     maxLength="14"
-                    className="namaPemain"
+                    className={formErrors.playerName || formErrors.err  ? 'namaPemain err' : 'namaPemain'}
                     placeholder="Nick In Game"
-                    value={playerName1}
-                    onChange={(e) => setPlayerName1(e.target.value)}
-                    onBlur={onBlur}
+                    value={formValues.playerName}
+                    onChange={handleChange}
                   />
-                  <span className="error-msg">error</span>
+                  <span className="error-msg" style={{opacity:formErrors.playerName ? 1 : 0 }}>{formErrors.playerName ? formErrors.playerName : 'error'}</span>
                 </div>
               </li>
               <li>
                 <div className="id2">
-                  <label htmlFor="idPemain">ID In Game #2 </label>
+                  <label htmlFor="idPlayer2">ID In Game #2 </label>
                   <br />
                   <input
                     title="Masukan ID In Game Anda"
                     type="text"
-                    required
                     name="idPlayer2"
-                    className="idPemain2"
+                    className={formErrors.idPlayer2 || formErrors.err  ? 'idPemain2 err' : 'idPemain2'}
                     placeholder="1234567890"
-                    minLength="8"
                     maxLength="10"
                     pattern="[0-9]+"
-                    value={idPlayer2}
-                    onChange={(e) => handleIdInput(e, setIdPlayer2)}
-                    onBlur={idInputBlur}
+                    value={formValues.idPlayer2}
+                    onChange={handleChange}
                   />
-                  <span className="error-msg">error</span>
+                  <span className="error-msg" style={{opacity:formErrors.idPlayer2 ? 1 : 0 }}>{formErrors.idPlayer2 ? formErrors.idPlayer2 : 'error'}</span>
                 </div>
                 <div className="player2">
-                  <label htmlFor="namaPemain">Nama Pemain #2 </label>
+                  <label htmlFor="playerName2">Nama Pemain #2 </label>
                   <br />
                   <input
                     title="Masukan Nama In Game Anda"
                     type="text"
-                    required
                     name="playerName2"
                     maxLength="14"
-                    className="namaPemain2"
+                    className={formErrors.playerName2 || formErrors.err  ? 'namaPemain2 err' : 'namaPemain2'}
                     placeholder="Nick In Game"
-                    value={playerName2}
-                    onChange={(e) => setPlayerName2(e.target.value)}
-                    onBlur={onBlur}
+                    value={formValues.playerName2}
+                    onChange={handleChange}
                   />
-                  <span className="error-msg">error</span>
+                  <span className="error-msg" style={{opacity:formErrors.playerName2 ? 1 : 0 }}>{formErrors.playerName2 ? formErrors.playerName2 : 'error'}</span>
                 </div>
               </li>
               <li>
                 <div className="id3">
-                  <label htmlFor="idPemain">ID In Game #3 </label>
+                  <label htmlFor="idPlayer3">ID In Game #3 </label>
                   <br />
                   <input
                     title="Masukan ID In Game Anda"
                     type="text"
-                    required
                     name="idPlayer3"
-                    className="idPemain3"
+                    className={formErrors.idPlayer3 || formErrors.err  ? 'idPemain3 err' : 'idPemain3'}
                     placeholder="1234567890"
-                    minLength="8"
                     maxLength="10"
                     pattern="[0-9]+"
-                    value={idPlayer3}
-                    onChange={(e) => handleIdInput(e, setIdPlayer3)}
-                    onBlur={idInputBlur}
+                    value={formValues.idPlayer3}
+                    onChange={handleChange}
                   />
-                  <span className="error-msg">error</span>
+                  <span className="error-msg" style={{opacity:formErrors.idPlayer3 ? 1 : 0 }}>{formErrors.idPlayer3 ? formErrors.idPlayer3 : 'error'}</span>
                 </div>
                 <div className="player3">
-                  <label htmlFor="namaPemain">Nama Pemain #3 </label>
+                  <label htmlFor="playerName3">Nama Pemain #3 </label>
                   <br />
                   <input
                     title="Masukan Nama In Game Anda"
                     type="text"
-                    required
                     name="playerName3"
                     maxLength="14"
-                    className="namaPemain3"
+                    className={formErrors.playerName3 || formErrors.err  ? 'namaPemain3 err' : 'namaPemain3'}
                     placeholder="Nick In Game"
-                    value={playerName3}
-                    onChange={(e) => setPlayerName3(e.target.value)}
-                    onBlur={onBlur}
+                    value={formValues.playerName3}
+                    onChange={handleChange}
                   />
-                  <span className="error-msg">error</span>
+                  <span className="error-msg" style={{opacity:formErrors.playerName3 ? 1 : 0 }}>{formErrors.playerName3 ? formErrors.playerName3 : 'error'}</span>
                 </div>
               </li>
               <li>
                 <div className="id4">
-                  <label htmlFor="idPemain">ID In Game #4 </label>
+                  <label htmlFor="idPlayer4">ID In Game #4 </label>
                   <br />
                   <input
                     title="Masukan ID In Game Anda"
                     type="text"
-                    required
-                    name="idPlayer4"
-                    className="idPemain4"
+                    name='idPlayer4'
+                    className={formErrors.idPlayer4 || formErrors.err  ? 'idPemain4 err' : 'idPemain4'}
                     placeholder="1234567890"
-                    minLength="8"
                     maxLength="10"
                     pattern="[0-9]+"
-                    value={idPlayer4}
-                    onChange={(e) => handleIdInput(e, setIdPlayer4)}
-                    onBlur={idInputBlur}
+                    value={formValues.idPlayer4}
+                    onChange={handleChange}
                   />
-                  <span className="error-msg">error</span>
+                  <span className="error-msg" style={{opacity:formErrors.idPlayer4 ? 1 : 0 }}>{formErrors.idPlayer4 ? formErrors.idPlayer4 : 'error'}</span>
                 </div>
                 <div className="player4">
-                  <label htmlFor="namaPemain">Nama Pemain #4 </label>
+                  <label htmlFor="playerName4">Nama Pemain #4 </label>
                   <br />
                   <input
                     title="Masukan Nama In Game Anda"
                     type="text"
-                    required
                     name="playerName4"
                     maxLength="14"
-                    className="namaPemain4"
+                    className={formErrors.playerName4 || formErrors.err  ? 'namaPemain4 err' : 'namaPemain4'}
                     placeholder="Nick In Game"
-                    value={playerName4}
-                    onChange={(e) => setPlayerName4(e.target.value)}
-                    onBlur={onBlur}
+                    value={formValues.playerName4}
+                    onChange={handleChange}
                   />
-                  <span className="error-msg">error</span>
+                  <span className="error-msg" style={{opacity:formErrors.playerName4 ? 1 : 0 }}>{formErrors.playerName4 ? formErrors.playerName4 : 'error'}</span>
                 </div>
               </li>
               <h4>Pemain Cadangan (Optional)</h4>
               <li>
                 <div className="id5">
-                  <label htmlFor="idPemain">ID In Game Cadangan </label>
+                  <label htmlFor="idPlayer5">ID In Game Cadangan </label>
                   <br />
                   <input
                     title="Masukan ID In Game Anda"
                     type="text"
                     name="idPlayer5"
-                    className="idPemain5"
+                    className={formErrors.idPlayer5 || formErrors.err  ? 'idPemain5 err' : 'idPemain5'}
                     placeholder="1234567890"
-                    minLength="8"
                     maxLength="10"
                     pattern="[0-9]+"
-                    value={idPlayer5}
-                    onChange={(e) => handleIdInput(e, setIdPlayer5)}
+                    value={formValues.idPlayer5}
+                    onChange={handleChange}
                   />
-                  <span className="error-msg">error</span>
+                  <span className="error-msg" style={{opacity:formErrors.idPlayer5 ? 1 : 0 }}>{formErrors.idPlayer5 ? formErrors.idPlayer5 : 'error'}</span>
                 </div>
                 <div className="player5">
-                  <label htmlFor="namaPemain">Nama Pemain Cadangan </label>
+                  <label htmlFor="playerName5">Nama Pemain Cadangan </label>
                   <br />
                   <input
                     title="Masukan Nama In Game Anda"
                     type="text"
                     name="playerName5"
                     maxLength="14"
-                    className="namaPemain5"
+                    className={formErrors.playerName5 || formErrors.err  ? 'namaPemain5 err' : 'namaPemain5'}
                     placeholder="Nick In Game"
-                    value={playerName5}
-                    onChange={(e) => setPlayerName5(e.target.value)}
+                    value={formValues.playerName5}
+                    onChange={handleChange}
                   />
-                  <span className="error-msg">error</span>
+                  <span className="error-msg" style={{opacity:formErrors.playerName5 ? 1 : 0 }}>{formErrors.playerName5 ? formErrors.playerName5 : 'error'}</span>
                 </div>
               </li>
             </ul>
@@ -605,34 +472,20 @@ function Registration() {
 
           <div className="contact">
             <div className="noHP">
-              <label htmlFor="noHP">Nomor HP (Aktif WA) </label>
+              <label htmlFor="handphoneNumber">Nomor HP (Aktif WA) </label>
               <br />
               <input
                 title="Masukan Nomor Handphone Yang Terhubung Dengan WA"
                 type="tel"
-                className="noHP_"
+                className={formErrors.handphoneNumber || formErrors.err  ? 'noHP_ err' : 'noHP_'}
                 name="handphoneNumber"
                 placeholder="+62"
-                required
-                minLength="11"
                 maxLength="12"
                 pattern="[0-9]+"
-                value={phoneNumber}
-                onChange={(e) => {
-                  if (isNaN(e.target.value)) {
-                    e.preventDefault();
-                    e.target.classList.add("setError");
-                    e.target.nextElementSibling.style.opacity = 1;
-                    e.target.nextElementSibling.innerHTML = "No HP harus angka";
-                  } else {
-                    e.target.classList.remove("setError");
-                    e.target.nextElementSibling.style.opacity = 0;
-                  }
-                  setPhoneNumber(e.target.value);
-                }}
-                onBlur={onBlur}
+                value={formValues.handphoneNumber}
+                onChange={handleChange}
               />
-              <span className="error-msg">error</span>
+              <span className="error-msg" style={{opacity:formErrors.handphoneNumber ? 1 : 0 }}>{formErrors.handphoneNumber ? formErrors.handphoneNumber : 'error'}</span>
             </div>
             <div className="email">
               <label htmlFor="email">Email </label>
@@ -640,18 +493,13 @@ function Registration() {
               <input
                 title="Masukan Email Anda"
                 type="email"
-                required
-                className="email_"
+                className={formErrors.email || formErrors.err  ? 'email_ err' : 'email_'}
                 name="email"
                 placeholder="@gmail.com"
-                value={email}
-                onChange={(e) => {
-                  localStorage.setItem("email", e.target.value);
-                  setEmail(e.target.value);
-                }}
-                onBlur={onBlur}
+                value={formValues.email}
+                onChange={handleChange}
               />
-              <span className="error-msg">error</span>
+              <span className="error-msg" style={{opacity:formErrors.email ? 1 : 0 }}>{formErrors.email ? formErrors.email : 'error'}</span>
             </div>
           </div>
           <div className="submit">
@@ -662,7 +510,7 @@ function Registration() {
               type="submit"
               value="DAFTAR"
               id="submit"
-              onClick={submit}
+              disabled={Object.keys(formErrors).length === 0 && isSubmitting ? true : false}
             />
           </div>
         </form>

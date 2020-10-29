@@ -68,7 +68,7 @@ function KillRangking() {
                   <tr>
                     <td className="pos">{index + 1}</td>
                     <td className="kill-rank">
-                      <Link to={`/team/teamdetail/${player._id}`}>
+                      <Link to={`/team/${player._id}`}>
                         <div className="kill-player-team-logo">
                           <img src={player.logo} alt="" />
                         </div>
@@ -82,7 +82,7 @@ function KillRangking() {
                   <tr>
                     <td className="pos">{index + 1}</td>
                     <td className="kill-rank">
-                      <Link to={`/team/teamdetail/${player._id}`}>
+                      <Link to={`/team/${player._id}`}>
                         <div className="kill-player-team-logo">
                           <img src={player.logo} alt="" />
                         </div>
@@ -96,7 +96,7 @@ function KillRangking() {
                   <tr>
                     <td className="pos">{index + 1}</td>
                     <td className="kill-rank">
-                      <Link to={`/team/teamdetail/${player._id}`}>
+                      <Link to={`/team/${player._id}`}>
                         <div className="kill-player-team-logo">
                           <img src={player.logo} alt="" />
                         </div>
@@ -110,7 +110,7 @@ function KillRangking() {
                   <tr>
                     <td className="pos">{index + 1}</td>
                     <td className="kill-rank">
-                      <Link to={`/team/teamdetail/${player._id}`}>
+                      <Link to={`/team/${player._id}`}>
                         <div className="kill-player-team-logo">
                           <img src={player.logo} alt="" />
                         </div>
@@ -125,7 +125,7 @@ function KillRangking() {
                     <tr>
                       <td className="pos">{index + 1}</td>
                       <td className="kill-rank">
-                        <Link to={`/team/teamdetail/${player._id}`}>
+                        <Link to={`/team/${player._id}`}>
                           <div className="kill-player-team-logo">
                             <img src={player.logo} alt="" />
                           </div>

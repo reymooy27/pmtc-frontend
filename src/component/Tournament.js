@@ -45,8 +45,6 @@ function Tournament() {
     return () => (mounted = false);
   }, [dispatch,url]);
 
-  console.log(url);
-  
   return (
     <div>
       {loading ? <Loader
