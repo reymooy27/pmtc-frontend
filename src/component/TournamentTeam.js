@@ -1,21 +1,21 @@
 import React, { Fragment, useEffect, useState } from "react";
-import "./TeamDetail.css";
+import "./TournamentTeam.css";
 import axios from "../axios";
 import Loader from "react-loader-spinner";
 import PlayerDetail from "./PlayerDetail";
-import { useRouteMatch } from "react-router-dom";
+import { useParams} from "react-router-dom";
 
-function TeamDetail() {
+function TournamentTeam() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  let {url} = useRouteMatch();
+  let {teamID} = useParams();
 
 
   useEffect(() => {
     let mounted = true;
     async function fetchData() {
-      const req = await axios.post(url);
+      const req = await axios.post('team/'+teamID);
       if (mounted) {
         setData(req.data);
         setLoading(false);
@@ -25,7 +25,7 @@ function TeamDetail() {
     return () => {
       mounted = false;
     };
-  }, [url]);
+  }, [teamID]);
 
   return (
     <Fragment>
@@ -39,7 +39,13 @@ function TeamDetail() {
         />
       ) : (
         <Fragment>
-          <div className="team-detail">
+          <div className="team-detail" 
+              style={{background: `url(${data.logo})`, 
+                      backgroundRepeat: 'no-repeat', 
+                      backgroundPosition: 'center', 
+                      backgroundSize: '500px', 
+                      backgroundBlendMode: 'overlay', 
+                      backgroundColor: '#151A2C'}}>
             <div className="team-detail-identity">
               <img className="team-detail-logo" src={data.logo} alt="" />
               <p className="team-detail-team-name">{data.teamName}</p>
@@ -97,4 +103,4 @@ function TeamDetail() {
   );
 }
 
-export default TeamDetail;
+export default TournamentTeam;

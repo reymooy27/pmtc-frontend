@@ -8,3 +8,18 @@
 [1026/173346.907:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
 [1028/161328.448:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
 [1029/153958.826:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[1030/154110.934:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[1101/151530.419:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[1102/135944.611:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[1103/132935.040:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[1107/144714.841:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[1108/143632.601:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[1108/210309.926:ERROR:process_info.cc(329)] VirtualQueryEx: Access is denied. (0x5)
+[1108/210310.002:ERROR:process_info.cc(556)] ReadMemoryInfo failed
+[1108/210309.913:ERROR:process_info.cc(329)] VirtualQueryEx: Access is denied. (0x5)
+[1108/210310.002:ERROR:process_info.cc(556)] ReadMemoryInfo failed
+[1108/210310.003:ERROR:process_memory_win.cc(39)] Failed to initialize ProcessInfo.
+[1114/135444.502:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[1115/152030.097:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)
+[1115/174039.629:ERROR:filesystem_win.cc(129)] GetFileAttributes C:\Users\Asus\AppData\Local\Google\Chrome\User Data\Crashpad\attachments\d92ef2a0-1cff-4b63-b665-066f46027a24: The system cannot find the path specified. (0x3)
+[1116/140212.173:ERROR:directory_reader_win.cc(43)] FindFirstFile: The system cannot find the path specified. (0x3)

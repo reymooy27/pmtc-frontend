@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Link, Redirect, useRouteMatch } from "react-router-dom";
+import Loader from "react-loader-spinner";
+import { Redirect, useRouteMatch } from "react-router-dom";
 import axios from "../axios";
-
+import './Registration.css'
 function Registration() {
   let {url} = useRouteMatch();
   
@@ -208,39 +209,21 @@ if(redirectTo){
 
 
   return (
-    <div>
-      <div
-        className="navbar-responsive"
-        style={{
-          background: "#16191e70",
-          boxShadow: "none",
-          marginLeft: 0,
-        }}
-      >
-        <div className="tombolkembali">
-          <Link to="/">
-            <img
-              src="https://iconmonstr.com/wp-content/g/gd/makefg.php?i=../assets/preview/2018/png/iconmonstr-arrow-left-thin.png&r=255&g=255&b=255"
-              alt=""
-            />
-          </Link>
-        </div>
-      </div>
       <div className="form">
         <form encType="multipart/form-data" className="kiri" onSubmit={handleSubmit}>
           <h2 className="pendaftaran-title">Pendaftaran</h2>
           {loginSuccess ? loginSuccess : ''}
-          {formErrors.err ? <span>{formErrors.err.response.data.msg}</span> : ''}
+          {formErrors.err ? <span style={{color: 'red', fontWeight: 'bold'}}>{formErrors.err.response.data}</span> : ''}
           <div className="team-data">
             <h4>Data Tim</h4>
-            <div className="teamname">
+            <div className="registration-input-container">
               <label htmlFor="teamName">Nama Tim </label>
               <br />
               <input
                 title="Masukan Nama Tim Anda"
                 type="text"
                 name="teamName"
-                className={formErrors.teamName || formErrors.err  ? 'namaTeam err' : 'namaTeam'}
+                className={formErrors.teamName || formErrors.err  ? 'registration-input err' : 'registration-input'}
                 placeholder="Nama Tim"
                 autoFocus
                 value={formValues.teamName}
@@ -248,14 +231,14 @@ if(redirectTo){
               />
               <span className="error-msg" style={{opacity:formErrors.teamName ? 1 : 0 }}>{formErrors.teamName ? formErrors.teamName : 'error'}</span>
             </div>
-            <div className="abbrteam">
+            <div className="registration-input-container">
               <label htmlFor="singkatanTeam">Abbr </label>
               <br />
               <input
                 title="Masukan Singkatan Tim Anda"
                 type="text"
                 name="singkatanTeam"
-                className={formErrors.singkatanTeam || formErrors.err  ? 'singkatanTeam err' : 'singkatanTeam'}
+                className={formErrors.singkatanTeam || formErrors.err  ? 'registration-input err' : 'registration-input'}
                 maxLength="5"
                 placeholder="ABBR"
                 value={formValues.singkatanTeam}
@@ -302,14 +285,14 @@ if(redirectTo){
             <h4>Data Pemain</h4>
             <ul>
               <li>
-                <div className="id1">
+                <div className="registration-input-container">
                   <label htmlFor="idPlayer">ID In Game #1</label>
                   <br />
                   <input
                     title="Masukan ID In Game Anda"
                     type="text"
                     name="idPlayer"
-                    className={formErrors.idPlayer || formErrors.err  ? 'idPemain err' : 'idPemain'}
+                    className={formErrors.idPlayer || formErrors.err  ? 'registration-input err' : 'registration-input'}
                     maxLength="10"
                     pattern="[0-9]+"
                     value={formValues.idPlayer}
@@ -318,7 +301,7 @@ if(redirectTo){
                   />
                   <span className="error-msg" style={{opacity:formErrors.idPlayer ? 1 : 0 }}>{formErrors.idPlayer ? formErrors.idPlayer : 'error'}</span>
                 </div>
-                <div className="player1">
+                <div className="registration-input-container">
                   <label htmlFor="playerName">Nama Pemain #1</label>
                   <br />
                   <input
@@ -326,7 +309,7 @@ if(redirectTo){
                     type="text"
                     name="playerName"
                     maxLength="14"
-                    className={formErrors.playerName || formErrors.err  ? 'namaPemain err' : 'namaPemain'}
+                    className={formErrors.playerName || formErrors.err  ? 'registration-input err' : 'registration-input'}
                     placeholder="Nick In Game"
                     value={formValues.playerName}
                     onChange={handleChange}
@@ -335,14 +318,14 @@ if(redirectTo){
                 </div>
               </li>
               <li>
-                <div className="id2">
+                <div className="registration-input-container">
                   <label htmlFor="idPlayer2">ID In Game #2 </label>
                   <br />
                   <input
                     title="Masukan ID In Game Anda"
                     type="text"
                     name="idPlayer2"
-                    className={formErrors.idPlayer2 || formErrors.err  ? 'idPemain2 err' : 'idPemain2'}
+                    className={formErrors.idPlayer2 || formErrors.err  ? 'registration-input err' : 'registration-input'}
                     placeholder="1234567890"
                     maxLength="10"
                     pattern="[0-9]+"
@@ -351,7 +334,7 @@ if(redirectTo){
                   />
                   <span className="error-msg" style={{opacity:formErrors.idPlayer2 ? 1 : 0 }}>{formErrors.idPlayer2 ? formErrors.idPlayer2 : 'error'}</span>
                 </div>
-                <div className="player2">
+                <div className="registration-input-container">
                   <label htmlFor="playerName2">Nama Pemain #2 </label>
                   <br />
                   <input
@@ -359,7 +342,7 @@ if(redirectTo){
                     type="text"
                     name="playerName2"
                     maxLength="14"
-                    className={formErrors.playerName2 || formErrors.err  ? 'namaPemain2 err' : 'namaPemain2'}
+                    className={formErrors.playerName2 || formErrors.err  ? 'registration-input err' : 'registration-input'}
                     placeholder="Nick In Game"
                     value={formValues.playerName2}
                     onChange={handleChange}
@@ -368,14 +351,14 @@ if(redirectTo){
                 </div>
               </li>
               <li>
-                <div className="id3">
+                <div className="registration-input-container">
                   <label htmlFor="idPlayer3">ID In Game #3 </label>
                   <br />
                   <input
                     title="Masukan ID In Game Anda"
                     type="text"
                     name="idPlayer3"
-                    className={formErrors.idPlayer3 || formErrors.err  ? 'idPemain3 err' : 'idPemain3'}
+                    className={formErrors.idPlayer3 || formErrors.err  ? 'registration-input err' : 'registration-input'}
                     placeholder="1234567890"
                     maxLength="10"
                     pattern="[0-9]+"
@@ -384,7 +367,7 @@ if(redirectTo){
                   />
                   <span className="error-msg" style={{opacity:formErrors.idPlayer3 ? 1 : 0 }}>{formErrors.idPlayer3 ? formErrors.idPlayer3 : 'error'}</span>
                 </div>
-                <div className="player3">
+                <div className="registration-input-container">
                   <label htmlFor="playerName3">Nama Pemain #3 </label>
                   <br />
                   <input
@@ -392,7 +375,7 @@ if(redirectTo){
                     type="text"
                     name="playerName3"
                     maxLength="14"
-                    className={formErrors.playerName3 || formErrors.err  ? 'namaPemain3 err' : 'namaPemain3'}
+                    className={formErrors.playerName3 || formErrors.err  ? 'registration-input err' : 'registration-input'}
                     placeholder="Nick In Game"
                     value={formValues.playerName3}
                     onChange={handleChange}
@@ -401,14 +384,14 @@ if(redirectTo){
                 </div>
               </li>
               <li>
-                <div className="id4">
+                <div className="registration-input-container">
                   <label htmlFor="idPlayer4">ID In Game #4 </label>
                   <br />
                   <input
                     title="Masukan ID In Game Anda"
                     type="text"
                     name='idPlayer4'
-                    className={formErrors.idPlayer4 || formErrors.err  ? 'idPemain4 err' : 'idPemain4'}
+                    className={formErrors.idPlayer4 || formErrors.err  ? 'registration-input err' : 'registration-input'}
                     placeholder="1234567890"
                     maxLength="10"
                     pattern="[0-9]+"
@@ -417,7 +400,7 @@ if(redirectTo){
                   />
                   <span className="error-msg" style={{opacity:formErrors.idPlayer4 ? 1 : 0 }}>{formErrors.idPlayer4 ? formErrors.idPlayer4 : 'error'}</span>
                 </div>
-                <div className="player4">
+                <div className="registration-input-container">
                   <label htmlFor="playerName4">Nama Pemain #4 </label>
                   <br />
                   <input
@@ -425,7 +408,7 @@ if(redirectTo){
                     type="text"
                     name="playerName4"
                     maxLength="14"
-                    className={formErrors.playerName4 || formErrors.err  ? 'namaPemain4 err' : 'namaPemain4'}
+                    className={formErrors.playerName4 || formErrors.err  ? 'registration-input err' : 'registration-input'}
                     placeholder="Nick In Game"
                     value={formValues.playerName4}
                     onChange={handleChange}
@@ -435,14 +418,14 @@ if(redirectTo){
               </li>
               <h4>Pemain Cadangan (Optional)</h4>
               <li>
-                <div className="id5">
+                <div className="registration-input-container">
                   <label htmlFor="idPlayer5">ID In Game Cadangan </label>
                   <br />
                   <input
                     title="Masukan ID In Game Anda"
                     type="text"
                     name="idPlayer5"
-                    className={formErrors.idPlayer5 || formErrors.err  ? 'idPemain5 err' : 'idPemain5'}
+                    className={formErrors.idPlayer5 || formErrors.err  ? 'registration-input err' : 'registration-input'}
                     placeholder="1234567890"
                     maxLength="10"
                     pattern="[0-9]+"
@@ -451,7 +434,7 @@ if(redirectTo){
                   />
                   <span className="error-msg" style={{opacity:formErrors.idPlayer5 ? 1 : 0 }}>{formErrors.idPlayer5 ? formErrors.idPlayer5 : 'error'}</span>
                 </div>
-                <div className="player5">
+                <div className="registration-input-container">
                   <label htmlFor="playerName5">Nama Pemain Cadangan </label>
                   <br />
                   <input
@@ -459,7 +442,7 @@ if(redirectTo){
                     type="text"
                     name="playerName5"
                     maxLength="14"
-                    className={formErrors.playerName5 || formErrors.err  ? 'namaPemain5 err' : 'namaPemain5'}
+                    className={formErrors.playerName5 || formErrors.err  ? 'registration-input err' : 'registration-input'}
                     placeholder="Nick In Game"
                     value={formValues.playerName5}
                     onChange={handleChange}
@@ -471,13 +454,13 @@ if(redirectTo){
           </div>
 
           <div className="contact">
-            <div className="noHP">
+            <div className="registration-input-container">
               <label htmlFor="handphoneNumber">Nomor HP (Aktif WA) </label>
               <br />
               <input
                 title="Masukan Nomor Handphone Yang Terhubung Dengan WA"
                 type="tel"
-                className={formErrors.handphoneNumber || formErrors.err  ? 'noHP_ err' : 'noHP_'}
+                className={formErrors.handphoneNumber || formErrors.err  ? 'registration-input err' : 'registration-input'}
                 name="handphoneNumber"
                 placeholder="+62"
                 maxLength="12"
@@ -487,13 +470,13 @@ if(redirectTo){
               />
               <span className="error-msg" style={{opacity:formErrors.handphoneNumber ? 1 : 0 }}>{formErrors.handphoneNumber ? formErrors.handphoneNumber : 'error'}</span>
             </div>
-            <div className="email">
+            <div className="registration-input-container">
               <label htmlFor="email">Email </label>
               <br />
               <input
                 title="Masukan Email Anda"
                 type="email"
-                className={formErrors.email || formErrors.err  ? 'email_ err' : 'email_'}
+                className={formErrors.email || formErrors.err  ? 'registration-input err' : 'registration-input'}
                 name="email"
                 placeholder="@gmail.com"
                 value={formValues.email}
@@ -503,19 +486,18 @@ if(redirectTo){
             </div>
           </div>
           <div className="submit">
-            <input
-              data-toggle="tooltip"
-              dtoplacement="right"
-              title="Pastikan Data Yang Anda Isi Adalah Benar"
-              type="submit"
-              value="DAFTAR"
-              id="submit"
+            <button
+              className="registration-button" type="submit"
               disabled={Object.keys(formErrors).length === 0 && isSubmitting ? true : false}
-            />
+            >{Object.keys(formErrors).length === 0 && isSubmitting ? <Loader
+          type="ThreeDots"
+          color="black"
+          height={20}
+          width={30}
+        /> : 'Daftar'}</button>
           </div>
         </form>
       </div>
-    </div>
   );
 }
 

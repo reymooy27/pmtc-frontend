@@ -2,8 +2,9 @@ import React, { useCallback, useEffect, useState } from 'react'
 import axios from '../axios'
 import './Login.css'
 import { Link, Redirect } from 'react-router-dom'
-import { login } from '../redux/reducers/userSlice'
+import { fetchCheckUser } from '../redux/reducers/userSlice'
 import { useDispatch } from 'react-redux'
+import Loader from 'react-loader-spinner'
 
 function Login() {
 
@@ -16,16 +17,6 @@ const [redirectTo, setRedirectTo] = useState(false)
 
   const dispatch = useDispatch()
 
-  const checkAuth = useCallback(
-    async () => {
-      const req = await axios.get('/status')
-    if(req.status === 200){
-      const r = await axios.post(`user/${req.data.user._id}`)
-      dispatch(login(r.data))
-      }
-    },
-    [dispatch],
-  ) 
 const submitForm = useCallback(
   () => {
     axios({
@@ -40,7 +31,7 @@ const submitForm = useCallback(
   }
   }).then(res=> {
     setLoginSuccess(res.data.msg)
-    checkAuth()
+    dispatch(fetchCheckUser())
     setRedirectTo(true)
   })
   .catch(err=> {
@@ -48,7 +39,7 @@ const submitForm = useCallback(
     console.log(err)
   })
   },
-  [checkAuth,formValues.username,formValues.password,],
+  [formValues.username,formValues.password,dispatch],
 )
 
 const handleChange = (e) => {
@@ -119,11 +110,19 @@ if(redirectTo){
         onChange={handleChange}
       />
       <span className="error-msg" style={{opacity:formErrors.password ? 1 : 0 }}>{formErrors.password ? formErrors.password : 'error'}</span>
-
-      <button className="login-button" type="submit" disabled={Object.keys(formErrors).length === 0 && isSubmitting ? true : false}>Log In</button>
+      <Link to='/'>Lupa Password ?</Link>
+      
+      <div className='login-button-container'>
+        <span>Belum punya akun ? <Link to='/signup'>Sign Up</Link></span>
+        <button className="login-button" type="submit" disabled={Object.keys(formErrors).length === 0 && isSubmitting ? true : false}>{Object.keys(formErrors).length === 0 && isSubmitting ? <Loader
+            type="ThreeDots"
+            color="black"
+            height={20}
+            width={30}
+          /> : 'Login'}</button>
+      </div>
     </form>
     <br></br>
-    <span>Belum punya akun ?, <Link to='/signup'>Sign Up</Link></span>
     </div>
   )
 }

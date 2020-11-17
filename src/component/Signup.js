@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import Loader from 'react-loader-spinner';
 import { Link, Redirect } from 'react-router-dom';
 import axios from '../axios'
 import './Signup.css'
@@ -76,7 +77,7 @@ const handleChange = (e) => {
 }
 
   return (
-    <div>
+    <div className='signup'>
       <form className="signup_form" onSubmit={handleSubmit}>
         <div className='signup-title'>
           <h2>Sign Up</h2>
@@ -121,10 +122,17 @@ const handleChange = (e) => {
       />
       <span className="error-msg" style={{opacity:formErrors.password ? 1 : 0 }}>{formErrors.password ? formErrors.password : 'error'}</span>
 
-      <button className="signup-button" type="submit" disabled={Object.keys(formErrors).length === 0 && isSubmitting ? true : false}>Sign Up</button>
+      <div className='signup--button-container'>
+      <span>Sudah punya akun ?, <Link to='/login'>Login</Link></span>
+      <button className="signup-button" type="submit" disabled={Object.keys(formErrors).length === 0 && isSubmitting ? true : false}>{Object.keys(formErrors).length === 0 && isSubmitting ? <Loader
+          type="ThreeDots"
+          color="black"
+          height={20}
+          width={30}
+        /> : 'Sign Up'}</button>
+      </div>
     </form>
     <br></br>
-    <span>Sudah punya akun ?, <Link to='/login'>Login</Link></span>
     </div>
   )
 }

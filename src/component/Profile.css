@@ -1,10 +1,9 @@
-.profile{
+.profile {
   margin: 4em auto 1em;
   height: 260px;
   width: 95%;
-  border: 0.8px rgba(255, 255, 255, 0.288) solid;
-  border-radius: 20px;
-  background-color: #070613bd;
+  border-radius: 10px;
+  background-color: #151a2c;
   box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.712);
   color: white;
   text-align: center;
@@ -12,5 +11,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: relative;
+}
+
+@media screen and (min-width: 976px) {
+  .profile {
+    margin: 5em auto 1em;
+  }
 }

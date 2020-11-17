@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import "./LeaderboardTeam.css";
 
 function LeaderboardTeam(props) {
@@ -8,7 +8,7 @@ function LeaderboardTeam(props) {
       <tr>
         <td>{props.pos}</td>
         <td className="leaderboard-team-rank">
-          <Link to={`/team/${props.id}`}>
+          <Link to={`team/${props.id}`}>
             <div className="leaderboard-team-logo">
               <img src={props.logo} alt="" />
             </div>

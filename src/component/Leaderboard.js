@@ -7,7 +7,8 @@ import { useSelector } from "react-redux";
 
 function Leaderboard() {
   const tournament = useSelector(selectTournament)
-  
+  const group = ['A','B','C','D','E','F','G','H','I','J','K','L','M'] 
+
   return (
     <div className="container">
       <div className="specialFont-wraper">
@@ -15,10 +16,9 @@ function Leaderboard() {
       </div>
       {tournament.showGroupStandings && tournament.teams.length >=1 ? (
         <div className="leaderboard">
-          <LeaderboardGroup inGroup="A" />
-          <LeaderboardGroup inGroup="B" />
-          <LeaderboardGroup inGroup="C" />
-          <LeaderboardGroup inGroup="D" />
+          {Array(tournament.groups).fill(group,0,tournament.groups).map((t,i)=>(
+            <LeaderboardGroup key={i} inGroup={group[i]} />
+          ))}
           {tournament.showGrandFinal ? <GrandfinalGroup /> : ""}
         </div>
       ) : (

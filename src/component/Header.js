@@ -2,17 +2,39 @@ import React from "react";
 import TournamentDetail from "./TournamentDetail";
 import { Link } from "react-router-dom";
 import "./Header.css";
-import {selectTournament,selectTournamentID} from '../redux/reducers/tournamentSlice'
+import {selectTournament, selectTournamentTeam} from '../redux/reducers/tournamentSlice'
 import { useSelector } from "react-redux";
-
+import moment from 'moment'
 function Header() {
   const tournament = useSelector(selectTournament)
-  const tournamentID = useSelector(selectTournamentID)
+  const tournamentTeam = useSelector(selectTournamentTeam)
 
+moment.updateLocale('en', {
+    calendar : {
+        lastDay : '[Yesterday at] LT',
+        sameDay : '[Today at]',
+        nextDay : '[Tomorrow at] LT',
+        lastWeek : '[last] dddd [at] LT',
+        nextWeek : 'dddd [at] LT',
+        sameElse : 'L'
+    }
+});
+
+moment.updateLocale('en', {
+    months : [
+        "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli",
+        "Augustus", "September", "Oktober", "November", "Desember"
+    ]
+});
+moment.updateLocale('en', {
+    weekdays : [
+        "Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"
+    ]
+});
 
   return (
     <div className="header">
-      <div className="header-1">
+      <div className="header-1" style={{background: `url(${tournament.tournamentPicture}) no-repeat center/cover`,backgroundBlendMode: 'multiply'}}>
         <div className="header-1-1">
           <div className="header-logo">
             <img src="../logo.png" className="navbar-logo" alt="" />
@@ -29,18 +51,18 @@ function Header() {
         <div className="header-1-2">
           <div className="header-1-2-1">
             <p>Pendaftaran Buka</p>
-            <span>{new Date(tournament.registrationStart).toUTCString().slice(0,17)}</span>
+            <span>{moment(tournament.registrationStart).format('dddd D MMMM')}</span>
           </div>
           <div className="header-1-2-1">
             <p>Turnamen Mulai</p>
-            <span>{new Date(tournament.startDate).toUTCString().slice(0,17)}</span>
+            <span>{moment(tournament.startDate).format('dddd D MMMM')}</span>
           </div>
         </div>
       </div>
       <div className="header-2">
         <div className="header-tournament-detail">
-          <Link to={`/tournament/${tournamentID}/team`}>
-            <TournamentDetail title="Tim" detail={`${tournament.teams.length}/64`} />
+          <Link to={`/tournament/${tournament._id}/team`}>
+            <TournamentDetail title="Tim" detail={`${tournamentTeam.length}/${tournament.maxSlot}`} />
           </Link>
           <TournamentDetail
             title="Biaya Pendaftaran"
@@ -48,8 +70,8 @@ function Header() {
               tournament.tournamentFee
             )}`}
           />
-          <TournamentDetail title="Mode" detail="Squad TPP" />
-          <TournamentDetail title="Format Turnamen" detail="Eliminasi Grup" />
+          <TournamentDetail title="Mode" detail={tournament.tournamentMode} />
+          <TournamentDetail title="Format Turnamen" detail={tournament.tournamentFormat} />
         </div>
         <div className="header-button">
           {tournament.registrationClosed ? (
@@ -57,7 +79,7 @@ function Header() {
               Pendaftaran Tutup
             </button>
           ) : (
-            <Link to={`/team/create/${tournamentID}`}>
+            <Link to={`/team/create/${tournament._id}`}>
               <button className="header-button-registered">Daftar</button>
             </Link>
           )}

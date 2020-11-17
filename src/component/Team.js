@@ -32,7 +32,7 @@ function Team() {
       return (
         <TeamList
           key={team._id}
-          id={team._id}
+          teamID={team._id}
           teamName={team.teamName}
           abbr={team.singkatanTeam}
           logo={team.logo}
@@ -57,7 +57,7 @@ function Team() {
       return (
         <TeamList
           key={team._id}
-          id={team._id}
+          teamID={team._id}
           teamName={team.teamName}
           abbr={team.singkatanTeam}
           logo={team.logo}
@@ -86,7 +86,7 @@ function Team() {
       <div className="team">
         <div className="team-registered">
           <h4>Tim : {tournament.teams.length}</h4>
-          <h4>Slot Tersedia : 64</h4>
+          <h4>Slot Tersedia : {tournament.maxSlot}</h4>
         </div>
         {tournament.teams.length >= 1 ? (
           <Fragment>

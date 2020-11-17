@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 import "./TeamList.css";
 
 function TeamList(props) {
   const [show, setShow] = useState(false);
+  const {url} = useRouteMatch()
 
   const click = () => {
     if (show === false) {
@@ -19,7 +20,7 @@ function TeamList(props) {
         onClick={click}
         className={show ? "team-list team-list-active " : "team-list"}
       >
-        <Link to={`/team/${props.id}`}>
+        <Link to={`${url}/${props.teamID}`}>
           <div className="logo-team">
             <img src={props.logo} alt="" />
           </div>

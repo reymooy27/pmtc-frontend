@@ -9,6 +9,7 @@
   overflow: auto;
 }
 .schedule table {
+  overflow: auto;
   width: 100%;
   margin: auto;
   font-size: 14px;

@@ -1,0 +1,86 @@
+.team-detail {
+  margin: 3em auto 1em;
+  padding: 20px;
+  height: 350px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.team-detail-identity {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.team-detail-logo {
+  object-fit: contain;
+  width: 100px;
+}
+
+.team-detail-team-name {
+  display: block;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+.team-detail-info {
+  display: flex;
+  align-items: center;
+}
+
+.team-detail-info div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 33%;
+}
+.team-detail-info div span {
+  font-size: 0.9em;
+}
+.team-detail-info div span:last-child {
+  margin-top: -20px;
+  font-weight: bold;
+  font-size: 2em;
+}
+
+.team-detail-roster-title {
+  text-align: center;
+  margin-top: -4em;
+}
+
+.team-detail-roster {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -1em 0 0;
+}
+
+@media screen and (min-width: 700px) {
+  .team-detail {
+    width: 350px;
+    height: 250px;
+    border-radius: 20px;
+    box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.712);
+    border-bottom: none;
+    margin-top: 5em;
+    margin-left: 2em;
+    justify-content: center;
+    align-self: center;
+    background: none !important;
+  }
+
+  .team-detail-logo {
+    margin: 10px;
+    width: 100px;
+  }
+
+  .team-detail-roster-title {
+    text-align: unset;
+    margin-left: 20px;
+    margin-top: 0;
+  }
+  .team-detail-roster {
+    margin: 0;
+  }
+}

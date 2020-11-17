@@ -10,13 +10,38 @@ const userSlice = createSlice({
       state.user = action.payload
     },
     logout(state) {
-      axios.get('logout')
       state.user = null
     },
-    
+    checkUser(state,action){
+      state.user = action.payload
+    },
   },
 })
 
-export const { login, logout } = userSlice.actions
+export const { login, logout,checkUser } = userSlice.actions
 export const selectUser = (state) => state.user.user
+
 export default userSlice.reducer
+
+
+export const fetchCheckUser = ()=> async dispatch => {
+  try {
+    const req = await axios.get('/status')
+    if(req.status === 200){
+      const r = await axios.post(`user/${req.data.user._id}`)
+      dispatch(checkUser(r.data))
+      }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const fetchLogout = ()=> async dispatch => {
+  try {
+    await axios.get('/logout')
+    dispatch(logout())
+  } catch (error) {
+    console.log(error);
+  }
+}
+

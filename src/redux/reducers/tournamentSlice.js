@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-
-const initialState = { tournament: [], tournamentID: '',allTournament: [] }
+const initialState = { tournament: [],tournamentTeam: [], tournamentID: '',allTournament: []}
 
 const tournamentSlice = createSlice({
   name: 'tournament',
@@ -9,18 +8,18 @@ const tournamentSlice = createSlice({
     getTournamentData(state, action) {
       state.tournament = action.payload
     },
-    getTournamentID(state, action) {
-      state.tournamentID = action.payload
+    getTournamentTeam(state, action) {
+      state.tournamentTeam = action.payload
     },
     getAllTournament(state, action) {
       state.allTournament = action.payload
     },
-    
   },
 })
 
-export const { getTournamentData, getTournamentID, getAllTournament } = tournamentSlice.actions
+export const { getTournamentData,getTournamentTeam, getAllTournament,loadingFinish,loadingStart } = tournamentSlice.actions
 export const selectTournament = (state) => state.tournament.tournament
-export const selectTournamentID = (state) => state.tournament.tournamentID
+export const selectTournamentTeam = (state) => state.tournament.tournamentTeam
 export const selectAllTournament = (state) => state.tournament.allTournament
+export const selectLoading = (state) => state.tournament.loading
 export default tournamentSlice.reducer

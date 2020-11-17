@@ -8,21 +8,22 @@ import {
 import "./App.css";
 import Navbar from "./component/Navbar";
 import SideBar from "./component/SideBar";
-import TeamDetail from "./component/TeamDetail";
 import Registration from "./component/Registration";
 import EmailConfirmation from "./component/EmailConfirmation";
 import Loader from "react-loader-spinner";
 import Login from "./component/Login";
 import Admin from "./component/Admin";
-import {login} from './redux/reducers/userSlice'
-import {getAllTournament, selectTournament} from './redux/reducers/tournamentSlice'
+import {fetchCheckUser} from './redux/reducers/userSlice'
+import {selectTournament} from './redux/reducers/tournamentSlice'
 import {useSelector, useDispatch} from 'react-redux'
-import axios from './axios'
 import Signup from "./component/Signup";
 import Profile from "./component/Profile";
 import Tournaments from "./component/Tournaments";
 import Tournament from "./component/Tournament";
 import { closeSideBar } from "./redux/reducers/appSlice";
+import UserTeam from './component/UserTeam'
+import {getAllTournament} from './redux/reducers/tournamentSlice'
+import axios from './axios'
 
 function App() {
   const dispatch = useDispatch()
@@ -31,39 +32,19 @@ function App() {
 
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-  let mounted = true
-
-  async function getTournaments(){
-    const res = await axios.post('/api/v1/tournaments')
-    if(mounted){
-      dispatch(getAllTournament(res.data))
-      setLoading(false);
-
-    }
-  }
-
-  setTimeout(() => {
-  getTournaments()
-  },300)
-  
-  return ()=> mounted = false
+useEffect(() => {
+  dispatch(fetchCheckUser())
+  setLoading(false)
 }, [dispatch])
-
 
 useEffect(() => {
-  async function checkAuth(){
-    const req = await axios.get('/status')
-    if(req.status === 200){
-      const r = await axios.post(`user/${req.data.user._id}`)
-      dispatch(login(r.data))
-      setLoading(false);
+    const fetchAllTournament = async ()=>{
+      const res = await axios.post('/api/v1/tournaments')
+        dispatch(getAllTournament(res.data))
+        setLoading(false)
       }
-  }
-      checkAuth()
+    fetchAllTournament()
 }, [dispatch])
-
-
 
   return (
     <Router>
@@ -77,6 +58,13 @@ useEffect(() => {
         />
       ) : (
           <Switch>
+            <Route path="/profile/team/:id">
+              <Navbar/>
+              <SideBar/>
+              <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
+                <UserTeam/>
+              </div>
+            </Route>
             <Route path="/admin">
               <Navbar/>
               <SideBar/>
@@ -107,22 +95,14 @@ useEffect(() => {
                 <Registration />
               )}
             </Route>
-            <Route path="/team/:id">
-              <Navbar/>
-              <SideBar/>
-              <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
-                <TeamDetail />
-              </div>
-            </Route>
-            
-            <Route path="/tournament/:id">
+            <Route path="/tournament/:tournamentID">
               <Tournament />
             </Route>
             <Route path="/">
               <Navbar/>
               <SideBar/>
               <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
-                <Tournaments />
+                <Tournaments loading={loading} />
               </div>
             </Route>
           </Switch>

@@ -11,6 +11,8 @@
   transition: all 0.3s ease;
   z-index: 4;
   overflow: auto;
+  font-weight: bold;
+  overflow-y: auto;
 }
 
 .side-bar.active {
@@ -26,13 +28,14 @@
 }
 
 .side-bar .nav a {
-  display: inline-block;
+  display: flex;
+  align-items: center;
   width: 100%;
   padding: 10px;
   margin: 10px auto 0;
   color: white;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 16px;
   text-align: left;
 }
 
@@ -40,44 +43,87 @@
   background: #151a2c;
   border-radius: 10px;
 }
+
+.side-bar .nav a svg {
+  margin-right: 10px;
+}
 .nav {
   display: flex;
   height: 100%;
 }
 .sidebar-top {
+  height: 40%;
   padding: 5px;
-  border-bottom: 1px solid white;
 }
 .sidebar-bottom {
+  height: 30%;
   padding: 5px;
 }
-.sidebar-bottom button {
-  display: inline-block;
+
+.sidebar-social {
+  margin: 10px 0;
+}
+.sidebar-social-icon {
+  display: flex;
+}
+
+.sidebar-social .sidebar-social-icon a:hover {
+  background-color: transparent;
+}
+.sidebar-social .sidebar-social-icon a {
+  width: 30px;
+  padding: 0 10px;
+  margin: 0 0 10px;
+}
+
+.sidebar-contact {
+  margin: 10px 0;
+}
+.sidebar-contact-icon {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-contact .sidebar-contact-icon a:hover {
+  background-color: transparent;
+  text-decoration: underline;
+}
+.sidebar-contact .sidebar-contact-icon a {
+  width: 30px;
+  padding: 0 10px;
+  margin: 0 0 10px;
+}
+
+.sidebar-logout button {
+  display: flex;
+  align-items: center;
   height: 50px;
   width: 100%;
-  padding: 10px;
   margin: 10px auto 0;
+  padding-left: 10px;
   border: none;
   outline: none;
-  font-size: 14px;
+  font-size: 16px;
   text-align: left;
   cursor: pointer;
   background-color: transparent;
   color: white;
   font-family: "Roboto";
+  font-weight: bold;
 }
 
-.sidebar-bottom button:hover {
+.sidebar-logout button:hover {
   background: #151a2c;
   border-radius: 10px;
+}
+
+.sidebar-logout button svg {
+  margin-right: 10px;
 }
 
 @media screen and (min-width: 976px) {
   .side-bar {
     left: 0;
     top: 62.5px;
-  }
-  .sidebar-top {
-    border-bottom: none;
   }
 }
