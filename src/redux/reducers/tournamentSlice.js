@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
-const initialState = { tournament: [],tournamentTeam: [], tournamentID: '',allTournament: []}
+import axios from '../../axios'
+
+const initialState = { tournament: [],tournamentTeam: [], tournamentID: '',allTournament: [], loading: true}
 
 const tournamentSlice = createSlice({
   name: 'tournament',
@@ -13,13 +15,27 @@ const tournamentSlice = createSlice({
     },
     getAllTournament(state, action) {
       state.allTournament = action.payload
+      state.loading = false
     },
+    loadingEnd(state){
+      state.loading = false
+    }
   },
 })
 
-export const { getTournamentData,getTournamentTeam, getAllTournament,loadingFinish,loadingStart } = tournamentSlice.actions
+export const { getTournamentData,getTournamentTeam, getAllTournament,loadingEnd } = tournamentSlice.actions
 export const selectTournament = (state) => state.tournament.tournament
 export const selectTournamentTeam = (state) => state.tournament.tournamentTeam
 export const selectAllTournament = (state) => state.tournament.allTournament
 export const selectLoading = (state) => state.tournament.loading
 export default tournamentSlice.reducer
+
+export const fetchAllTournament = ()=> async dispatch => {
+  try {
+    const res = await axios.post('/api/v1/tournaments')
+    dispatch(getAllTournament(res.data))
+  } catch (error) {
+    console.log(error);
+    dispatch(loadingEnd())
+  }
+}

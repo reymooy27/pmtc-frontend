@@ -1,0 +1,8 @@
+.tournamentParticipantDetails {
+  overflow: auto;
+}
+
+.tournamentParticipantDetails table a {
+  text-decoration: none;
+  color: #00dbae;
+}

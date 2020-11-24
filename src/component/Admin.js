@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import './Admin.css'
-import { Redirect } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import {selectUser} from '../redux/reducers/userSlice'
 import {selectAllTournament,} from '../redux/reducers/tournamentSlice'
 import AdminTable from './AdminTable'
@@ -8,6 +8,12 @@ import axios from '../axios'
 import {useSelector } from 'react-redux'
 import CreateTournament from './CreateTournament'
 import EditTurnamen from './EditTurnamen'
+import {
+  Switch,
+  Route,
+  useRouteMatch,
+} from "react-router-dom";
+import TournamentParticipantDetails from './TournamentParticipantDetails'
 
 function Admin() {
 
@@ -17,6 +23,10 @@ function Admin() {
   const [currentTurnamen, setcurrentTurnamen] = useState([])
   const [currentTurnamenID, setCurrentTurnamenID] = useState('')
 
+  const [grup, setGrup] = useState('allTeam')
+  const [some, setSome] = useState(currentTurnamen)
+
+  let { path } = useRouteMatch();
 
 useEffect(() => {
   let mounted = true
@@ -31,13 +41,40 @@ useEffect(() => {
   return ()=> mounted = false
 }, [currentTurnamenID])
 
+useEffect(() => {
+  let mounted = true
+
+  if(mounted){
+    const newArray = currentTurnamen.filter((team) => {
+      if (team.inGroup === grup) {
+        return team;
+      }
+      return null
+    });
+    setSome(newArray)
+  }
+  
+  return () => {
+    mounted = false
+  }
+}, [currentTurnamen, grup])
+
+useEffect(() => {
+  if (grup === 'allTeam') {
+    setSome(currentTurnamen)
+  }
+}, [grup,currentTurnamen])
+
 const isAdmin = user !== null ? user.role === 'ADMIN' : null
 
   return (
     <Fragment>
       {isAdmin ? 
         <div className='admin'>
-          <select
+            <Switch>
+              <Route exact path={path}>
+                <h3>Pilih Turnamen</h3>
+                <select
             value={currentTurnamenID} 
             onChange={e=> setCurrentTurnamenID(e.target.value)}
           >
@@ -45,6 +82,28 @@ const isAdmin = user !== null ? user.role === 'ADMIN' : null
             {allTournament.map(t=> <option key={t._id} value={t._id}>{t.tournamentName}</option>)}
           </select>
             <br></br>
+            <Link className='admin-link' to='/admin/tournament/edit'>Edit Turnamen</Link>
+            <Link className='admin-link' to='/admin/tournament/create'>Buat Turnamen</Link>
+            <Link className='admin-link' to='/admin/tournament/participant/details'>Detail Participant</Link>
+            <select
+            value={grup} 
+            onChange={e=> setGrup(e.target.value)}
+          >
+            <option value='allTeam'>Semua Tim</option>
+            <option value='A'>A</option>
+            <option value='B'>B</option>
+            <option value='C'>C</option>
+            <option value='D'>D</option>
+            <option value='E'>E</option>
+            <option value='F'>F</option>
+            <option value='G'>G</option>
+            <option value='H'>H</option>
+            <option value='I'>I</option>
+            <option value='J'>J</option>
+            <option value='K'>K</option>
+            <option value='L'>L</option>
+            <option value='M'>M</option>
+          </select>
             <br></br>
             <div className='admin-teams'>
                 <table>
@@ -63,7 +122,7 @@ const isAdmin = user !== null ? user.role === 'ADMIN' : null
                   </tr>
                 </thead>
                 <tbody>
-                  {currentTurnamen.length > 0 ? <>{currentTurnamen.map(team => (
+                  {some.length > 0 ? <>{some.map(team => (
                         <AdminTable 
                           key={team._id} 
                           _id={team._id} 
@@ -88,13 +147,17 @@ const isAdmin = user !== null ? user.role === 'ADMIN' : null
                 </tbody>
               </table >
             </div>
-            <br></br>
-            <br></br>
-            <br></br>
-            <EditTurnamen currentTurnamenID={currentTurnamenID}/>
-            <br></br>
-            <br></br>
-            <CreateTournament/>
+              </Route>
+              <Route path='/admin/tournament/edit'>
+                <EditTurnamen currentTurnamenID={currentTurnamenID}/>
+              </Route>
+              <Route path='/admin/tournament/create'>
+                <CreateTournament/>
+              </Route>
+              <Route path='/admin/tournament/participant/details'>
+                <TournamentParticipantDetails tournament={currentTurnamen}/>
+              </Route>
+            </Switch>
         </div> 
       : <Redirect to='/login'/>}
     </Fragment>

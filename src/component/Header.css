@@ -12,9 +12,9 @@
 }
 
 .header h1 {
-  font-size: 1.5em;
+  font-size: 24px;
+  font-family: "Oswald";
   color: white;
-  font-family: "Oswald", sans-serif;
   text-align: left;
   text-transform: uppercase;
   line-height: 1.2;
@@ -81,6 +81,7 @@
   display: flex;
   padding-top: 20px;
   padding-left: 20px;
+  padding-right: 20px;
   padding-bottom: 10px;
 }
 .header-prize-pool {
@@ -142,7 +143,7 @@
   padding: 11px 20px;
   font-size: 0.75em;
   font-weight: bold;
-  border-radius: 50px;
+  border-radius: 10px;
   background: #00deab;
   text-transform: uppercase;
   color: black;
@@ -157,6 +158,9 @@
   color: black;
 }
 @media screen and (min-width: 976px) {
+  .header h1 {
+    font-size: 1.5em;
+  }
   .header {
     height: 350px;
     margin-top: 5em;

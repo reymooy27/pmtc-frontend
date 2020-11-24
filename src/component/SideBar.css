@@ -10,7 +10,6 @@
   background: #2d303e;
   transition: all 0.3s ease;
   z-index: 4;
-  overflow: auto;
   font-weight: bold;
   overflow-y: auto;
 }
@@ -81,7 +80,6 @@
 }
 .sidebar-contact-icon {
   display: flex;
-  flex-direction: column;
 }
 
 .sidebar-contact .sidebar-contact-icon a:hover {
@@ -91,6 +89,7 @@
 .sidebar-contact .sidebar-contact-icon a {
   width: 30px;
   padding: 0 10px;
+  font-size: 12px;
   margin: 0 0 10px;
 }
 
@@ -108,7 +107,6 @@
   cursor: pointer;
   background-color: transparent;
   color: white;
-  font-family: "Roboto";
   font-weight: bold;
 }
 

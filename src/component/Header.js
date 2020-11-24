@@ -50,8 +50,8 @@ moment.updateLocale('en', {
         </div>
         <div className="header-1-2">
           <div className="header-1-2-1">
-            <p>Pendaftaran Buka</p>
-            <span>{moment(tournament.registrationStart).format('dddd D MMMM')}</span>
+            <p>Pendaftaran Tutup</p>
+            <span>{moment(tournament.registrationEnd).format('dddd D MMMM')}</span>
           </div>
           <div className="header-1-2-1">
             <p>Turnamen Mulai</p>

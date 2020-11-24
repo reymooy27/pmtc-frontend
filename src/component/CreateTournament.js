@@ -14,9 +14,8 @@ function CreateTournament() {
   const [tournamentSecondPrize, setTournamentSecondPrize] = useState('')
   const [tournamentThirdPrize, setTournamentThirdPrize] = useState('')
   const [tournamentFee, setTournamentFee] = useState('')
-  const [registrationStart, setRegistrationStart] = useState('')
+  const [registrationEnd, setRegistrationEnd] = useState('')
   const [startDate, setStartDate] = useState('')
-  const [grandFinalDate, setGrandFinalDate] = useState('')
   const [roundTotal, setRoundTotal] = useState('')
   const [rounds, setRounds] = useState([])
   const [groups, setGroups] = useState('')
@@ -49,9 +48,8 @@ function CreateTournament() {
   formdata.append('tournamentSecondPrize',tournamentSecondPrize)
   formdata.append('tournamentThirdPrize',tournamentThirdPrize)
   formdata.append('tournamentFee',tournamentFee)
-  formdata.append('registrationStart',registrationStart)
+  formdata.append('registrationEnd',registrationEnd)
   formdata.append('startDate',startDate)
-  formdata.append('grandFinalDate',grandFinalDate)
   formdata.append('rounds',JSON.stringify(rounds))
   formdata.append('groups',groups)
   formdata.append('maxSlot',maxSlot)
@@ -148,11 +146,11 @@ function CreateTournament() {
         />
       </div>  
       <div className='inputContainer'>
-        <label>Registrasi Mulai</label>
+        <label>Registrasi Tutup</label>
         <input
           type='datetime-local'
-          value={registrationStart}
-          onChange={e=>setRegistrationStart(e.target.value)}
+          value={registrationEnd}
+          onChange={e=>setRegistrationEnd(e.target.value)}
         />
       </div>
       <div className='inputContainer'>
@@ -163,14 +161,6 @@ function CreateTournament() {
         onChange={e=>setStartDate(e.target.value)}
         />
       </div>
-      <div className='inputContainer'>
-        <label>Grandfinal Mulai</label>
-        <input
-        type='datetime-local'
-        value={grandFinalDate}
-        onChange={e=>setGrandFinalDate(e.target.value)}
-        />
-      </div>        
       <div className='inputContainer'>
         <label>Round</label>
         <select

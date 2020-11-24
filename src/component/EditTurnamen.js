@@ -15,9 +15,8 @@ function EditTurnamen({currentTurnamenID}) {
   const [tournamentSecondPrize, setTournamentSecondPrize] = useState('')
   const [tournamentThirdPrize, setTournamentThirdPrize] = useState('')
   const [tournamentFee, setTournamentFee] = useState('')
-  const [registrationStart, setRegistrationStart] = useState('')
+  const [registrationEnd, setRegistrationEnd] = useState('')
   const [startDate, setStartDate] = useState('')
-  const [grandFinalDate, setGrandFinalDate] = useState('')
   const [roundTotal, setRoundTotal] = useState('')
   const [rounds, setRounds] = useState([])
   const [groups, setGroups] = useState('')
@@ -60,9 +59,8 @@ async function fecthData(){
       setTournamentSecondPrize(res.data.tournamentSecondPrize)
       setTournamentThirdPrize(res.data.tournamentThirdPrize)
       setTournamentFee(res.data.tournamentFee)
-      setRegistrationStart(res.data.registrationStart.slice(0,23))
+      setRegistrationEnd(res.data.registrationEnd.slice(0,23))
       setStartDate(res.data.startDate.slice(0,23))
-      setGrandFinalDate(res.data.grandFinalDate.slice(0,23))
       setRoundTotal(res.data.rounds.length)
       setRounds(res.data.rounds)
       setGroups(res.data.groups)
@@ -89,7 +87,6 @@ fecthData()
   // formdata.append('tournamentFee',tournamentFee)
   // formdata.append('registrationStart',registrationStart)
   // formdata.append('startDate',startDate)
-  // formdata.append('grandFinalDate',grandFinalDate)
   // formdata.append('maxSlot',maxSlot)
   // formdata.append('showGroupStandings',showGroupStandings)
   // formdata.append('showGrandFinal',showGrandFinal)
@@ -105,9 +102,8 @@ fecthData()
       tournamentSecondPrize: tournamentSecondPrize,
       tournamentThirdPrize: tournamentThirdPrize,
       tournamentFee: tournamentFee,
-      registrationStart: registrationStart,
+      registrationEnd: registrationEnd,
       startDate: startDate,
-      grandFinalDate: grandFinalDate,
       rounds: rounds,
       groups: groups,
       maxSlot: maxSlot,
@@ -218,11 +214,11 @@ fecthData()
         />
       </div>  
       <div className='inputContainer'>
-        <label>Registrasi Mulai</label>
+        <label>Registrasi Tutup</label>
         <input
           type='datetime-local'
-          value={registrationStart}
-          onChange={e=>setRegistrationStart(e.target.value)}
+          value={registrationEnd}
+          onChange={e=>setRegistrationEnd(e.target.value)}
         />
       </div>
       <div className='inputContainer'>
@@ -231,14 +227,6 @@ fecthData()
         type='datetime-local'
         value={startDate}
         onChange={e=>setStartDate(e.target.value)}
-        />
-      </div>
-      <div className='inputContainer'>
-        <label>Grandfinal Mulai</label>
-        <input
-        type='datetime-local'
-        value={grandFinalDate}
-        onChange={e=>setGrandFinalDate(e.target.value)}
         />
       </div>
       <div className='inputContainer'>
@@ -402,7 +390,11 @@ fecthData()
           variant="contained"
           color="secondary"
           startIcon={<DeleteIcon />}
-          onClick={deleteTournament}
+          onClick={()=>{
+            if(window.confirm('Yakin ingin menghapus')){
+              deleteTournament()
+            }
+          }}
         >
         Delete
         </Button>

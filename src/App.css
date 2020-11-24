@@ -1,5 +1,6 @@
-@import url("https://fonts.googleapis.com/css?family=Girassol|Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato&family=Open+Sans:wght@400;600;700;800&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Oswald:600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
 
 * {
   margin: 0px;
@@ -14,7 +15,7 @@ html {
 body {
   line-height: 2;
   margin: 0px;
-  font-family: "Roboto", sans-serif;
+  font-family: "Open Sans", sans-serif;
   background: #151a2c;
   position: relative;
   color: white;
@@ -53,9 +54,8 @@ p {
 }
 
 .specialFont {
-  font-family: "Oswald", sans-serif;
   font-size: 1.5em;
-  font-weight: normal;
+  font-weight: 900;
   text-transform: capitalize;
   color: white;
 }

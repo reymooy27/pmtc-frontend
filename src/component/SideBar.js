@@ -22,38 +22,73 @@ const isAdmin = user !== null ? user.role === 'ADMIN' : null
   return (
     <nav className={open ? "side-bar active" : "side-bar"}>
       <div className="nav">
-        <div className='sidebar-top'>
-          <Link to="/"><SportsEsportsIcon/>Turnamen</Link>
-         {isAdmin ? <Link to="/admin"><SupervisorAccountIcon/> Admin</Link> : ''}
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://forms.gle/y7rDmdaQY55YsLLF6"
-        >
-          <ReportIcon/> Lapor
-        </a>
+        <div className="sidebar-top">
+          <Link to="/">
+            <SportsEsportsIcon />
+            Turnamen
+          </Link>
+          {isAdmin ? (
+            <Link to="/admin">
+              <SupervisorAccountIcon /> Admin
+            </Link>
+          ) : (
+            ""
+          )}
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://forms.gle/y7rDmdaQY55YsLLF6"
+          >
+            <ReportIcon /> Lapor
+          </a>
         </div>
-        <div className='sidebar-bottom'>
-          <div className='sidebar-social'>
+        <div className="sidebar-bottom">
+          <div className="sidebar-social">
             <span>Media Sosial</span>
-            <div className='sidebar-social-icon'>
-              <a target="_blank"
-          rel="noopener noreferrer" href='https://www.facebook.com/pubgmtc.official'><FacebookIcon/></a>
-              <a target="_blank"
-          rel="noopener noreferrer" href='https://www.instagram.com/pmtc.official/'><InstagramIcon/></a>
+            <div className="sidebar-social-icon">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://www.facebook.com/pubgmtc.official"
+              >
+                <FacebookIcon />
+              </a>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://www.instagram.com/pmtc.official/"
+              >
+                <InstagramIcon />
+              </a>
             </div>
           </div>
-          <div className='sidebar-contact'>
+          <div className="sidebar-contact">
             <span>Kontak</span>
-            <div className='sidebar-contact-icon'>
-              <a target="_blank"
-          rel="noopener noreferrer" href='http://wa.me/6282237813869'><WhatsAppIcon/>+6282237813869</a>
-              <a target="_blank"
-          rel="noopener noreferrer" href='mailto:pmtc@gmail.com'><MailOutlineIcon/>pmtc@gmail.com</a>
+            <div className="sidebar-contact-icon">
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="http://wa.me/6282237813869"
+              >
+                <WhatsAppIcon />
+              </a>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="mailto:pmtc.official@gmail.com"
+              >
+                <MailOutlineIcon />
+              </a>
             </div>
           </div>
-          <div className='sidebar-logout'>
-            {user ? <button onClick={()=> dispatch(fetchLogout())}><ExitToAppIcon/> Logout</button> : ''}
+          <div className="sidebar-logout">
+            {user ? (
+              <button onClick={() => dispatch(fetchLogout())}>
+                <ExitToAppIcon /> Logout
+              </button>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </div>

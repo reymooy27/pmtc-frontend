@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import './Tournaments.css'
 import { Link } from 'react-router-dom'
-import {getAllTournament, selectAllTournament} from '../redux/reducers/tournamentSlice'
-import { useDispatch, useSelector } from 'react-redux'
+import {fetchAllTournament, selectAllTournament, selectLoading} from '../redux/reducers/tournamentSlice'
+import {useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import Loader from 'react-loader-spinner'
-import axios from '../axios'
 
 function Tournaments() {
   
@@ -31,23 +30,15 @@ function Tournaments() {
 });
 
   const allTournament = useSelector(selectAllTournament)
-  const [loading, setLoading] = useState(true)
-
+  const loading = useSelector(selectLoading)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    let mounted = true
-    const fetchAllTournament = async ()=>{
-      const res = await axios.post('/api/v1/tournaments')
-      if(mounted){
-        dispatch(getAllTournament(res.data))
-        setLoading(false)
-      }
-    }
-    fetchAllTournament()
-    return ()=> mounted = false
-}, [dispatch])
-
+    setInterval(() => {
+      dispatch(fetchAllTournament())
+    }, 5000);
+  }, [dispatch])
+  
   return (
     <>
     {loading ? <Loader

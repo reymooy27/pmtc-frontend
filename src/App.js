@@ -14,7 +14,7 @@ import Loader from "react-loader-spinner";
 import Login from "./component/Login";
 import Admin from "./component/Admin";
 import {fetchCheckUser} from './redux/reducers/userSlice'
-import {selectTournament} from './redux/reducers/tournamentSlice'
+import {fetchAllTournament, selectTournament} from './redux/reducers/tournamentSlice'
 import {useSelector, useDispatch} from 'react-redux'
 import Signup from "./component/Signup";
 import Profile from "./component/Profile";
@@ -22,8 +22,6 @@ import Tournaments from "./component/Tournaments";
 import Tournament from "./component/Tournament";
 import { closeSideBar } from "./redux/reducers/appSlice";
 import UserTeam from './component/UserTeam'
-import {getAllTournament} from './redux/reducers/tournamentSlice'
-import axios from './axios'
 
 function App() {
   const dispatch = useDispatch()
@@ -38,12 +36,7 @@ useEffect(() => {
 }, [dispatch])
 
 useEffect(() => {
-    const fetchAllTournament = async ()=>{
-      const res = await axios.post('/api/v1/tournaments')
-        dispatch(getAllTournament(res.data))
-        setLoading(false)
-      }
-    fetchAllTournament()
+    dispatch(fetchAllTournament())
 }, [dispatch])
 
   return (

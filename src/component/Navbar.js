@@ -14,7 +14,7 @@ return (
     <div className="navbar-responsive">
       <div onClick={()=> dispatch(showSideBar())} className="menuicon"></div>
       {user ? <Link to='/profile'><Avatar alt={user.username} src={user.profilePicture} className='avatar'/></Link> : ''}
-      {user ? '' : <Link to='/login'><button className='login-button'>Login</button></Link>}
+      {/* {user ? '' : <Link to='/login'><button className='login-button'>Login</button></Link>} */}
     </div>
   );
 }
