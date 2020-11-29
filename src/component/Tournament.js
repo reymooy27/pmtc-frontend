@@ -9,7 +9,7 @@ import Navbar from "./Navbar";
 import Header from "./Header";
 import SideBar from "./SideBar";
 import Prize from "./Prize";
-import Schedule from "./Schedule";
+import Overview from "./Overview";
 import Rules from "./Rules";
 import Team from "./Team";
 import Tabs from "./Tabs";
@@ -61,7 +61,7 @@ function Tournament() {
             <Route exact path={path}>
                 <Header />
                 <Tabs tab={1}/>
-                <Schedule />
+                <Overview />
             </Route>
             <Route path="/tournament/:tournamentID/team/:teamID">
                 <TournamentTeam />
@@ -91,10 +91,10 @@ function Tournament() {
                 <Tabs tab={5}/>
                 <Prize/>
             </Route>
-            <Route path="/tournament/:id/schedule">
+            <Route path="/tournament/:id/overview">
                 <Header />
                 <Tabs tab={1}/>
-                <Schedule />
+                <Overview />
             </Route>
           </Switch>
           </>}

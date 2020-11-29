@@ -235,6 +235,7 @@ if(redirectTo){
               <label htmlFor="singkatanTeam">Abbr </label>
               <br />
               <input
+                style={{textTransform: 'uppercase'}}
                 title="Masukan Singkatan Tim Anda"
                 type="text"
                 name="singkatanTeam"
@@ -462,7 +463,7 @@ if(redirectTo){
                 type="tel"
                 className={formErrors.handphoneNumber || formErrors.err  ? 'registration-input err' : 'registration-input'}
                 name="handphoneNumber"
-                placeholder="+62"
+                placeholder="081234567890"
                 maxLength="12"
                 pattern="[0-9]+"
                 value={formValues.handphoneNumber}

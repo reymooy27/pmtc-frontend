@@ -70,6 +70,7 @@ async function fecthData(){
       setShowKillStanding(res.data.showKillStanding)
       setRegistrationClosed(res.data.registrationClosed)
       setCompleted(res.data.completed)
+      console.log(res.data.rounds);
       }
     })
       .catch(err=> console.log(err))

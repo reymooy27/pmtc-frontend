@@ -1,5 +1,45 @@
+.tournaments-img {
+  margin-top: 3em;
+  position: relative;
+  height: 50vh;
+}
+.tournaments-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  margin: 0;
+}
+
+.fade {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(rgba(17, 18, 23, 0)),
+    to(#111217)
+  );
+  background: linear-gradient(rgba(17, 18, 23, 0), #151a2c);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  text-shadow: 2px 2px 6px rgba(14, 13, 13, 0.555);
+  padding: 5px;
+}
+
+.fade h1 {
+  font-size: 2em;
+}
+.fade span {
+  font-size: 14px;
+}
 .tournaments {
-  margin: 4em auto 1em;
+  margin: 0 auto;
   width: 95%;
 }
 .pubg-logo {
@@ -71,7 +111,7 @@
 
 @media screen and (min-width: 680px) {
   .tournaments {
-    margin: 5em auto 1em;
+    margin: 1em auto;
   }
   .tournament {
     margin: 10px;
@@ -79,5 +119,18 @@
   }
   .tournament-container {
     flex-direction: row;
+  }
+  .fade {
+    align-items: flex-start;
+    padding-left: 3em;
+  }
+  .fade h1 {
+    font-size: 3em;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .tournaments-img {
+    height: 80vh;
   }
 }

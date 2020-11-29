@@ -5,7 +5,6 @@ import {sideBarOpen} from '../redux/reducers/appSlice'
 import {selectUser, fetchLogout} from '../redux/reducers/userSlice'
 import { useDispatch, useSelector } from "react-redux";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import ReportIcon from '@material-ui/icons/Report';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
 import FacebookIcon from '@material-ui/icons/Facebook';
@@ -34,13 +33,6 @@ const isAdmin = user !== null ? user.role === 'ADMIN' : null
           ) : (
             ""
           )}
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://forms.gle/y7rDmdaQY55YsLLF6"
-          >
-            <ReportIcon /> Lapor
-          </a>
         </div>
         <div className="sidebar-bottom">
           <div className="sidebar-social">

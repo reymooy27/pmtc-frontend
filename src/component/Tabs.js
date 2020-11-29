@@ -10,7 +10,7 @@ function Tabs({ tab}) {
   const [active, setActive] = useState(1);
   
   const tabs = [
-    { label: "Jadwal", to: "/schedule", value: 1 },
+    { label: "Tinjauan", to: "/overview", value: 1 },
     { label: "Tim", to: "/team", value: 2 },
     { label: "Leaderboard", to: "/leaderboard", value: 3 },
     { label: "Kill Rangking", to: "/killrangking", value: 4 },

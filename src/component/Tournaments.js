@@ -48,6 +48,14 @@ function Tournaments() {
           height={120}
           width={120}
         /> :
+        <>
+    <div className='tournaments-img'>
+    <img loading='lazy' src='https://images.wallpapersden.com/image/download/pubg-key-art_bGVuZ26UmZqaraWkpJRoZ2VlrWZtZWU.jpg' alt=''/>
+    <div className='fade'>
+      <h1>Step up your game</h1>
+      <span>Bertarung dengan pemain lain yang lebih kompetitif</span>
+    </div>
+    </div>
     <div className='tournaments'>
       <h2 className='tournaments-title'>Turnamen</h2>
       <div className='tournament-container'>
@@ -69,6 +77,7 @@ function Tournaments() {
         ))}
       </div>
     </div>
+    </>
       }
     
     </>
