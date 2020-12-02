@@ -26,7 +26,7 @@ function TeamList(props) {
           </div>
           <div className="team-name">
             {props.teamName}
-            <span>({props.abbr})</span>
+            {/* <span>({props.abbr})</span> */}
           </div>
         </Link>
       </div>

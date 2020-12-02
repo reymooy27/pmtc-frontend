@@ -8,7 +8,6 @@ function Registration() {
   
   const initialState = {
   teamName: '',
-  singkatanTeam: '',
   logoTeam: null,
   idPlayer: '',
   idPlayer2: '',
@@ -89,7 +88,6 @@ function Registration() {
 
     const formData = new FormData()
     formData.append("teamName", formValues.teamName)
-    formData.append("singkatanTeam", formValues.singkatanTeam)
     formData.append("logo", logoTeam,)
     formData.append("idPlayer", formValues.idPlayer)
     formData.append("idPlayer2", formValues.idPlayer2)
@@ -142,9 +140,6 @@ const handleSubmit = (e) => {
       errors.teamName = "Tidak boleh kososng";
     }
 
-    if (!values.singkatanTeam) {
-      errors.singkatanTeam = "Tidak boleh kososng";
-    }
 
     if (!values.playerName) {
       errors.playerName = "Tidak boleh kososng";
@@ -230,22 +225,6 @@ if(redirectTo){
                 onChange={handleChange}
               />
               <span className="error-msg" style={{opacity:formErrors.teamName ? 1 : 0 }}>{formErrors.teamName ? formErrors.teamName : 'error'}</span>
-            </div>
-            <div className="registration-input-container">
-              <label htmlFor="singkatanTeam">Abbr </label>
-              <br />
-              <input
-                style={{textTransform: 'uppercase'}}
-                title="Masukan Singkatan Tim Anda"
-                type="text"
-                name="singkatanTeam"
-                className={formErrors.singkatanTeam || formErrors.err  ? 'registration-input err' : 'registration-input'}
-                maxLength="5"
-                placeholder="ABBR"
-                value={formValues.singkatanTeam}
-                onChange={handleChange}
-              />
-              <span className="error-msg" style={{opacity:formErrors.singkatanTeam ? 1 : 0 }}>{formErrors.singkatanTeam ? formErrors.singkatanTeam : 'error'}</span>
             </div>
             <br />
             <div className="logo-input-wraper">
