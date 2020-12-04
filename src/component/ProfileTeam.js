@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, {useState } from 'react'
 import {selectUser} from '../redux/reducers/userSlice'
 import {useSelector } from 'react-redux'
 import './ProfileTeam.css'
@@ -25,25 +25,7 @@ function ProfileTeam() {
   const [errorMsg, setErrorMsg] = useState('')
   const [open, setOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [team, setTeam] = useState([])
-  const [loading, setLoading] = useState(true)
   const [formErrors, setFormErrors] = useState('');
-
-  useEffect(() => {
-    let mounted = true
-
-    const getUser = async ()=>{
-      const res = await axios.post(`/user/${user._id}`)
-      if(mounted){
-        setTeam(res.data.myTeam)
-        setLoading(false)
-      }
-    }
-    getUser()
-    return () => {
-      mounted = false
-    }
-  }, [user._id,successMsg])
 
 const createTeam = async (e)=>{
   e.preventDefault()
@@ -109,18 +91,9 @@ const classes = useStyles();
 
   return (
     <div className='profile_team'>
-      {loading ?
-      <Loader
-        className="loader"
-        type="ThreeDots"
-        color="#00DEAB"
-        height={120}
-        width={120}
-      />
-      :
       <>
       <div className='profile-team-teams'>
-        {team.map(t=> (
+        {user.myTeam.map(t=> (
           <Link key={t._id} to={'/profile/team/' + t._id} >
           <div className="profile-team">
             <div className="profile-team-identity">
@@ -181,7 +154,6 @@ const classes = useStyles();
               </Alert>
             </Snackbar>
             </>
-            }
     </div>
   )
 }
