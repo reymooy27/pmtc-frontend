@@ -18,21 +18,33 @@ import ProfileTeam from './ProfileTeam'
 import ProfileStats from './ProfileStats'
 import IconButton from '@material-ui/core/IconButton';
 import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
-
+import axios from '../axios'
 
 const useStyles = makeStyles(() => ({
   root: {
     width: '80px',
     height: '80px'
   },
+  paper:{
+      backgroundColor: '#2d303e',
+      width: '600px'
+    },
+    title:{
+      color: 'white'
+    },
+    content:{
+      overflow: 'hidden'
+    },
+    action:{
+      margin: '20px',
+      justifyContent: 'flex-end'
+    },
 }));
+
 
 function Profile() {
   const user = useSelector(selectUser)
@@ -40,6 +52,7 @@ function Profile() {
   let { path } = useRouteMatch();
 
   const [open, setOpen] = useState(false);
+  const [profilePicture, setProfilePicture] = useState(null)
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -49,34 +62,77 @@ function Profile() {
     setOpen(false);
   };
 
+  const validImageRes = (e) => {
+    const img = new Image();
+    img.src = window.URL.createObjectURL(e.target.files[0]);
+
+    img.addEventListener("load", () => {
+      window.URL.revokeObjectURL(img.src);
+      if (img.naturalWidth > 500 || img.naturalHeight > 500) {
+        return false;
+      }
+    });
+    return true;
+  };
+
+   const handleLogoChange = (e) => {
+    if (e.target.files[0]) {
+      if (validImageRes(e)) {
+        setProfilePicture(e.target.files[0])
+      } else {
+        console.log("salah");
+      }
+    }
+  };
+
+  const formData = new FormData()
+  formData.append('profilePicture', profilePicture)
+
+  const uploadProfilePicture = async ()=>{
+    await axios.patch(`/user/${user._id}/profilePicture/upload`,formData)
+    .then(res=>{
+      console.log(res.data);
+      setOpen(false)
+    })
+    .catch(err=>{
+      console.log(err);
+      setOpen(false)
+    })
+  }
+
+
+  
+
   return (
     <>
     {user ?
     <>
       <div className='profile'>
-       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            To subscribe to this website, please enter your email address here. We will send updates
-            occasionally.
-          </DialogContentText>
-          {/* <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Email Address"
-            type="email"
-            fullWidth
-          /> */}
+       <Dialog classes={{paper: classes.paper}} open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <DialogTitle classes={{root: classes.title}} id="form-dialog-title">Buat Tim Baru</DialogTitle>
+        <DialogContent classes={{root: classes.content}}>
+          <input
+            placeholder='Masukan nama tim'
+            type="file"
+            name="profilePicture"
+            accept="image/png"
+            onChange={handleLogoChange}
+          />
+        {/* <span className="error-msg" style={{opacity:formErrors ? 1 : 0 }}>{formErrors ? formErrors : 'error'}</span> */}
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            Subscribe
-          </Button>
+        <DialogActions classes={{root: classes.action}}>
+          <button className='cancel-button' onClick={handleClose}>
+            Batal
+          </button>
+          <button className='create-team-button' onClick={uploadProfilePicture}>Upload
+            {/* {isSubmitting ?  
+            <Loader
+              type="ThreeDots"
+              color="black"
+              height={20}
+              width={30}
+            /> : 'Upload'} */}
+          </button>
         </DialogActions>
       </Dialog>
 
