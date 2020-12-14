@@ -1,12 +1,7 @@
 {
-  "short_name": "PMTC",
+  "short_name": "PUBG Mobile Terminator Challenge",
   "name": "PUBG Mobile Terminator Challenge",
   "icons": [
-    {
-      "src": "./appLogo64.png",
-      "sizes": "64x64",
-      "type": "image/x-icon"
-    },
     {
       "src": "./appLogo192.png",
       "type": "image/png",
@@ -22,6 +17,6 @@
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "theme_color": "#151a2c",
+  "theme_color": "#000000",
   "background_color": "#151a2c"
 }
