@@ -117,12 +117,6 @@ table td {
   text-align: center;
 }
 
-@media screen and (min-width: 700px) {
-  p {
-    font-size: 1em;
-  }
-}
-
 @media screen and (min-width: 976px) {
   ::-webkit-scrollbar {
     background: #070613;
