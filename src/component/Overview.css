@@ -11,6 +11,10 @@
   display: block;
   font-size: 14px;
 }
+
+.overview-registration-waitlist {
+  margin-bottom: 20px;
+}
 .overview table {
   overflow: auto;
   width: 100%;
@@ -47,6 +51,9 @@
 }
 
 .overview-information {
+  margin-bottom: 20px;
+}
+.overview-submit-score {
   margin-bottom: 20px;
 }
 .overview-information ul li {
