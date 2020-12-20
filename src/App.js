@@ -20,13 +20,21 @@ import Signup from "./component/Signup";
 import Profile from "./component/Profile";
 import Tournaments from "./component/Tournaments";
 import Tournament from "./component/Tournament";
-import { closeSideBar } from "./redux/reducers/appSlice";
+import { closeSideBar, selectErrorMessage, selectOpenErrorSnackbar, selectOpenSuccessSnackbar, setOpenErrorSnackbar, setOpenSuccessSnackbar, selectSuccessMessage } from "./redux/reducers/appSlice";
 import UserTeam from './component/UserTeam'
+import ProfileSetting from "./component/ProfileSetting";
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
 
 function App() {
   const dispatch = useDispatch()
 
   const tournament = useSelector(selectTournament)
+  const openSuccessSnackbar = useSelector(selectOpenSuccessSnackbar)
+  const openErrorSnackbar = useSelector(selectOpenErrorSnackbar)
+  const successMessage = useSelector(selectSuccessMessage)
+  const errorMessage = useSelector(selectErrorMessage)
 
   const [loading, setLoading] = useState(true);
 
@@ -39,7 +47,21 @@ useEffect(() => {
     dispatch(fetchAllTournament())
 }, [dispatch])
 
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    dispatch(setOpenSuccessSnackbar(false))
+    dispatch(setOpenErrorSnackbar(false))
+  };
+
   return (
+    <>
     <Router>
       {loading ? (
         <Loader
@@ -65,11 +87,18 @@ useEffect(() => {
                   <Admin />
               </div>
             </Route>
+            <Route path='/profile/setting'>
+              <Navbar/>
+              <SideBar/>
+              <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
+              <ProfileSetting/>                        
+              </div>
+            </Route>
             <Route path="/profile">
               <Navbar/>
               <SideBar/>
               <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
-                  <Profile />
+                <Profile />
               </div>
             </Route>
             <Route path="/signup">
@@ -101,6 +130,18 @@ useEffect(() => {
           </Switch>
       )}
     </Router>
+
+      <Snackbar open={openSuccessSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+        <Alert onClose={handleCloseSnackbar} severity="success">
+        {successMessage}
+        </Alert>
+      </Snackbar>
+      <Snackbar open={openErrorSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+        <Alert onClose={handleCloseSnackbar} severity="error">
+          {errorMessage}
+        </Alert>
+      </Snackbar>
+    </>
   );
 }
 
