@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import axios from '../axios'
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
 import { Button } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
+import { setErrorMessage, setOpenErrorSnackbar, setOpenSuccessSnackbar, setSuccessMessage } from '../redux/reducers/appSlice';
+import { useDispatch } from 'react-redux';
+
 
 function CreateTournament() {
   const [tournamentName, setTournamentName] = useState('')
@@ -21,23 +22,7 @@ function CreateTournament() {
   const [groups, setGroups] = useState('')
   const [maxSlot, setMaxSlot] = useState('')
 
-  const [open, setOpen] = useState(false);
-  const [open2, setOpen2] = useState(false);
-  const [successMsg, setSuccessMsg] = useState('')
-  const [errorMsg, setErrorMsg] = useState('')
-  
-  function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-  }
-
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpen(false);
-    setOpen2(false);
-  };
+  const dispatch = useDispatch()
 
   const formdata = new FormData()
   formdata.append('tournamentName',tournamentName)
@@ -62,12 +47,12 @@ function CreateTournament() {
         }
     } )
     .then(res=> {
-      setOpen(true);
-      setSuccessMsg(res.data)
+      dispatch(setSuccessMessage(res.data))
+    dispatch(setOpenSuccessSnackbar(true))
     })
     .catch(err=> {
-      setOpen2(true)
-      setErrorMsg(err.response.data)
+      dispatch(setErrorMessage(err.response.data))
+    dispatch(setOpenErrorSnackbar(true))
     })
   }
 
@@ -273,17 +258,6 @@ function CreateTournament() {
           Create
         </Button>
       </div>      
-        
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success">
-          {successMsg}
-        </Alert>
-      </Snackbar>
-      <Snackbar open={open2} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="error">
-          {errorMsg}
-        </Alert>
-      </Snackbar>
     </div>
   )
 }

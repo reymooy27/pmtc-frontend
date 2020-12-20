@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import axios from '../axios'
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
 import { Button, Checkbox } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
+import { setErrorMessage, setOpenErrorSnackbar, setOpenSuccessSnackbar, setSuccessMessage } from '../redux/reducers/appSlice';
+import { useDispatch } from 'react-redux';
+ 
 
 function EditTurnamen({currentTurnamenID}) {
   const [tournamentName, setTournamentName] = useState('')
@@ -26,24 +27,8 @@ function EditTurnamen({currentTurnamenID}) {
   const [showKillStanding, setShowKillStanding] = useState(false)
   const [registrationClosed, setRegistrationClosed] = useState(false)
   const [completed, setCompleted] = useState(false)
-
-  const [open, setOpen] = useState(false);
-  const [open2, setOpen2] = useState(false);
-  const [successMsg, setSuccessMsg] = useState('')
-  const [errorMsg, setErrorMsg] = useState('')
   
-  function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-  }
-
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpen(false);
-    setOpen2(false);
-  };
+  const dispatch = useDispatch()
 
   useEffect(() => {
   let mounted = true
@@ -70,7 +55,6 @@ async function fecthData(){
       setShowKillStanding(res.data.showKillStanding)
       setRegistrationClosed(res.data.registrationClosed)
       setCompleted(res.data.completed)
-      console.log(res.data.rounds);
       }
     })
       .catch(err=> console.log(err))
@@ -115,24 +99,24 @@ fecthData()
       completed: completed,
     })
     .then(res=> {
-      setOpen(true);
-      setSuccessMsg(res.data)
+      dispatch(setSuccessMessage(res.data))
+      dispatch(setOpenSuccessSnackbar(true))
     })
     .catch(err=> {
-      setOpen2(true)
-      setErrorMsg(err.response.data)
+      dispatch(setErrorMessage(err.response.data))
+      dispatch(setOpenErrorSnackbar(true))
     })
   }
 
   const deleteTournament = async ()=>{
     await axios.delete(`/tournament/${currentTurnamenID}/delete`)
     .then(res=>{
-      setOpen(true);
-      setSuccessMsg(res.data)
+      dispatch(setSuccessMessage(res.data))
+      dispatch(setOpenSuccessSnackbar(true))
     })
     .catch(err=> {
-      setOpen2(true)
-      setErrorMsg(err.response.data)
+      dispatch(setErrorMessage(err.response.data))
+      dispatch(setOpenErrorSnackbar(true))
     })
   }
 
@@ -399,17 +383,6 @@ fecthData()
         >
         Delete
         </Button>
-
-        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-          <Alert onClose={handleClose} severity="success">
-            {successMsg}
-          </Alert>
-        </Snackbar>
-        <Snackbar open={open2} autoHideDuration={6000} onClose={handleClose}>
-          <Alert onClose={handleClose} severity="error">
-            {errorMsg}
-          </Alert>
-        </Snackbar>
     </div>
   )
 }

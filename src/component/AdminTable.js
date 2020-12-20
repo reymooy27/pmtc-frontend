@@ -3,9 +3,10 @@ import axios from '../axios'
 import { Button} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
 import Checkbox from '@material-ui/core/Checkbox';
+import {setErrorMessage, setOpenErrorSnackbar, setOpenSuccessSnackbar, setSuccessMessage } from '../redux/reducers/appSlice';
+import { useDispatch } from 'react-redux';
+
 
 function AdminTable(
 {_id,
@@ -33,25 +34,9 @@ playerName5}) {
   const [tournamentFirstWinner, setTournamentFirstWinner] = useState(false)
   const [tournamentSecondWinner, setTournamentSecondWinner] = useState(false)
   const [tournamentThirdWinner, setTournamentThirdWinner] = useState(false)
-
-  const [open, setOpen] = useState(false);
-  const [open2, setOpen2] = useState(false);
-  const [successMsg, setSuccessMsg] = useState('')
-  const [errorMsg, setErrorMsg] = useState('')
   
-  function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-  }
-
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpen(false);
-    setOpen2(false);
-  };
-
+  const dispatch = useDispatch()
+  
   useEffect(() => {
     let mounted = true
 
@@ -86,12 +71,12 @@ playerName5}) {
 async function deleteTeam (i){
     await axios.delete(`/team/delete/${i}`)
     .then(res=> {
-      setOpen(true);
-      setSuccessMsg(res.data)
+      dispatch(setSuccessMessage(res.data))
+    dispatch(setOpenSuccessSnackbar(true))
     })
     .catch(err=> {
-      setOpen2(true)
-      setErrorMsg(err.response.data)
+      dispatch(setErrorMessage(err.response.data))
+    dispatch(setOpenErrorSnackbar(true))
     })
   }
 
@@ -129,227 +114,217 @@ async function deleteTeam (i){
       confirmed: isConfirmed,
     })
     .then(res=> {
-      setOpen(true);
-      setSuccessMsg(res.data)
+      dispatch(setSuccessMessage(res.data))
+    dispatch(setOpenSuccessSnackbar(true))
     })
     .catch(err=> {
-      setOpen2(true)
-      setErrorMsg(err.response.data)
+      dispatch(setErrorMessage(err.response.data))
+    dispatch(setOpenErrorSnackbar(true))
     })
   }
 
   
   return (
     <>
-              <tr>
-                <td >{teamName}</td >
-                <td className='pointInput'>
-                  <div className='inputContainer'>
-                  <label>Placement Point</label>
-                  <input
-                    type="number"
-                    onChange={(e)=> setPlcPoint(e.target.value)} 
-                    value={plcPoint} 
-                  />
-                </div>
-                  <div className='inputContainer'>
-                  <label>{playerName}</label>
-                  <input
-                      type="number"
-                      onChange={(e)=> setPlayerKill(e.target.value)} 
-                      value={playerKill} 
-                    />
-                  </div>
-                  <div className='inputContainer'>
-                  <label>{playerName2}</label>
-                  <input
-                      type="number"
-                      onChange={(e)=> setPlayer2Kill(e.target.value)} 
-                      value={player2Kill} 
-                    />
-                  </div>
-                  <div className='inputContainer'>
-                  <label>{playerName3}</label>
-                  <input
-                      type="number"
-                      onChange={(e)=> setPlayer3Kill(e.target.value)} 
-                      value={player3Kill}  
-                    />
-                  </div>
-                  <div className='inputContainer'>
-                  <label>{playerName4}</label>
-                  <input
-                      type="number"
-                      onChange={(e)=> setPlayer4Kill(e.target.value)} 
-                      value={player4Kill}  
-                    />
-                  </div>
-                {playerName5 ? 
-                  <div className='inputContainer'>
-                  <label>{playerName5}</label>
-                  <input
-                      type="number"
-                      onChange={(e)=> setPlayer5Kill(e.target.value)} 
-                      value={player5Kill} 
-                    />
-                  </div>
-                 : ''}
-                </td >
-                <td >
-                  <Checkbox
-                      onChange={e=> setToGrandFinal(e.target.checked)}
-                      checked={toGrandFinal}
-                      color="primary"
-                      inputProps={{ 'aria-label': 'secondary checkbox' }}
-                    />
-                </td >
-                <td >
-                  <select
-                      id="standard-select"
-                      label="Grup"
-                      onChange={e=> setInGroup(e.target.value)} value={inGroup}
-                    >
-                      <option value=''>None</option>
-                      <option value='A'>A</option>
-                      <option value='B'>B</option>
-                      <option value='C'>C</option>
-                      <option value='D'>D</option>
-                      <option value='E'>E</option>
-                      <option value='F'>F</option>
-                      <option value='G'>G</option>
-                      <option value='H'>H</option>
-                      <option value='I'>I</option>
-                      <option value='J'>J</option>
-                      <option value='K'>K</option>
-                      <option value='L'>L</option>
-                      <option value='M'>M</option>
-                    </select>
-                </td >
-                <td >
-                  <Checkbox
-                      onChange={e=> setIsConfirmed(e.target.checked)}
-                      checked={isConfirmed}
-                      color="primary"
-                      inputProps={{ 'aria-label': 'secondary checkbox' }}
-                    />
-                </td >
-                {toGrandFinal? <>
-                <td className='pointInput'>
-                  <div className='inputContainer'>
-                  <label>Placement Point</label>
-                  <input
-                    type="number"
-                    onChange={(e)=> setGFPlcPoint(e.target.value)} 
-                    value={GFplcPoint} 
-                  />
-                </div>
-                  <div className='inputContainer'>
-                  <label>{playerName}</label>
-                  <input
-                      type="number"
-                      onChange={(e)=> setGFPlayerKill(e.target.value)} 
-                      value={GFplayerKill} 
-                    />
-                  </div>
-                  <div className='inputContainer'>
-                  <label>{playerName2}</label>
-                  <input
-                      type="number"
-                      onChange={(e)=> setGFPlayer2Kill(e.target.value)} 
-                      value={GFplayer2Kill} 
-                    />
-                  </div>
-                  <div className='inputContainer'>
-                  <label>{playerName3}</label>
-                  <input
-                      type="number"
-                      onChange={(e)=> setGFPlayer3Kill(e.target.value)} 
-                      value={GFplayer3Kill}  
-                    />
-                  </div>
-                  <div className='inputContainer'>
-                  <label>{playerName4}</label>
-                  <input
-                      type="number"
-                      onChange={(e)=> setGFPlayer4Kill(e.target.value)} 
-                      value={GFplayer4Kill}  
-                    />
-                  </div>
-                {playerName5 ? 
-                  <div className='inputContainer'>
-                  <label>{playerName5}</label>
-                  <input
-                      type="number"
-                      onChange={(e)=> setGFPlayer5Kill(e.target.value)} 
-                      value={GFplayer5Kill} 
-                    />
-                  </div>
-                 : ''}
-                 </td >
-                <td >
-                  <Checkbox
-                      onChange={e=> setTournamentFirstWinner(e.target.checked)}
-                  checked={tournamentFirstWinner}
-                      color="primary"
-                      inputProps={{ 'aria-label': 'secondary checkbox' }}
-                    />
-                </td >
-                <td >
-                  <Checkbox
-                      onChange={e=> setTournamentSecondWinner(e.target.checked)}
-                  checked={tournamentSecondWinner}
-                      color="primary"
-                      inputProps={{ 'aria-label': 'secondary checkbox' }}
-                    />
-                </td >
-                <td >
-                  <Checkbox
-                      onChange={e=> setTournamentThirdWinner(e.target.checked)}
-                  checked={tournamentThirdWinner}
-                      color="primary"
-                      inputProps={{ 'aria-label': 'secondary checkbox' }}
-                    />
-                </td ></> : 
-                <>
-                <td  colSpan='14'></td >
-                </>}
-                <td >
-                  <div className='action'>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={()=> updateTeam(_id)}
-                      startIcon={<SaveIcon />}
-                      style={{marginRight: '5px'}}
-                    >
-                      Save
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      startIcon={<DeleteIcon />}
-                      onClick={()=>{
-                        if(window.confirm('Yakin ingin menghapus')){
-                          deleteTeam(_id)
-                        }
-                      }}
-                    >
-                      Delete
-                    </Button>
-                  </div>
-                </td >
-              </tr>
-              <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-              <Alert onClose={handleClose} severity="success">
-                {successMsg}
-              </Alert>
-            </Snackbar>
-            <Snackbar open={open2} autoHideDuration={6000} onClose={handleClose}>
-              <Alert onClose={handleClose} severity="error">
-                {errorMsg}
-              </Alert>
-            </Snackbar>
-              </>
+      <tr>
+        <td >{teamName}</td >
+        <td className='pointInput'>
+          <div className='inputContainer'>
+          <label>Placement Point</label>
+          <input
+            type="number"
+            onChange={(e)=> setPlcPoint(e.target.value)} 
+            value={plcPoint} 
+          />
+        </div>
+          <div className='inputContainer'>
+          <label>{playerName}</label>
+          <input
+              type="number"
+              onChange={(e)=> setPlayerKill(e.target.value)} 
+              value={playerKill} 
+            />
+          </div>
+          <div className='inputContainer'>
+          <label>{playerName2}</label>
+          <input
+              type="number"
+              onChange={(e)=> setPlayer2Kill(e.target.value)} 
+              value={player2Kill} 
+            />
+          </div>
+          <div className='inputContainer'>
+          <label>{playerName3}</label>
+          <input
+              type="number"
+              onChange={(e)=> setPlayer3Kill(e.target.value)} 
+              value={player3Kill}  
+            />
+          </div>
+          <div className='inputContainer'>
+          <label>{playerName4}</label>
+          <input
+              type="number"
+              onChange={(e)=> setPlayer4Kill(e.target.value)} 
+              value={player4Kill}  
+            />
+          </div>
+        {playerName5 ? 
+          <div className='inputContainer'>
+          <label>{playerName5}</label>
+          <input
+              type="number"
+              onChange={(e)=> setPlayer5Kill(e.target.value)} 
+              value={player5Kill} 
+            />
+          </div>
+          : ''}
+        </td >
+        <td >
+          <Checkbox
+              onChange={e=> setToGrandFinal(e.target.checked)}
+              checked={toGrandFinal}
+              color="primary"
+              inputProps={{ 'aria-label': 'secondary checkbox' }}
+            />
+        </td >
+        <td >
+          <select
+              id="standard-select"
+              label="Grup"
+              onChange={e=> setInGroup(e.target.value)} value={inGroup}
+            >
+              <option value=''>None</option>
+              <option value='A'>A</option>
+              <option value='B'>B</option>
+              <option value='C'>C</option>
+              <option value='D'>D</option>
+              <option value='E'>E</option>
+              <option value='F'>F</option>
+              <option value='G'>G</option>
+              <option value='H'>H</option>
+              <option value='I'>I</option>
+              <option value='J'>J</option>
+              <option value='K'>K</option>
+              <option value='L'>L</option>
+              <option value='M'>M</option>
+            </select>
+        </td >
+        <td >
+          <Checkbox
+              onChange={e=> setIsConfirmed(e.target.checked)}
+              checked={isConfirmed}
+              color="primary"
+              inputProps={{ 'aria-label': 'secondary checkbox' }}
+            />
+        </td >
+        {toGrandFinal? <>
+        <td className='pointInput'>
+          <div className='inputContainer'>
+          <label>Placement Point</label>
+          <input
+            type="number"
+            onChange={(e)=> setGFPlcPoint(e.target.value)} 
+            value={GFplcPoint} 
+          />
+        </div>
+          <div className='inputContainer'>
+          <label>{playerName}</label>
+          <input
+              type="number"
+              onChange={(e)=> setGFPlayerKill(e.target.value)} 
+              value={GFplayerKill} 
+            />
+          </div>
+          <div className='inputContainer'>
+          <label>{playerName2}</label>
+          <input
+              type="number"
+              onChange={(e)=> setGFPlayer2Kill(e.target.value)} 
+              value={GFplayer2Kill} 
+            />
+          </div>
+          <div className='inputContainer'>
+          <label>{playerName3}</label>
+          <input
+              type="number"
+              onChange={(e)=> setGFPlayer3Kill(e.target.value)} 
+              value={GFplayer3Kill}  
+            />
+          </div>
+          <div className='inputContainer'>
+          <label>{playerName4}</label>
+          <input
+              type="number"
+              onChange={(e)=> setGFPlayer4Kill(e.target.value)} 
+              value={GFplayer4Kill}  
+            />
+          </div>
+        {playerName5 ? 
+          <div className='inputContainer'>
+          <label>{playerName5}</label>
+          <input
+              type="number"
+              onChange={(e)=> setGFPlayer5Kill(e.target.value)} 
+              value={GFplayer5Kill} 
+            />
+          </div>
+          : ''}
+          </td >
+        <td >
+          <Checkbox
+              onChange={e=> setTournamentFirstWinner(e.target.checked)}
+          checked={tournamentFirstWinner}
+              color="primary"
+              inputProps={{ 'aria-label': 'secondary checkbox' }}
+            />
+        </td >
+        <td >
+          <Checkbox
+              onChange={e=> setTournamentSecondWinner(e.target.checked)}
+          checked={tournamentSecondWinner}
+              color="primary"
+              inputProps={{ 'aria-label': 'secondary checkbox' }}
+            />
+        </td >
+        <td >
+          <Checkbox
+              onChange={e=> setTournamentThirdWinner(e.target.checked)}
+          checked={tournamentThirdWinner}
+              color="primary"
+              inputProps={{ 'aria-label': 'secondary checkbox' }}
+            />
+        </td ></> : 
+        <>
+        <td  colSpan='14'></td >
+        </>}
+        <td >
+          <div className='action'>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={()=> updateTeam(_id)}
+              startIcon={<SaveIcon />}
+              style={{marginRight: '5px'}}
+            >
+              Save
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              startIcon={<DeleteIcon />}
+              onClick={()=>{
+                if(window.confirm('Yakin ingin menghapus')){
+                  deleteTeam(_id)
+                }
+              }}
+            >
+              Delete
+            </Button>
+          </div>
+        </td >
+      </tr>
+    </>
   )
 }
 
