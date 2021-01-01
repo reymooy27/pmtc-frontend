@@ -20,7 +20,14 @@ body {
   position: relative;
   color: white;
 }
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
 
+.noSelect {
+  -webkit-tap-highlight-color: transparent;
+}
 .main-content-wraper {
   width: (100% - 200px);
   margin-left: 0px;
