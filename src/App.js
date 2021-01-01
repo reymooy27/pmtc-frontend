@@ -94,7 +94,7 @@ function Alert(props) {
               <ProfileSetting/>                        
               </div>
             </Route>
-            <Route path="/profile">
+            <Route path="/profile/:id">
               <Navbar/>
               <SideBar/>
               <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
