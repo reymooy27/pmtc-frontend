@@ -1,7 +1,7 @@
 .side-bar {
   position: fixed;
   left: -100%;
-  top: 50.2px;
+  top: 0px;
   width: 200px;
   height: 100%;
   display: flex;
@@ -123,6 +123,5 @@
 @media screen and (min-width: 976px) {
   .side-bar {
     left: 0;
-    top: 62.5px;
   }
 }
