@@ -29,6 +29,7 @@
 .profile-friends-list div a {
   display: flex;
   align-items: center;
+  text-decoration: none;
 }
 .profile-friends-list div img {
   width: 50px;
