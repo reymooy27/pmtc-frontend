@@ -1,6 +1,6 @@
-import React, {useState } from 'react'
-import {selectUser} from '../redux/reducers/userSlice'
-import { useSelector } from 'react-redux'
+import React, {useEffect, useState } from 'react'
+import {fetchCheckUser, selectUser} from '../redux/reducers/userSlice'
+import { useDispatch, useSelector } from 'react-redux'
 import './Profile.css'
 import { Avatar, Badge } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
@@ -11,6 +11,7 @@ import {
   Route,
   Redirect,
   useRouteMatch,
+  useParams,
 } from "react-router-dom";
 import ProfileTournaments from './ProfileTournaments'
 import ProfileFriends from './ProfileFriends'
@@ -23,18 +24,23 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import axios from '../axios'
+import { setErrorMessage, setOpenErrorSnackbar, setOpenSuccessSnackbar, setSuccessMessage } from '../redux/reducers/appSlice'
 
 const useStyles = makeStyles(() => ({
   root: {
-    width: '80px',
-    height: '80px'
+    width: '130px',
+    height: '130px'
   },
   paper:{
       backgroundColor: '#2d303e',
       width: '600px'
     },
     title:{
-      color: 'white'
+      color: 'white',
+      '& h2':{
+        fontFamily: 'Open Sans',
+        fontWeight: 600
+      }
     },
     content:{
       overflow: 'hidden'
@@ -50,9 +56,13 @@ function Profile() {
   const user = useSelector(selectUser)
   const classes = useStyles()
   let { path } = useRouteMatch();
+  const dispatch = useDispatch()
+  const {id} = useParams()
+  const isUserLoggedIn = id === user?._id ? true : false
 
   const [open, setOpen] = useState(false);
   const [profilePicture, setProfilePicture] = useState(null)
+  const [user_, setUser_] = useState(null)
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -91,28 +101,44 @@ function Profile() {
   const uploadProfilePicture = async ()=>{
     await axios.patch(`/user/${user._id}/profilePicture/upload`,formData)
     .then(res=>{
-      console.log(res.data);
       setOpen(false)
+      dispatch(fetchCheckUser())
+      dispatch(setOpenSuccessSnackbar(true))
+      dispatch(setSuccessMessage(res.data))
+      
     })
     .catch(err=>{
-      console.log(err);
       setOpen(false)
+      dispatch(setOpenErrorSnackbar(true))
+      dispatch(setErrorMessage(err.response.data))
     })
   }
 
-
   
+  
+  useEffect(() => {
+    let mounted = true
+    if(!isUserLoggedIn){
+      const fecthUser = async ()=>{
+        const req = await axios.post(`/user/${id}`)
+        if(mounted){
+        setUser_(req.data)
+        }
+      }
+      fecthUser()
+    }
+    return ()=> mounted = false
+  }, [isUserLoggedIn,id])
 
   return (
     <>
-    {user ?
+    {!user && <Redirect to='/login'/>}
     <>
       <div className='profile'>
        <Dialog classes={{paper: classes.paper}} open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle classes={{root: classes.title}} id="form-dialog-title">Buat Tim Baru</DialogTitle>
+        <DialogTitle classes={{root: classes.title}} id="form-dialog-title">Upload Foto Profil</DialogTitle>
         <DialogContent classes={{root: classes.content}}>
           <input
-            placeholder='Masukan nama tim'
             type="file"
             name="profilePicture"
             accept="image/png"
@@ -142,45 +168,45 @@ function Profile() {
           vertical: 'bottom',
           horizontal: 'right',
         }}
-        badgeContent={
+        badgeContent={ isUserLoggedIn &&
           <IconButton onClick={handleClickOpen} aria-label="uploadPhoto" size="small">
               <AddAPhotoIcon fontSize="small" style={{color: 'white'}}/>
           </IconButton>
         }
       >
-        <Avatar className={classes.root} src={user.profilePicture} alt={user.username}/>
+        <Avatar className={classes.root} src={isUserLoggedIn ? user?.profilePicture : user_?.profilePicture} 
+        alt={isUserLoggedIn ? user?.username : user_?.username}/>
       </Badge>
-        <h3>{user.username}</h3>
+        <h3>{isUserLoggedIn ? user?.username : user_?.username}</h3>
       </div> 
       <Switch>
         <Route exact path={path}>
-          <ProfileTabs tab={1}/>
-          <ProfileOverview/>
+          <ProfileTabs isUser={isUserLoggedIn} user_={user_} tab={1}/>
+          <ProfileOverview isUser={isUserLoggedIn} user_={user_}/>
         </Route>
-        <Route path='/profile/overview'>
-          <ProfileTabs tab={1}/>
-          <ProfileOverview/>
+        <Route path={`/profile/${isUserLoggedIn ? user?._id : user_?._id}/overview`}>
+          <ProfileTabs isUser={isUserLoggedIn} user_={user_} tab={1}/>
+          <ProfileOverview isUser={isUserLoggedIn} user_={user_}/>
         </Route>
-        <Route path='/profile/stats'>
-          <ProfileTabs tab={2}/>
-          <ProfileStats/>
+        <Route path={`/profile/${isUserLoggedIn ? user?._id : user_?._id}/stats`}>
+          <ProfileTabs isUser={isUserLoggedIn} user_={user_} tab={2}/>
+          <ProfileStats isUser={isUserLoggedIn} user_={user_}/>
         </Route>
         
-        <Route path='/profile/team'>
-          <ProfileTabs tab={3}/>
-          <ProfileTeam/>
+        <Route path={`/profile/${isUserLoggedIn ? user?._id : user_?._id}/team`}>
+          <ProfileTabs isUser={isUserLoggedIn} user_={user_} tab={3}/>
+          <ProfileTeam isUser={isUserLoggedIn} user_={user_}/>
         </Route>
-        <Route path='/profile/friends'>
-          <ProfileTabs tab={4}/>
-          <ProfileFriends/>
+        <Route path={`/profile/${isUserLoggedIn ? user?._id : user_?._id}/friends`}>
+          <ProfileTabs isUser={isUserLoggedIn} user_={user_} tab={4}/>
+          <ProfileFriends isUser={isUserLoggedIn} user_={user_}/>
         </Route>
-        <Route path='/profile/tournaments'>
-          <ProfileTabs tab={5}/>
-          <ProfileTournaments/>
+        <Route path={`/profile/${isUserLoggedIn ? user?._id : user_?._id}/tournaments`}>
+          <ProfileTabs isUser={isUserLoggedIn} user_={user_} tab={5}/>
+          <ProfileTournaments isUser={isUserLoggedIn} user_={user_}/>
         </Route>
       </Switch>
-    </>  
-    : <Redirect to='/login'/>}
+    </>
     </>
   )
 }

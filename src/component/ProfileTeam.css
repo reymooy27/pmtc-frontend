@@ -8,41 +8,44 @@
 
 .profile-team-teams {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-wrap: wrap;
+  margin: 20px 0 0;
 }
 .profile-team-teams a {
   text-decoration: none;
 }
-.profile-team {
-  height: 120px;
-  width: 95%;
-  margin: 10px;
-  border-radius: 10px;
-  background-color: #2d303e;
-  box-shadow: 0px 2px 4px 2px rgba(0, 0, 0, 0.712);
-  color: white;
-  text-align: center;
+
+.profile-team-wraper {
+  position: relative;
+  width: 105px;
+  margin: 10px 0;
+}
+.profile-team-avatar {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
-.profile-team-identity {
+
+.profile-team-avatar a {
+  text-decoration: none;
+  color: white;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  height: 80px;
 }
-.profile-team-logo {
-  object-fit: contain;
-  width: 50px;
-}
-.profile-team-name {
-  font-weight: bold;
+
+.profile-team-avatar h5 {
   font-size: 16px;
 }
+.profile-team-avatar span {
+  color: #ffffff6c;
+  font-size: 14px;
+  margin-top: -10px;
+}
 .profile-team-create-team {
-  margin: 40px auto;
+  margin: 0px auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -58,6 +61,7 @@
   border: none;
   outline: none;
   cursor: pointer;
+  transition: all 0.3s ease-in-out;
 }
 .create-button:hover {
   background-color: #00deaa9f;
@@ -93,7 +97,7 @@
 
 .create-team-button {
   display: inline-block;
-  width: 100px;
+  width: fit-content;
   height: 40px;
   padding: 11px 20px;
   font-size: 0.75em;
@@ -108,7 +112,9 @@
   text-decoration: none;
   cursor: pointer;
 }
-
+.create-team-button:hover {
+  background: #00deaa9f;
+}
 .cancel-button {
   display: inline-block;
   width: 100px;
@@ -125,6 +131,22 @@
   transition: ease-in-out 0.3s;
   text-decoration: none;
   cursor: pointer;
+}
+
+.cancel-button:hover {
+  background: #151a2cbe;
+}
+
+.profile-no-team {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  margin: 0 auto;
+  height: 100px;
+  color: rgba(168, 164, 168, 0.333);
+  text-align: center;
 }
 
 @media screen and (min-width: 976px) {

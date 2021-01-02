@@ -1,0 +1,42 @@
+.profile-friends {
+  width: 95%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+.profile-no-friends {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  margin: 0 auto;
+  height: 100px;
+  color: rgba(168, 164, 168, 0.333);
+  text-align: center;
+}
+
+.profile-friends-list {
+  overflow-y: auto;
+}
+
+.profile-friends-list div {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+.profile-friends-list div a {
+  display: flex;
+  align-items: center;
+}
+.profile-friends-list div img {
+  width: 50px;
+  border-radius: 50%;
+  margin: 0;
+  margin-right: 10px;
+}
+.profile-friends-list div span {
+  color: white;
+  font-size: 16px;
+  padding-left: 10px;
+}

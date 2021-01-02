@@ -1,6 +1,6 @@
-import React, {useState } from 'react'
-import {selectUser} from '../redux/reducers/userSlice'
-import {useSelector } from 'react-redux'
+import React, { useState } from 'react'
+import {fetchCheckUser, selectUser} from '../redux/reducers/userSlice'
+import {useDispatch, useSelector } from 'react-redux'
 import './ProfileTeam.css'
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -8,24 +8,22 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import AddIcon from '@material-ui/icons/Add';
 import axios from '../axios'
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
 import Loader from 'react-loader-spinner'
-import { makeStyles } from '@material-ui/core';
+import { Avatar, makeStyles } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { setErrorMessage, setOpenErrorSnackbar, setOpenSuccessSnackbar, setSuccessMessage } from '../redux/reducers/appSlice';
 
 
-function ProfileTeam() {
+function ProfileTeam({isUser,user_}) {
   const user = useSelector(selectUser)
-  
+  const data = isUser ? user : user_
+  const dispatch = useDispatch()
   const [teamName, setTeamName] = useState('')
-  const [openSuccessSnackbar, setOpenSuccessSnackbar] = useState(false);
-  const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false);
-  const [successMsg, setSuccessMsg] = useState('')
-  const [errorMsg, setErrorMsg] = useState('')
   const [open, setOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formErrors, setFormErrors] = useState('');
+
+    document.title = `${user.username} - Tim`
 
 const createTeam = async (e)=>{
   e.preventDefault()
@@ -36,30 +34,18 @@ const createTeam = async (e)=>{
   }
   await axios.post(`/user/${user._id}/team/create`,{teamName})
   .then(res=>{
-    setOpenSuccessSnackbar(true)
-    setSuccessMsg(res.data)
+    dispatch(setOpenSuccessSnackbar(true))
+    dispatch(setSuccessMessage(res.data))
     setIsSubmitting(true)
     setOpen(false)
+    dispatch(fetchCheckUser())
   })
   .catch(err=>{
-    setOpenErrorSnackbar(true)
-    setErrorMsg(err.response.data)
+    dispatch(setOpenErrorSnackbar(true))
+    dispatch(setErrorMessage(err.response.data))
   })
     setTeamName('')
 }
-
- function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-  }
-
-  const handleCloseSnackbar = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpenSuccessSnackbar(false);
-    setOpenErrorSnackbar(false);
-  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -71,12 +57,20 @@ const createTeam = async (e)=>{
   };
 
   const useStyles = makeStyles({
+    root: {
+    width: '80px',
+    height: '80px'
+  },
   paper:{
       backgroundColor: '#2d303e',
       width: '600px'
     },
     title:{
-      color: 'white'
+      color: 'white',
+      '& h2':{
+        fontFamily: 'Open Sans',
+        fontWeight: 600
+      }
     },
     content:{
       overflow: 'hidden'
@@ -89,29 +83,41 @@ const createTeam = async (e)=>{
 
 const classes = useStyles();
 
-  return (
-    <div className='profile_team'>
-      <>
-      <div className='profile-team-teams'>
-        {user.myTeam.map(t=> (
-          <Link key={t._id} to={'/profile/team/' + t._id} >
-          <div className="profile-team">
-            <div className="profile-team-identity">
-              <img className="profile-team-logo" src={t.teamLogo} alt="" />
-              <p className="profile-team-name">{t.teamName}</p>
-            </div>
-          </div>
-          </Link>
-        ))}
-      </div>
-      
-      <div className='profile-team-create-team'>
-        <button className='create-button' type='submit' onClick={handleClickOpen}>
-          <AddIcon />
-        </button>
-        <span>Buat tim baru</span>
-      </div>
 
+
+  return (
+      <>
+    <div className='container'>
+      <div className="specialFont-wraper">
+          <h4 className="specialFont">Tim</h4>
+      </div>
+      <div className='profile_team'>
+        <div className='profile-team-teams'>
+          {data?.myTeam.length < 1 && 
+            <div className='profile-no-team'>
+              <h3>Belum punya tim</h3>
+            </div>}
+          {data?.myTeam.map(t=> (
+            <div key={t._id} className='profile-team-wraper'>
+              <div className='profile-team-avatar'>
+                <Link to={'/profile/team/' + t._id} >
+                  <Avatar className={classes.root} src={t.teamLogo} alt={t.teamName}/>
+                  <h5>{t.teamName}</h5>
+                </Link>
+                <span>{t.roster.length} member</span>
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        {isUser && <div className='profile-team-create-team'>
+          <button className='create-button' type='submit' onClick={handleClickOpen}>
+            <AddIcon />
+          </button>
+          <span>Buat tim baru</span>
+        </div>}
+      </div>
+    </div>
 
       <Dialog classes={{paper: classes.paper}} open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle classes={{root: classes.title}} id="form-dialog-title">Buat Tim Baru</DialogTitle>
@@ -141,20 +147,7 @@ const classes = useStyles();
           </button>
         </DialogActions>
       </Dialog>
-
-
-      <Snackbar open={openSuccessSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
-              <Alert onClose={handleCloseSnackbar} severity="success">
-                {successMsg}
-              </Alert>
-            </Snackbar>
-            <Snackbar open={openErrorSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
-              <Alert onClose={handleCloseSnackbar} severity="error">
-                {errorMsg}
-              </Alert>
-            </Snackbar>
-            </>
-    </div>
+    </>
   )
 }
 

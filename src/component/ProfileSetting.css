@@ -1,0 +1,89 @@
+.profile-setting {
+  margin: 3em auto 1em;
+  display: flex;
+  width: 95%;
+  flex-direction: column;
+}
+
+.profile-setting-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.profile-setting-input:focus,
+.profile-setting-textarea:focus {
+  border: 2px solid #00deab;
+  transition: ease-in-out 0.3s;
+}
+.profile-setting-input:hover,
+.profile-setting-textarea:hover {
+  border: 2px solid #00deab;
+  transition: ease-in-out 0.3s;
+}
+
+.profile-setting-inputContainer {
+  margin-top: 10px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.profile-setting-input {
+  border-radius: 10px;
+  background-color: #0e1013;
+  color: white;
+  width: 100%;
+  height: 50px;
+  text-align: left;
+  text-indent: 10px;
+  border: 2px solid rgb(85, 85, 85);
+  outline: none;
+  transition: ease-in-out 0.3s;
+}
+.profile-setting-textarea {
+  width: 100%;
+  border-radius: 10px;
+  padding: 10px;
+  font-family: "Open Sans";
+  background-color: #0e1013;
+  color: white;
+  text-align: left;
+  text-indent: 10px;
+  border: 2px solid rgb(85, 85, 85);
+  outline: none;
+  transition: ease-in-out 0.3s;
+}
+.profile-setting-social-media {
+  margin-top: 20px;
+}
+.profile-setting-save-button {
+  margin-top: 20px;
+  width: 100%;
+  height: 40px;
+  padding: 11px 20px;
+  font-size: 0.75em;
+  font-weight: bold;
+  border-radius: 10px;
+  background: #00deab;
+  text-transform: uppercase;
+  color: black;
+  transition: ease-in-out 0.3s;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+}
+
+.profile-setting-save-button:hover {
+  background: rgb(4, 172, 132);
+  text-decoration: none;
+  color: black;
+}
+@media screen and (min-width: 700px) {
+  .profile-setting {
+    margin: 4em auto 1em;
+  }
+
+  .profile-setting-save-button {
+    width: fit-content;
+  }
+}

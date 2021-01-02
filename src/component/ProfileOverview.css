@@ -1,0 +1,87 @@
+.profile-overview-wraper {
+  display: flex;
+  flex-direction: column;
+  margin: 20px auto 0;
+  width: 90%;
+  color: white;
+}
+
+.profile-overview h3 {
+  font-size: 18px;
+}
+
+.profile-overview p,
+.profile-overview h4 {
+  font-size: 14px;
+}
+
+.profile-overview-bio {
+  margin-top: 10px;
+}
+
+.profile-overview-game-account,
+.profile-overview-social-account {
+  margin-top: 1.5em;
+}
+.profile-overview-social-account-icons a {
+  color: white;
+}
+.profile-overview-social-account-icons svg {
+  margin-right: 5px;
+}
+.profile-overview-diaolog-game-wraper {
+  display: flex;
+}
+.profile-overview-diaolog-game-choose {
+  cursor: pointer;
+  width: 100px;
+  height: 120px;
+  margin: 0 10px;
+  transition: all 0.2s ease-in-out;
+}
+
+.profile-overview-diaolog-game-choose:hover {
+  transform: scale(1.1);
+}
+
+.profile-overview-diaolog-game-choose-no-hover:hover {
+  transform: none;
+}
+
+.profile-overview-diaolog-game-choose img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
+
+.profile-overview-button {
+  display: block;
+  width: fit-content;
+  margin-top: 20px;
+  background-color: transparent;
+  border: 2px solid #00dbae;
+  color: white;
+  border-radius: 20px;
+  padding: 10px;
+  outline: none;
+  font-weight: bold;
+  font-size: 11px;
+  cursor: pointer;
+  transition: 0.3s all ease-in-out;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.profile-overview-inputContainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+.profile-overview-inputContainer label {
+  color: white;
+}
+
+.profile-overview-button:hover {
+  background-color: #00dbae;
+}

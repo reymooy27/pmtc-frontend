@@ -1,0 +1,28 @@
+.profile-stats {
+  width: 95%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-stats-game-wraper {
+  display: flex;
+  margin: 10px;
+}
+
+.profile-stats-game-statistic {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-no-stats {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  margin: 0 auto;
+  height: 200px;
+  color: rgba(168, 164, 168, 0.333);
+  text-align: center;
+}
