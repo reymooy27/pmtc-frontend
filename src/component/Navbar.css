@@ -15,6 +15,7 @@
 }
 .navbar-responsive a {
   text-decoration: none;
+  margin-right: 10px;
 }
 
 .navbar-responsive .login-button {
@@ -53,9 +54,7 @@
   z-index: 10;
   transition: all 0.3s ease;
 }
-.avatar {
-  margin-right: 20px;
-}
+
 @media screen and (min-width: 976px) {
   .navbar-responsive {
     height: 60px;
