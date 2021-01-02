@@ -39,12 +39,13 @@ function App() {
   const [loading, setLoading] = useState(true);
 
 useEffect(() => {
-  dispatch(fetchCheckUser())
-  setLoading(false)
-}, [dispatch])
-
-useEffect(() => {
+  let mounted = true
+  if(mounted){
+    dispatch(fetchCheckUser())
     dispatch(fetchAllTournament())
+    setLoading(false)
+  }
+  return ()=> mounted = false
 }, [dispatch])
 
 function Alert(props) {
