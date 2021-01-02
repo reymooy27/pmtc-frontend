@@ -65,11 +65,11 @@ useEffect(() => {
   }
 }, [grup,currentTurnamen])
 
-const isAdmin = user !== null ? user.role === 'ADMIN' : null
+const isAdmin = user !== null ? user?.role === 'ADMIN' : null
 
   return (
     <Fragment>
-      {isAdmin ? 
+      {isAdmin && <Redirect to='/login'/>}
         <div className='admin'>
             <Switch>
               <Route exact path={path}>
@@ -158,8 +158,7 @@ const isAdmin = user !== null ? user.role === 'ADMIN' : null
                 <TournamentParticipantDetails tournament={currentTurnamen}/>
               </Route>
             </Switch>
-        </div> 
-      : <Redirect to='/login'/>}
+        </div>
     </Fragment>
     
   )
