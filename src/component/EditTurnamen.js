@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import axios from '../axios'
-import { Button, Checkbox } from '@material-ui/core';
+import { Button, FormControlLabel, Switch } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 import { setErrorMessage, setOpenErrorSnackbar, setOpenSuccessSnackbar, setSuccessMessage } from '../redux/reducers/appSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAllTournament } from '../redux/reducers/tournamentSlice';
  
 
-function EditTurnamen({currentTurnamenID}) {
+function EditTurnamen() {
   const [tournamentName, setTournamentName] = useState('')
+  const [description, setDescription] = useState('');
+  const [information, setInformation] = useState('')
   const [tournamentMode, setTournamentMode] = useState('TPP Solo')
   const [tournamentFormat, setTournamentFormat] = useState('Eliminasi Grup')
   // const [tournamentPicture, setTournamentPicture] = useState(null)
@@ -22,13 +25,17 @@ function EditTurnamen({currentTurnamenID}) {
   const [rounds, setRounds] = useState([])
   const [groups, setGroups] = useState('')
   const [maxSlot, setMaxSlot] = useState('')
+  const [admins, setAdmins] = useState([])
   const [showGroupStandings, setShowGroupStandings] = useState(false)
   const [showGrandFinal, setShowGrandFinal] = useState(false)
   const [showKillStanding, setShowKillStanding] = useState(false)
   const [registrationClosed, setRegistrationClosed] = useState(false)
-  const [completed, setCompleted] = useState(false)
+  const [status, setStatus] = useState('')
   
   const dispatch = useDispatch()
+  const allTournament = useSelector(selectAllTournament)
+  const [currentTurnamenID, setcurrentTurnamenID] = useState('')
+
 
   useEffect(() => {
   let mounted = true
@@ -38,6 +45,8 @@ async function fecthData(){
     if(mounted){
       setTournamentName(res.data.tournamentName)
       // setTournamentPicture(res.data.tournamentPicture)
+      setDescription(res.data.description)
+      setInformation(res.data.information)
       setTournamentMode(res.data.tournamentMode)
       setTournamentFormat(res.data.tournamentFormat)
       setTournamentFirstPrize(res.data.tournamentFirstPrize)
@@ -50,11 +59,12 @@ async function fecthData(){
       setRounds(res.data.rounds)
       setGroups(res.data.groups)
       setMaxSlot(res.data.maxSlot)
+      setAdmins(res.data.admins)
       setShowGroupStandings(res.data.showGroupStandings)
       setShowGrandFinal(res.data.showGrandFinal)
       setShowKillStanding(res.data.showKillStanding)
       setRegistrationClosed(res.data.registrationClosed)
-      setCompleted(res.data.completed)
+      setStatus(res.data.status)
       }
     })
       .catch(err=> console.log(err))
@@ -79,8 +89,10 @@ fecthData()
   // formdata.append('registrationClosed',registrationClosed)
 
   const updateTournament = async ()=>{
-    await axios.put(`/tournament/${currentTurnamenID}/update`, {
+    await axios.patch(`/tournament/${currentTurnamenID}/update`, {
       tournamentName: tournamentName,
+      description: description,
+      information: information,
       tournamentMode: tournamentMode,
       tournamentFormat: tournamentFormat,
       tournamentFirstPrize: tournamentFirstPrize,
@@ -92,11 +104,12 @@ fecthData()
       rounds: rounds,
       groups: groups,
       maxSlot: maxSlot,
+      admins: admins,
       showGroupStandings: showGroupStandings,
       showGrandFinal: showGrandFinal,
       showKillStanding: showKillStanding,
       registrationClosed: registrationClosed,
-      completed: completed,
+      status: status
     })
     .then(res=> {
       dispatch(setSuccessMessage(res.data))
@@ -123,12 +136,28 @@ fecthData()
   return (
     <div className='editTournament'>
       <h3>Edit Turnamen</h3>
+      <select
+        value={currentTurnamenID} 
+        onChange={e=> setcurrentTurnamenID(e.target.value)}
+      >
+        <option value=''>Pilih Turnamen</option>
+        {allTournament.map(t=> <option key={t._id} value={t._id}>{t.tournamentName}</option>)}
+      </select>
+      <br></br>
       <div className='inputContainer'>
         <label>Nama Turnamen</label>
         <input 
         type='text' 
         value={tournamentName} 
         onChange={e=> setTournamentName(e.target.value)} />
+      </div>
+      <div className='inputContainer'>
+        <label>Deskripsi</label>
+        <textarea name='description' className='profile-setting-textarea' rows="6" cols="50" value={description} onChange={(e)=> setDescription(e.target.value)}></textarea>
+      </div>
+      <div className='inputContainer'>
+        <label>Informasi</label>
+        <textarea name='information' className='profile-setting-textarea' rows="6" cols="50" value={information} onChange={(e)=> setInformation(e.target.value)}></textarea>
       </div>
       <div className='inputContainer'>
         <label>Mode Turnamen</label>
@@ -318,49 +347,70 @@ fecthData()
         </select>
       </div>
       <div className='inputContainer'>
-        <label>Grup Standing</label>
-        <Checkbox
-          onChange={e=> setShowGroupStandings(e.target.checked)}
+        <FormControlLabel
+        control={
+          <Switch
           checked={showGroupStandings}
-          color="primary"
+          onChange={e=> setShowGroupStandings(e.target.checked)}
+          name="groupStanding"
           inputProps={{ 'aria-label': 'secondary checkbox' }}
-        />
+          />
+        }
+        label="Grup Standing"
+      />
       </div>
       <div className='inputContainer'>
-        <label>Grandfinal Standing</label>
-        <Checkbox
-          onChange={e=> setShowGrandFinal(e.target.checked)}
-          checked={showGrandFinal}
-          color="primary"
-          inputProps={{ 'aria-label': 'secondary checkbox' }}
-        />
+        <FormControlLabel
+        control={
+          <Switch
+            checked={showGrandFinal}
+            onChange={(e)=> setShowGrandFinal(e.target.checked)}
+            name="checkedA"
+            inputProps={{ 'aria-label': 'secondary checkbox' }}
+          />
+        }
+        label="Grandfinal Standing"
+      />
       </div>
       <div className='inputContainer'>
-        <label>Kill Standing</label>
-        <Checkbox
-          onChange={e=> setShowKillStanding(e.target.checked)}
+        <FormControlLabel
+        control={
+          <Switch
           checked={showKillStanding}
-          color="primary"
+          onChange={(e)=> setShowKillStanding(e.target.checked)}
+          name="checkedA"
           inputProps={{ 'aria-label': 'secondary checkbox' }}
-        />
+          />
+        }
+        label="Kill Standing"
+      />
       </div> 
       <div className='inputContainer'>
-        <label>Registrasi Tutup</label>
-        <Checkbox
-          onChange={e=> setRegistrationClosed(e.target.checked)}
+        <FormControlLabel
+        control={
+          <Switch
           checked={registrationClosed}
-          color="primary"
+          onChange={(e)=> setRegistrationClosed(e.target.checked)}
+          name="checkedA"
           inputProps={{ 'aria-label': 'secondary checkbox' }}
-        />
+          />
+        }
+        label="Registrasi Tutup"
+      />
       </div>
       <div className='inputContainer'>
-        <label>Turnamen Selesai</label>
-        <Checkbox
-          onChange={e=> setCompleted(e.target.checked)}
-          checked={completed}
-          color="primary"
-          inputProps={{ 'aria-label': 'secondary checkbox' }}
-        />
+        <label>Max Slot</label>
+        <select
+          value={status} 
+          onChange={(e)=> setStatus(e.target.value)}
+        >
+          <option value=''>None</option>
+          <option value='OPEN'>Buka</option>
+          <option value='CLOSED'>Tutup</option>
+          <option value='COMPLETED'>Selesai</option>
+          <option value='ONGOING'>Berlangsung</option>
+          <option value='CANCELED'>Dibatalkan</option>
+        </select>
       </div>
       
         <Button
