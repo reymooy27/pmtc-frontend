@@ -108,6 +108,30 @@
   padding: 5px;
 }
 
+.tournaments-status {
+  position: absolute;
+  display: block;
+  top: 5px;
+  right: 5px;
+  border-radius: 10px;
+  width: 64px;
+  font-size: 10px;
+  padding: 3px;
+  text-align: center;
+}
+.open {
+  background-color: rgb(209, 221, 42);
+}
+.completed {
+  background-color: rgb(13, 199, 13);
+}
+.canceled {
+  background-color: rgb(199, 35, 13);
+}
+.ongoing {
+  background-color: rgb(13, 146, 199);
+}
+
 @media screen and (min-width: 680px) {
   .tournaments {
     margin: 1em auto;

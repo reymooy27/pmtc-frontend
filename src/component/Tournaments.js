@@ -62,6 +62,10 @@ function Tournaments() {
         {allTournament.map(t=>(
           <Link to={`/tournament/${t._id}`} key={t._id}>
             <div className='tournament' style={{background: `url(${t.tournamentPicture})`, backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundBlendMode: 'multiply'}}>
+              {t.status === 'OPEN' && <span className='tournaments-status open'>Buka</span>}
+              {t.status === 'COMPLETED' && <span className='tournaments-status completed'>Selesai</span>}
+              {t.status === 'CANCELED' && <span className='tournaments-status canceled'>Dibatalkan</span>}
+              {t.status === 'ONGOING' && <span className='tournaments-status ongoing'>Berlangsung</span>}
               <div className='pubg-logo'></div>
               <h3>{t.tournamentName}</h3>
               <h3>{`Rp. ${new Intl.NumberFormat().format(
