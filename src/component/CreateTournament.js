@@ -8,6 +8,8 @@ import { useDispatch } from 'react-redux';
 
 function CreateTournament() {
   const [tournamentName, setTournamentName] = useState('')
+  const [description, setDescription] = useState('');
+  const [information, setInformation] = useState('')
   const [tournamentMode, setTournamentMode] = useState('TPP Solo')
   const [tournamentFormat, setTournamentFormat] = useState('Eliminasi Grup')
   const [tournamentPicture, setTournamentPicture] = useState(null)
@@ -21,12 +23,15 @@ function CreateTournament() {
   const [rounds, setRounds] = useState([])
   const [groups, setGroups] = useState('')
   const [maxSlot, setMaxSlot] = useState('')
+  const [admins, setAdmins] = useState([])
 
   const dispatch = useDispatch()
 
   const formdata = new FormData()
   formdata.append('tournamentName',tournamentName)
   formdata.append('tournamentPicture',tournamentPicture)
+  formdata.append('description',description)
+  formdata.append('information',information)
   formdata.append('tournamentMode',tournamentMode)
   formdata.append('tournamentFormat',tournamentFormat)
   formdata.append('tournamentFirstPrize',tournamentFirstPrize)
@@ -38,6 +43,7 @@ function CreateTournament() {
   formdata.append('rounds',JSON.stringify(rounds))
   formdata.append('groups',groups)
   formdata.append('maxSlot',maxSlot)
+  formdata.append('admins',JSON.stringify(admins))
 
   const createTournament = ()=>{
     axios.post('/tournament/create',formdata,{
@@ -58,13 +64,21 @@ function CreateTournament() {
 
   return (
     <div className='createTournament'>
-      <h3>Buat Turnamen Baru</h3>
+      <h1>Buat Turnamen Baru</h1>
       <div className='inputContainer'>
         <label>Nama Turnamen</label>
         <input 
         type='text' 
         value={tournamentName} 
         onChange={e=> setTournamentName(e.target.value)} />
+      </div>
+      <div className='inputContainer'>
+        <label>Deskripsi</label>
+        <textarea name='description' className='profile-setting-textarea' rows="6" cols="50" value={description} onChange={(e)=> setDescription(e.target.value)}></textarea>
+      </div>
+      <div className='inputContainer'>
+        <label>Informasi</label>
+        <textarea name='information' className='profile-setting-textarea' rows="6" cols="50" value={information} onChange={(e)=> setInformation(e.target.value)}></textarea>
       </div>
       <div className='inputContainer'>
         <label>Mode Turnamen</label>
