@@ -74,15 +74,14 @@ moment.updateLocale('en', {
           <TournamentDetail title="Format Turnamen" detail={tournament.tournamentFormat} />
         </div>
         <div className="header-button">
-          {tournament.registrationClosed ? (
-            <button className="header-button-disabled">
-              Pendaftaran Tutup
-            </button>
-          ) : (
+          {tournament.status === 'COMPLETED' && <h3>Turnamen telah selesai</h3>}
+          {tournament.status === 'CANCELED' && <h3>Turnamen dibatalkan</h3>}
+          {tournament.status === 'ONGOING' && <h3>Turnamen sedang berlangsung...</h3>}
+          {tournament.status === 'OPEN' && 
             <Link to={`/team/create/${tournament._id}`}>
               <button className="header-button-registered">Daftar</button>
             </Link>
-          )}
+          }
         </div>
       </div>
     </div>
