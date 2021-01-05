@@ -135,7 +135,7 @@ fecthData()
 
   return (
     <div className='editTournament'>
-      <h3>Edit Turnamen</h3>
+      <h2>Edit Turnamen</h2>
       <select
         value={currentTurnamenID} 
         onChange={e=> setcurrentTurnamenID(e.target.value)}
@@ -399,7 +399,7 @@ fecthData()
       />
       </div>
       <div className='inputContainer'>
-        <label>Max Slot</label>
+        <label>Status</label>
         <select
           value={status} 
           onChange={(e)=> setStatus(e.target.value)}
