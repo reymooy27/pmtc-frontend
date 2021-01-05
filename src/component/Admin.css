@@ -67,20 +67,24 @@
   width: 100%;
   justify-content: left;
 }
-
-.admin-link {
-  width: fit-content;
-  display: inline-block;
-  justify-content: center;
-  align-items: center;
-  text-decoration: none;
-  color: white;
-  background-color: #00deab;
-  padding: 5px;
-  border-radius: 10px;
-  margin: 5px;
-  margin-bottom: 1em;
+.admin-link-wraper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 auto 15px;
+  overflow: auto;
 }
+.admin-link {
+  text-decoration: none;
+  font-size: 14px;
+  color: white;
+  background: #16aa8d;
+  padding: 10px;
+  margin: 5px 0;
+  width: 100%;
+  border-radius: 10px;
+}
+
 @media screen and (min-width: 976px) {
   .editTournament,
   .createTournament {
@@ -89,5 +93,14 @@
   .admin input,
   .admin select {
     width: 400px;
+  }
+
+  .admin-link-wraper {
+    flex-direction: row;
+  }
+
+  .admin-link {
+    width: fit-content;
+    margin: 5px;
   }
 }

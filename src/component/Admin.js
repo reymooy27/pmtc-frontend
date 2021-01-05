@@ -73,7 +73,7 @@ const isAdmin = user !== null ? user?.role === 'ADMIN' : null
         <div className='admin'>
             <Switch>
               <Route exact path={path}>
-                <h3>Pilih Turnamen</h3>
+                <h2>Pilih Turnamen</h2>
                 <select
             value={currentTurnamenID} 
             onChange={e=> setCurrentTurnamenID(e.target.value)}
@@ -82,9 +82,11 @@ const isAdmin = user !== null ? user?.role === 'ADMIN' : null
             {allTournament.map(t=> <option key={t._id} value={t._id}>{t.tournamentName}</option>)}
           </select>
             <br></br>
-            <Link className='admin-link' to='/admin/tournament/edit'>Edit Turnamen</Link>
-            <Link className='admin-link' to='/admin/tournament/create'>Buat Turnamen</Link>
-            <Link className='admin-link' to='/admin/tournament/participant/details'>Detail Participant</Link>
+            <div className='admin-link-wraper'>
+              <Link className='admin-link' to='/admin/tournament/edit'>Edit Turnamen</Link>
+              <Link className='admin-link' to='/admin/tournament/create'>Buat Turnamen</Link>
+              <Link className='admin-link' to='/admin/tournament/participant/details'>Detail Participant</Link>
+            </div>
             <select
             value={grup} 
             onChange={e=> setGrup(e.target.value)}
