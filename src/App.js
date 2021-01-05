@@ -112,7 +112,7 @@ function Alert(props) {
               <EmailConfirmation />
             </Route>
             <Route path="/team/create/:id">
-              {tournament.registrationClosed ? (
+              {tournament.registrationClosed || tournament.status !== 'OPEN' ? (
                 <Redirect to="/" />
               ) : (
                 <Registration />
