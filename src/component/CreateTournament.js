@@ -64,7 +64,7 @@ function CreateTournament() {
 
   return (
     <div className='createTournament'>
-      <h1>Buat Turnamen Baru</h1>
+      <h2>Buat Turnamen Baru</h2>
       <div className='inputContainer'>
         <label>Nama Turnamen</label>
         <input 
