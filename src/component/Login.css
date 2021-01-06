@@ -78,6 +78,14 @@
   background: rgb(4, 172, 132);
 }
 
+.login-with-facebook {
+  background-color: #4267b2;
+  color: white;
+}
+.login-with-facebook:hover {
+  background-color: #365899;
+}
+
 .login-error {
   border: 2px solid red;
   text-align: left;
