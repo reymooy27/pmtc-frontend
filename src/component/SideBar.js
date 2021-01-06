@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import "./SideBar.css";
 import {sideBarOpen} from '../redux/reducers/appSlice'
 import {selectUser, fetchLogout} from '../redux/reducers/userSlice'
@@ -75,7 +75,10 @@ const isAdmin = user !== null ? user.role === 'ADMIN' : null
           </div>
           <div className="sidebar-logout">
             {user ? (
-              <button onClick={() => dispatch(fetchLogout())}>
+              <button onClick={() =>{
+                dispatch(fetchLogout())
+                return <Redirect to='/'/>
+              }}>
                 <ExitToAppIcon /> Logout
               </button>
             ) : (
