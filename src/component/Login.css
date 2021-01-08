@@ -2,8 +2,8 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  margin-top: 4em;
 }
 
 .login a {
@@ -13,8 +13,6 @@
 .login_form {
   display: flex;
   width: 100%;
-  height: 100%;
-  margin: 4em auto 0;
   flex-direction: column;
   align-items: center;
 }
@@ -36,7 +34,7 @@
   border-radius: 10px;
   background-color: #0e1013;
   color: white;
-  width: 80%;
+  width: 90%;
   height: 50px;
   text-align: left;
   text-indent: 10px;
@@ -52,13 +50,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  bottom: 1em;
+  margin-top: 4em;
 }
 
 .login-button {
   display: inline-block;
-  width: 80%;
+  width: 90%;
   height: 50px;
   padding: 11px 20px;
   margin: 10px;
@@ -77,13 +74,27 @@
 .login-button:hover {
   background: rgb(4, 172, 132);
 }
-
+.facebook-login,
+.google-login {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 .login-with-facebook {
   background-color: #4267b2;
   color: white;
+  height: 60px;
 }
 .login-with-facebook:hover {
   background-color: #365899;
+}
+.login-with-google {
+  background-color: white;
+  color: black;
+  height: 60px;
+}
+.login-with-google:hover {
+  background-color: #616467;
 }
 
 .login-error {
@@ -102,10 +113,11 @@
 }
 
 @media screen and (min-width: 700px) {
-  .login_form {
+  .login_form,
+  .facebook-login,
+  .google-login {
     width: 350px;
   }
-
   .login-button-container {
     margin-top: 3em;
     position: unset;

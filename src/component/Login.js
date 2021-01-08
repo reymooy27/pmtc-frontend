@@ -5,8 +5,8 @@ import { Link, Redirect } from 'react-router-dom'
 import { fetchCheckUser, selectUser } from '../redux/reducers/userSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from 'react-loader-spinner'
-import FacebookLogin from 'react-facebook-login';
- 
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+import GoogleLogin from 'react-google-login';
 
 
 function Login() {
@@ -86,9 +86,21 @@ const handleSubmit = (e) => {
     .then(res=> {
       dispatch(fetchCheckUser())
       setRedirectTo(true)
-      console.log(res.data)
     })
     .catch(err=> console.log(err))
+  }
+
+  const responseGoogle = async (response) => {
+  await axios.post('/login/google',{tokenId: response.tokenId})
+    .then(res=> {
+      dispatch(fetchCheckUser())
+      setRedirectTo(true)
+    })
+    .catch(err=> console.log(err))
+  }
+
+  const responseErrorGoogle = (response) => {
+  console.log(response);
   }
   
 if(redirectTo){
@@ -142,14 +154,30 @@ if(redirectTo){
         </div>
       </form>
       <span>atau</span>
-      <FacebookLogin
-        appId="728992861379711"
-        autoLoad={false}
-        fields="name,email,picture"
-        callback={responseFacebook}
-        cssClass="login-with-facebook login-button"
-        icon="fa-facebook" />
+      <div className='facebook-login'>
+          <FacebookLogin
+          appId="728992861379711"
+          autoLoad={false}
+          callback={responseFacebook}
+          render={renderProps => (
+            <button className='login-with-facebook login-button' onClick={renderProps.onClick}>Login dengan Facebook</button>
+          )}
+        />
       </div>
+      <div className='google-login'>
+        <GoogleLogin
+          clientId="808552961676-l3cjjdu8eh5j7sor56nj86m64hvfb1os.apps.googleusercontent.com"
+          render={renderProps => (
+            <button className='login-button login-with-google' onClick={renderProps.onClick} disabled={renderProps.disabled}>Login degan Google</button>
+          )}
+          buttonText="Login"
+          onSuccess={responseGoogle}
+          onFailure={responseErrorGoogle}
+          cookiePolicy={'single_host_origin'}
+          isSignedIn={false}
+        />
+      </div>
+    </div>
     </> 
   )
 }
