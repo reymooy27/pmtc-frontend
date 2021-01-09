@@ -21,10 +21,13 @@ body {
   color: white;
 }
 button,
+div,
 a {
   -webkit-tap-highlight-color: transparent;
 }
-
+textarea {
+  resize: none;
+}
 .noSelect {
   -webkit-tap-highlight-color: transparent;
 }
