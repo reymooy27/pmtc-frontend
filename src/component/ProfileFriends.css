@@ -18,12 +18,12 @@
 
 .profile-friends-list {
   overflow-y: auto;
-  height: 120px;
 }
 
 .profile-friends-list div {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin: 10px 0;
 }
 .profile-friends-list div a {
@@ -41,4 +41,21 @@
   color: white;
   font-size: 16px;
   padding-left: 10px;
+}
+.profile-friends-add-button {
+  background: #00dbae;
+  color: black;
+  border-radius: 20px;
+  padding: 10px;
+  outline: none;
+  font-weight: bold;
+  font-size: 11px;
+  cursor: pointer;
+  transition: 0.3s all ease-in-out;
+  text-transform: uppercase;
+  border: none;
+  width: fit-content;
+}
+.profile-friends-add-button:hover {
+  background: rgb(4, 172, 132);
 }

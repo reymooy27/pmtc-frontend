@@ -11,6 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import axios from '../axios'
 import { Link } from 'react-router-dom';
 import { Avatar } from '@material-ui/core';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 function ProfileFriends({isUser, user_}) {
   const user = useSelector(selectUser)
@@ -23,13 +24,27 @@ function ProfileFriends({isUser, user_}) {
   const [users, setUsers] = useState([])
   const [filteredUser, setFilteredUser] = useState([])
 
+  const matches = useMediaQuery('(min-width:600px)');
+  const margin = matches ? '32px' : '0px'
+  const height = matches ? 'none' : '100%'
+  const maxHeight = matches ? 'calc(100% - 64px)' : 'none'
+  const fontsize = matches ? '1.5em' : '2em'
+
   const useStyles = makeStyles(() => ({
   paper:{
       backgroundColor: '#2d303e',
       width: '600px',
+      height: height,
+      margin: margin,
+      maxHeight: maxHeight
     },
     title:{
-      color: 'white'
+      color: 'white',
+      '& h2':{
+        fontFamily: 'Open Sans',
+        fontWeight: 600,
+        fontSize: fontsize
+      }
     },
     content:{
       overflow: 'hidden'
@@ -124,6 +139,7 @@ function ProfileFriends({isUser, user_}) {
                 <Avatar className={classes.root} src={p.profilePicture} alt={p.username}/>
                 <span>{p.username}</span>
               </Link>
+              <button className='profile-friends-add-button'>Tambahkan</button>
             </div>
           ))}
         </div>

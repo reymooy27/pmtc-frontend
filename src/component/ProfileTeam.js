@@ -12,6 +12,7 @@ import Loader from 'react-loader-spinner'
 import { Avatar, makeStyles } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { setErrorMessage, setOpenErrorSnackbar, setOpenSuccessSnackbar, setSuccessMessage } from '../redux/reducers/appSlice';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 
 function ProfileTeam({isUser,user_}) {
@@ -56,6 +57,12 @@ const createTeam = async (e)=>{
     setFormErrors(null)
   };
 
+  const matches = useMediaQuery('(min-width:600px)');
+  const margin = matches ? '32px' : '0px'
+  const height = matches ? 'none' : '100%'
+  const maxHeight = matches ? 'calc(100% - 64px)' : 'none'
+  const fontsize = matches ? '1.5em' : '2em'
+
   const useStyles = makeStyles({
     root: {
     width: '80px',
@@ -63,13 +70,17 @@ const createTeam = async (e)=>{
   },
   paper:{
       backgroundColor: '#2d303e',
-      width: '600px'
+      width: '600px',
+      height: height,
+      margin: margin,
+      maxHeight: maxHeight
     },
     title:{
       color: 'white',
       '& h2':{
         fontFamily: 'Open Sans',
-        fontWeight: 600
+        fontWeight: 600,
+        fontSize: fontsize
       }
     },
     content:{

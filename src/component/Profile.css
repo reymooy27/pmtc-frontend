@@ -1,7 +1,6 @@
 .profile {
-  margin: 3em auto 1em;
-  height: 260px;
-  background-color: #151a2c;
+  margin: 3em auto 0em;
+  height: 350px;
   color: white;
   text-align: center;
   display: flex;
@@ -18,8 +17,71 @@
   background: linear-gradient(#070613, #151a2c);
 }
 
+.profile-button-wraper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 20px 0 0;
+}
+.profile-button-chat {
+  color: white;
+  border: 2px solid #00dbae;
+  background: transparent;
+  border-radius: 20px;
+  padding: 10px;
+  outline: none;
+  font-weight: bold;
+  font-size: 11px;
+  cursor: pointer;
+  transition: 0.3s all ease-in-out;
+  text-transform: uppercase;
+  width: 40%;
+  margin: 0 5px;
+  max-width: 250px;
+}
+.profile-button-chat:hover {
+  background: #00dbae;
+}
+
+.profile-button-add-friends {
+  background: #00dbae;
+  color: black;
+  border-radius: 20px;
+  padding: 10px;
+  outline: none;
+  font-weight: bold;
+  font-size: 11px;
+  cursor: pointer;
+  transition: 0.3s all ease-in-out;
+  text-transform: uppercase;
+  border: none;
+  width: 40%;
+  margin: 0 5px;
+  max-width: 250px;
+}
+.profile-button-add-friends:hover {
+  background: rgb(4, 172, 132);
+}
+.profile-overview-stats {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 20px 0 0;
+}
+.profile-overview-stats div {
+  width: 33%;
+}
+.profile-overview-stats div h5 {
+  font-size: 0.9em;
+  font-weight: normal;
+  margin-bottom: -5px;
+}
+.profile-overview-stats div span {
+  font-size: 1em;
+  font-weight: bold;
+}
 @media screen and (min-width: 976px) {
   .profile {
-    margin: 3.7em auto 1em;
+    margin: 3.7em auto 0em;
   }
 }

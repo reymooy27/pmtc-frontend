@@ -25,7 +25,16 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import axios from '../axios'
 import { setErrorMessage, setOpenErrorSnackbar, setOpenSuccessSnackbar, setSuccessMessage } from '../redux/reducers/appSlice'
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
+function Profile() {
+
+  const matches = useMediaQuery('(min-width:600px)');
+  const margin = matches ? '32px' : '0px'
+  const height = matches ? 'none' : '100%'
+  const maxHeight = matches ? 'calc(100% - 64px)' : 'none'
+  const fontsize = matches ? '1.5em' : '2em'
+      
 const useStyles = makeStyles(() => ({
   root: {
     width: '130px',
@@ -33,13 +42,17 @@ const useStyles = makeStyles(() => ({
   },
   paper:{
       backgroundColor: '#2d303e',
-      width: '600px'
+      width: '600px',
+      height: height,
+      margin: margin,
+      maxHeight: maxHeight
     },
     title:{
       color: 'white',
       '& h2':{
         fontFamily: 'Open Sans',
-        fontWeight: 600
+        fontWeight: 600,
+        fontSize: fontsize
       }
     },
     content:{
@@ -51,8 +64,6 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-
-function Profile() {
   const user = useSelector(selectUser)
   const classes = useStyles()
   let { path } = useRouteMatch();
@@ -132,7 +143,7 @@ function Profile() {
 
   return (
     <>
-    {!user && <Redirect to='/login'/>}
+    {!user && <Redirect to='/'/>}
     <>
       <div className='profile'>
        <Dialog classes={{paper: classes.paper}} open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
@@ -178,6 +189,24 @@ function Profile() {
         alt={isUserLoggedIn ? user?.username : user_?.username}/>
       </Badge>
         <h3>{isUserLoggedIn ? user?.username : user_?.username}</h3>
+        {!isUserLoggedIn && <div className='profile-button-wraper'>
+          <button className='profile-button-chat'>Chat</button>
+          <button className='profile-button-add-friends'>Tambahkan Teman</button>
+        </div>}
+        <div className='profile-overview-stats'>
+          <div>
+            <h5>Match</h5>
+            <span>0</span>
+          </div>
+          <div>
+            <h5>Winrate</h5>
+            <span>0%</span>
+          </div>
+          <div>
+            <h5>Followers</h5>
+            <span>0</span>
+          </div>
+        </div>
       </div> 
       <Switch>
         <Route exact path={path}>

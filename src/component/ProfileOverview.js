@@ -14,6 +14,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import {Link } from 'react-router-dom';
 import axios from '../axios'
 import { setErrorMessage, setOpenErrorSnackbar, setOpenSuccessSnackbar, setSuccessMessage } from '../redux/reducers/appSlice';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 function ProfileOverview({isUser, user_}) {
   const user = useSelector(selectUser)
@@ -25,16 +26,26 @@ function ProfileOverview({isUser, user_}) {
   const [idInGame, setIdInGame] = useState('')
   const [gameSelected, setGameSelected] = useState(null)
   
+  const matches = useMediaQuery('(min-width:600px)');
+  const margin = matches ? '32px' : '0px'
+  const height = matches ? 'none' : '100%'
+  const maxHeight = matches ? 'calc(100% - 64px)' : 'none'
+  const fontsize = matches ? '1.5em' : '2em'
+
   const useStyles = makeStyles(() => ({
   paper:{
       backgroundColor: '#2d303e',
       width: '600px',
+      height: height,
+      margin: margin,
+      maxHeight: maxHeight
     },
     title:{
       color: 'white',
       '& h2':{
         fontFamily: 'Open Sans',
-        fontWeight: 600
+        fontWeight: 600,
+        fontSize: fontsize
       }
     },
     content:{
@@ -106,7 +117,7 @@ function ProfileOverview({isUser, user_}) {
                 <img src={require(`../img/pubg_game_app_logo.png`)} alt=''/>
               </div>
               : <p>Belum ada akun yang dikaitkan</p>}
-            {isUser && <Link to='#'onClick={handleClickOpen} className='profile-overview-button'>Tambahkan akun game</Link>}
+            {isUser && <button onClick={handleClickOpen} className='profile-overview-button'>Tambahkan akun game</button>}
           </div>
           <div className='profile-overview-social-account'>
             <h3>Media Sosial</h3>
