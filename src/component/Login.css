@@ -21,6 +21,12 @@
   width: 80%;
   text-align: left;
 }
+.login-title span {
+  display: flex;
+  justify-content: center;
+  color: red;
+  font-weight: 600;
+}
 .login-input:focus {
   border: 2px solid #00deab;
   transition: ease-in-out 0.3s;

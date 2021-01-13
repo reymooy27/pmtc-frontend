@@ -101,7 +101,7 @@ const handleSubmit = (e) => {
 
   const responseErrorGoogle = (response) => {
   console.log(response);
-  }
+}
   
 if(redirectTo){
   return(<Redirect to='/'/>)
@@ -111,9 +111,35 @@ if(redirectTo){
     <>
       {user && <Redirect to='/'/>}
       <div className='login'>
+      <div className='login-title'>
+        <h2>Log In</h2>
+      </div>
+      <div className='facebook-login'>
+          <FacebookLogin
+          appId="728992861379711"
+          autoLoad={false}
+          callback={responseFacebook}
+          render={renderProps => (
+            <button className='login-with-facebook login-button' onClick={renderProps.onClick}>Login dengan Facebook</button>
+          )}
+        />
+      </div>
+      <div className='google-login'>
+        <GoogleLogin
+          clientId="808552961676-l3cjjdu8eh5j7sor56nj86m64hvfb1os.apps.googleusercontent.com"
+          render={renderProps => (
+            <button className='login-button login-with-google' onClick={renderProps.onClick} disabled={renderProps.disabled}>Login dengan Google</button>
+          )}
+          buttonText="Login"
+          onSuccess={responseGoogle}
+          onFailure={responseErrorGoogle}
+          cookiePolicy={'single_host_origin'}
+          isSignedIn={false}
+        />
+      </div>
+        <span>atau</span>
         <form className="login_form" onSubmit={handleSubmit}>
           <div className='login-title'>
-            <h2>Log In</h2>
             {loginSuccess ? loginSuccess : ''}
             {formErrors.err ? <span>{formErrors.err.response.data}</span> : ''}
           </div>
@@ -153,30 +179,6 @@ if(redirectTo){
             /> : 'Login'}</button>
         </div>
       </form>
-      <span>atau</span>
-      <div className='facebook-login'>
-          <FacebookLogin
-          appId="728992861379711"
-          autoLoad={false}
-          callback={responseFacebook}
-          render={renderProps => (
-            <button className='login-with-facebook login-button' onClick={renderProps.onClick}>Login dengan Facebook</button>
-          )}
-        />
-      </div>
-      <div className='google-login'>
-        <GoogleLogin
-          clientId="808552961676-l3cjjdu8eh5j7sor56nj86m64hvfb1os.apps.googleusercontent.com"
-          render={renderProps => (
-            <button className='login-button login-with-google' onClick={renderProps.onClick} disabled={renderProps.disabled}>Login degan Google</button>
-          )}
-          buttonText="Login"
-          onSuccess={responseGoogle}
-          onFailure={responseErrorGoogle}
-          cookiePolicy={'single_host_origin'}
-          isSignedIn={false}
-        />
-      </div>
     </div>
     </> 
   )
