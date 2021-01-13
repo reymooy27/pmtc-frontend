@@ -22,7 +22,7 @@ function TournamentCard({_id,
         {status === 'ONGOING' && <span className='tournaments-status ongoing'>Berlangsung</span>}
         <div className='pubg-logo'></div>
         <h3>{tournamentName}</h3>
-        <h3>{`Rp. ${new Intl.NumberFormat().format(
+        <h3>{tournamentFirstPrize +tournamentSecondPrize +tournamentThirdPrize < 1 ? '-' : `Rp. ${new Intl.NumberFormat().format(
         tournamentFirstPrize +tournamentSecondPrize +tournamentThirdPrize
       )}`}</h3>
         <div className='tournament-bottom'>

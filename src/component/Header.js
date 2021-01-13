@@ -43,7 +43,7 @@ moment.updateLocale('en', {
             <h1>{tournament.tournamentName}</h1>
           </div>
           <div className='header-prize-pool'>
-          <h1>{`Rp. ${new Intl.NumberFormat().format(
+          <h1>{tournament.tournamentFirstPrize +tournament.tournamentSecondPrize +tournament.tournamentThirdPrize < 1 ? '-':  `Rp. ${new Intl.NumberFormat().format(
               tournament.tournamentFirstPrize +tournament.tournamentSecondPrize +tournament.tournamentThirdPrize
             )}`}</h1>
           </div>
@@ -66,7 +66,7 @@ moment.updateLocale('en', {
           </Link>
           <TournamentDetail
             title="Biaya Pendaftaran"
-            detail={`Rp. ${new Intl.NumberFormat().format(
+            detail={tournament.tournamentFee < 1 ? 'Gratis' : `Rp. ${new Intl.NumberFormat().format(
               tournament.tournamentFee
             )}`}
           />
