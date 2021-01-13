@@ -69,7 +69,7 @@ const isAdmin = user !== null ? user?.role === 'ADMIN' : null
 
   return (
     <Fragment>
-      {!isAdmin && <Redirect to='/login'/>}
+      {!isAdmin && <Redirect to='/'/>}
         <div className='admin'>
             <Switch>
               <Route exact path={path}>
