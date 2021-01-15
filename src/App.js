@@ -25,7 +25,8 @@ import UserTeam from './component/UserTeam'
 import ProfileSetting from "./component/ProfileSetting";
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-
+import Chat from "./component/Chat";
+import ChatList from './component/ChatList'
 
 function App() {
   const dispatch = useDispatch()
@@ -74,6 +75,20 @@ function Alert(props) {
         />
       ) : (
           <Switch>
+            <Route path="/chat/:id">
+              <Navbar/>
+              <SideBar/>
+              <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
+                <Chat/>
+              </div>
+            </Route>
+            <Route path="/chat">
+              <Navbar/>
+              <SideBar/>
+              <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
+                <ChatList/>
+              </div>
+            </Route>
             <Route path="/profile/team/:id">
               <Navbar/>
               <SideBar/>
