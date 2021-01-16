@@ -38,6 +38,7 @@
   width: 40%;
   margin: 0 5px;
   max-width: 250px;
+  text-decoration: none;
 }
 .profile-button-chat:hover {
   background: #00dbae;

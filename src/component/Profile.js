@@ -12,6 +12,7 @@ import {
   Redirect,
   useRouteMatch,
   useParams,
+  Link,
 } from "react-router-dom";
 import ProfileTournaments from './ProfileTournaments'
 import ProfileFriends from './ProfileFriends'
@@ -190,7 +191,7 @@ const useStyles = makeStyles(() => ({
       </Badge>
         <h3>{isUserLoggedIn ? user?.username : user_?.username}</h3>
         {!isUserLoggedIn && <div className='profile-button-wraper'>
-          <button className='profile-button-chat'>Chat</button>
+          <Link to={`/chat/${id}`} className='profile-button-chat'>Chat</Link>
           <button className='profile-button-add-friends'>Tambahkan Teman</button>
         </div>}
         <div className='profile-overview-stats'>
