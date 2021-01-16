@@ -5,12 +5,15 @@ import { selectUser } from '../redux/reducers/userSlice'
 import axios from '../axios'
 import './ChatList.css'
 import { setToRecipient } from '../redux/reducers/chatSlice'
+import { Avatar } from '@material-ui/core'
+import socket from '../socket.io'
 
 function ChatList() {
 
   const user = useSelector(selectUser)
 
   const [chatList, setChatList] = useState([])
+  const [newChatList, setNewChatList] = useState([])
 
   const dispatch = useDispatch()
 
@@ -21,16 +24,19 @@ function ChatList() {
       .catch(err=> console.log(err))
     }
     getChatList()
+  }, [newChatList])
+
+  useEffect(() => {
+    socket.on("sendMessage", (data) => setNewChatList(data));
   }, [])
 
-  console.log(chatList);
 
   const handleRecipient = (recipients) => {
     for (let i = 0; i < recipients.length; i++) {
       if (
-        recipients[i]._id !== user._id
+        recipients[i]._id !== user?._id
       ) {
-        return recipients[i]._id;
+        return recipients[i];
       }
     }
     return null;
@@ -38,12 +44,19 @@ function ChatList() {
 
   return (
     <div className='chatList'>
-      <h1>Chat List</h1>
-      {chatList && chatList.map(cl=>(
-        <Link onClick={()=> dispatch(setToRecipient(handleRecipient(cl.recipients)))} key={cl._id} to={`/chat/${cl._id}`}>
-          {cl._id}
+      {chatList.length > 0 ? chatList.map(cl=>(
+        <Link className='chatList-chat' onClick={()=> dispatch(setToRecipient(handleRecipient(cl.recipients)))} key={cl._id} to={`/chat/${handleRecipient(cl.recipients)._id}`}>
+          <div className='chatList-chat-avatar'>
+            <Avatar src={handleRecipient(cl.recipients).profilePicture} alt=''/>
+          </div>
+          <div className='chatList-chat-recipient'>
+            <h4>{handleRecipient(cl.recipients).username}</h4>
+            <span>{cl.lastMessage}</span>
+          </div>
         </Link>
-      ))}
+      )) : 
+      <h3>Belum ada pesan apapun</h3>
+      }
     </div>
   )
 }

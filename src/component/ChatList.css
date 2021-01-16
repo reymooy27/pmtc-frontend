@@ -1,4 +1,35 @@
 .chatList {
   margin: 4em auto 0;
   width: 95%;
+  height: 100vh;
+}
+
+.chatList-chat {
+  text-decoration: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+.chatList-chat-avatar {
+  margin-right: 15px;
+  margin-bottom: 10px;
+}
+
+.chatList-chat span {
+  display: block;
+  margin-top: -5px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.425);
+}
+.chatList-chat-recipient {
+  width: 100%;
+  border-bottom: 1px solid rgb(87, 87, 87);
+  padding-bottom: 10px;
+}
+
+@media screen and (min-width: 600px) {
+  .chatList {
+    margin: 5em auto 0;
+  }
 }
