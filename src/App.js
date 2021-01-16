@@ -76,7 +76,7 @@ function Alert(props) {
       ) : (
           <Switch>
             <Route path="/chat/:id">
-              <Navbar/>
+              <Navbar isChat={true} backButton={true}/>
               <SideBar/>
               <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
                 <Chat/>
