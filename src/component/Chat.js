@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './Chat.css'
 import axios from '../axios'
 import socket from '../socket.io'
 import { useParams } from 'react-router-dom'
-import { selectUser } from '../redux/reducers/userSlice'
-import { useSelector } from 'react-redux'
-import { selectToRecipient } from '../redux/reducers/chatSlice'
+import { useDispatch} from 'react-redux'
+import {setToRecipient } from '../redux/reducers/chatSlice'
+import IconButton from '@material-ui/core/IconButton';
+import SendIcon from '@material-ui/icons/Send';
 
 function Chat() {
 
-  const user = useSelector(selectUser)
-  const toRecipient = useSelector(selectToRecipient)
 
   const [sentMessage, setSentMessage] = useState('')
   const [conversation, setConversation] = useState(null)
@@ -18,11 +17,20 @@ function Chat() {
 
   const {id} = useParams()
 
+  const chatBottom = useRef(null)
+
+  const dispatch = useDispatch()
+
+  const scrollToBottom = () => {
+    chatBottom.current.scrollIntoView({ behavior: "smooth" });
+  };
+
   useEffect(() => {
     const getConversation = async ()=>{
       await axios.post(`/chats/${id}`)
       .then(res=>{
         setConversation(res.data)
+        scrollToBottom()
       })
       .catch(err=> console.log(err))
     }
@@ -33,22 +41,45 @@ function Chat() {
     socket.on("sendMessage", (data) => setNewConversation(data));
   }, [])
 
+  useEffect(() => {
+    const getRecipientDetails = async ()=>{
+      await axios.post(`/user/${id}`)
+      .then(res=> dispatch(setToRecipient(res.data)))
+      .catch(err=> console.log(err))
+    }
+    getRecipientDetails()
+  }, [dispatch,id])
+
   const sendMessage = async ()=>{
-    await axios.post(`/chat/${toRecipient}`, {message: sentMessage})
+    await axios.post(`/chat/${id}`, {message: sentMessage})
     .then(res=>{
-      console.log(res.data)
+      setSentMessage('')
     })
-    .catch(err=> console.log(err))
+    .catch(err=> {
+      console.log(err)
+      setSentMessage('')
+    })
   }
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [newConversation])
 
   return (
     <div className='chat'>
-      <h1>Chat</h1>
-      {conversation && conversation.map(c=>(
-        <p className={user?._id === c.from ? 'chat-user-message' : 'chat-message'} key={c._id}>{c.message}</p>
-      ))}
-      <input type='text' value={sentMessage} onChange={(e)=> setSentMessage(e.target.value)}/>
-      <button onClick={sendMessage}>Send</button>
+      <div className='chat-messages-wraper'>
+        {conversation && conversation.map(c=>(
+          <p className={id === c.to ? 'chat-user-message' : 'chat-sender-message'} key={c._id}>{c.message}</p>
+        ))}
+      </div>
+      <div ref={chatBottom}/>
+      <div className='chat-send-message'>
+        <input type='text' value={sentMessage} onChange={(e)=> setSentMessage(e.target.value)}/>
+        <IconButton onClick={sendMessage} disabled={sentMessage === '' ? true : false} aria-label="send message" component="span">
+          <SendIcon style={sentMessage === '' ? {color: '#0e1013', fontSize: '32px'} : {color: '#00dbae', fontSize: '32px'} } />
+        </IconButton>
+        {/* <button onClick={sendMessage}>Send</button> */}
+      </div>
     </div>
   )
 }
