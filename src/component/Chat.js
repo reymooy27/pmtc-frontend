@@ -38,8 +38,10 @@ function Chat() {
   }, [newConversation,id])
 
   useEffect(() => {
-    socket.on("sendMessage", (data) => setNewConversation(data));
-  }, [])
+    socket.on("sendMessage", (data) => setNewConversation(data === newConversation ? data+'1' : data));
+
+    return ()=> socket.removeAllListeners("sendMessage");
+  }, [newConversation])
 
   useEffect(() => {
     const getRecipientDetails = async ()=>{
@@ -69,7 +71,7 @@ function Chat() {
     <div className='chat'>
       <div className='chat-messages-wraper'>
         {conversation && conversation.map(c=>(
-          <p className={id === c.to ? 'chat-user-message' : 'chat-sender-message'} key={c._id}>{c.message}</p>
+          <p className={id === c.to ? 'chat-message byUser' : 'chat-message bySender'} key={c._id}>{c.message}</p>
         ))}
       </div>
       <div ref={chatBottom}/>

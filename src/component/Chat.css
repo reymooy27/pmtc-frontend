@@ -6,14 +6,27 @@
   height: fit-content;
   margin: 0 auto;
   padding-bottom: 70px;
+  display: flex;
+  flex-direction: column;
 }
 
-.chat-user-message {
-  text-align: right;
+.chat-message {
+  width: fit-content;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 10px;
+  overflow-wrap: break-word;
+  max-width: 80%;
 }
 
-.chat-sender-message {
-  text-align: left;
+.byUser {
+  align-self: flex-end;
+  background-color: #2d303e;
+}
+
+.bySender {
+  align-self: flex-start;
+  background-color: #070613;
 }
 
 .chat-send-message {
