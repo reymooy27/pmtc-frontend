@@ -21,6 +21,8 @@ import Loader from "react-loader-spinner";
 import { closeSideBar } from '../redux/reducers/appSlice';
 import TournamentTeam from './TournamentTeam';
 import axios from '../axios'
+import socket from '../socket.io'
+
 
 function Tournament() {
   const dispatch = useDispatch()
@@ -29,6 +31,8 @@ function Tournament() {
   let {tournamentID} = useParams()
 
   const [loading, setLoading] = useState(true)
+  const [updateTournament, setUpdateTournament] = useState('')
+  const [teamRegistered, setTeamRegistered] = useState('')
 
   useEffect(() => {
     let mounted = true
@@ -42,7 +46,20 @@ function Tournament() {
     }
     fetchTournamentData()
     return ()=> mounted = false
-}, [dispatch,tournamentID])
+}, [dispatch,tournamentID,updateTournament,teamRegistered])
+
+useEffect(() => {
+    socket.on("updateTournament", (data) => setUpdateTournament(data === updateTournament ? data+'1' : data));
+
+    return ()=> socket.removeAllListeners("updateTournament");
+  }, [updateTournament])
+
+useEffect(() => {
+    socket.on("registTournament", (data) => setTeamRegistered(data === teamRegistered ? data+'1' : data));
+
+    return ()=> socket.removeAllListeners("registTournament");
+  }, [teamRegistered])
+
 
   return (
     <>
