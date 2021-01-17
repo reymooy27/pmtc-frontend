@@ -181,6 +181,7 @@ fecthData()
         >
           <option value='Eliminasi Grup'>Eliminasi Grup</option>
           <option value='Liga'>Liga</option>
+          <option value='SCRIM'>SCRIM</option>
         </select>
       </div>
                 {/* <TableRow>
