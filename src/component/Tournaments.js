@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Tournaments.css'
 import {fetchAllTournament, selectAllTournament, selectLoading} from '../redux/reducers/tournamentSlice'
 import {useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 import Loader from 'react-loader-spinner'
 import TournamentCard from './TournamentCard'
+import socket from '../socket.io'
 
 function Tournaments() {
   
@@ -33,11 +34,37 @@ function Tournaments() {
   const loading = useSelector(selectLoading)
   const dispatch = useDispatch()
 
+  const [newTournament, setNewTournament] = useState('')
+  const [updateTournament, setUpdateTournament] = useState('')
+  const [deleteTournament, setDeleteTournament] = useState('')
+  
+
   useEffect(() => {
-    setInterval(() => {
+    let mounted = true
+    if(mounted){
       dispatch(fetchAllTournament())
-    }, 5000);
-  }, [dispatch])
+    }
+    
+    return ()=> mounted = false
+  }, [dispatch, newTournament, updateTournament, deleteTournament])
+
+  useEffect(() => {
+    socket.on("createTournament", (data) => setNewTournament(data === newTournament ? data+'1' : data));
+
+    return ()=> socket.removeAllListeners("createTournament");
+  }, [newTournament])
+
+  useEffect(() => {
+    socket.on("updateTournament", (data) => setUpdateTournament(data === updateTournament ? data+'1' : data));
+
+    return ()=> socket.removeAllListeners("updateTournament");
+  }, [updateTournament])
+
+  useEffect(() => {
+    socket.on("deleteTournament", (data) => setDeleteTournament(data === deleteTournament ? data+'1' : data));
+
+    return ()=> socket.removeAllListeners("deleteTournament");
+  }, [deleteTournament])
 
   const ongoingTournament = allTournament.filter(r=> r.status === 'ONGOING')
   const availableTournament = allTournament.filter(r=> new Date(r.startDate).getTime() > Date.now())
@@ -61,25 +88,28 @@ function Tournaments() {
     </div>
     </div>
     <div className='tournaments'>
-      <h2 className='tournaments-title'>Turnamen</h2>
-      <div className='tournament-container'>
-        {availableTournament.map(t=>(
-          <TournamentCard
-          key={t._id}
-          _id={t._id}
-          tournamentPicture={t.tournamentPicture}
-          status={t.status}
-          tournamentName={t.tournamentName}
-          tournamentFirstPrize={t.tournamentFirstPrize}
-          tournamentSecondPrize={t.tournamentSecondPrize}
-          tournamentThirdPrize={t.tournamentThirdPrize}
-          startDate={t.startDate}
-          tournamentMode={t.tournamentMode}
-          teams={t.teams}
-          maxSlot={t.maxSlot}
-          />
-        ))}
-      </div>
+      {availableTournament.length > 0 &&
+      <>
+        <h2 className='tournaments-title'>Turnamen</h2>
+        <div className='tournament-container'>
+          {availableTournament.map(t=>(
+            <TournamentCard
+            key={t._id}
+            _id={t._id}
+            tournamentPicture={t.tournamentPicture}
+            status={t.status}
+            tournamentName={t.tournamentName}
+            tournamentFirstPrize={t.tournamentFirstPrize}
+            tournamentSecondPrize={t.tournamentSecondPrize}
+            tournamentThirdPrize={t.tournamentThirdPrize}
+            startDate={t.startDate}
+            tournamentMode={t.tournamentMode}
+            teams={t.teams}
+            maxSlot={t.maxSlot}
+            />
+          ))}
+        </div>
+      </>}
       {ongoingTournament?.length > 0 &&
       <>
         <h2 className='tournaments-title'>Turnamen Berlangsung</h2>
