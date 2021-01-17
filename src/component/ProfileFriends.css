@@ -18,6 +18,7 @@
 
 .profile-friends-list {
   overflow-y: auto;
+  height: 80%;
 }
 
 .profile-friends-list div {

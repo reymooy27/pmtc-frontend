@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import {selectUser} from '../redux/reducers/userSlice'
 import {useSelector } from 'react-redux'
 import './ProfileFriends.css'
@@ -21,7 +21,6 @@ function ProfileFriends({isUser, user_}) {
 
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState('')
-  const [users, setUsers] = useState([])
   const [filteredUser, setFilteredUser] = useState([])
 
   const matches = useMediaQuery('(min-width:600px)');
@@ -66,30 +65,16 @@ function ProfileFriends({isUser, user_}) {
   };
 
   
-
-  useEffect(() => {
-    let mounted = true
-
-    const fetchALlUser = async()=>{
+  const updateInput = async (input) => {
     await axios.post('/user/all')
     .then(res=> {
-      if(mounted){
-        setUsers(res.data)
-        setFilteredUser(res.data)
-      }
+        const filtered = res.data.filter(p => {
+          return p.username.toLowerCase().includes(input.toLowerCase())
+        })
+        setInput(input);
+        setFilteredUser(filtered);
     })
     .catch(err=> console.log(err))
-  }
-    fetchALlUser()
-    return ()=> mounted = false
-  }, [])
-  
-  const updateInput = async (input) => {
-    const filtered = users.filter(p => {
-      return p.username.toLowerCase().includes(input.toLowerCase())
-    })
-    setInput(input);
-    setFilteredUser(filtered);
   }
   return (
     <div className='container'>
