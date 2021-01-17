@@ -51,7 +51,7 @@ function ChatList() {
           </div>
           <div className='chatList-chat-recipient'>
             <h4>{handleRecipient(cl.recipients).username}</h4>
-            <span>{cl.lastMessage}</span>
+            <span>{cl.lastMessage.length > 10 ? cl.lastMessage.substring(0,20) + '...' : cl.lastMessage}</span>
           </div>
         </Link>
       )) : 
