@@ -142,6 +142,20 @@ const useStyles = makeStyles(() => ({
     return ()=> mounted = false
   }, [isUserLoggedIn,id])
 
+  const sendFriendRequest = async ()=>{
+    await axios.post(`/friendRequest/send/${id}`)
+    .then(res=> {
+      console.log(res.data)
+      dispatch(setOpenSuccessSnackbar(true))
+      dispatch(setSuccessMessage(res.data))
+    })
+    .catch(err=> {
+      console.log(err)
+      dispatch(setOpenErrorSnackbar(true))
+      dispatch(setErrorMessage(err.response.data))
+    })
+  }
+
   return (
     <>
     {!user && <Redirect to='/'/>}
@@ -192,7 +206,7 @@ const useStyles = makeStyles(() => ({
         <h3>{isUserLoggedIn ? user?.username : user_?.username}</h3>
         {!isUserLoggedIn && <div className='profile-button-wraper'>
           <Link to={`/chat/${id}`} className='profile-button-chat'>Chat</Link>
-          <button className='profile-button-add-friends'>Tambahkan Teman</button>
+          <button onClick={sendFriendRequest} className='profile-button-add-friends'>Tambahkan Teman</button>
         </div>}
         <div className='profile-overview-stats'>
           <div>
