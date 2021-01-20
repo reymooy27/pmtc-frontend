@@ -59,7 +59,7 @@ const handleClickOpen = () => {
   useEffect(() => {
     let mounted = true;
     async function fetchData() {
-      const req = await axios.post('/team2/' + id);
+      const req = await axios.get('/team2/' + id);
       if (mounted) {
         setData(req.data);
         setLoading(false);

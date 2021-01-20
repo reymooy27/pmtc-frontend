@@ -32,7 +32,7 @@ export default tournamentSlice.reducer
 
 export const fetchAllTournament = ()=> async dispatch => {
   try {
-    const res = await axios.post('/api/v1/tournaments')
+    const res = await axios.get('/api/v1/tournaments')
     dispatch(getAllTournament(res.data))
   } catch (error) {
     console.log(error);

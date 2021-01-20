@@ -41,7 +41,7 @@ function EditTurnamen() {
   let mounted = true
 
 async function fecthData(){
-  await axios.post('/tournament/'+ currentTurnamenID).then(res=>{
+  await axios.get('/tournament/'+ currentTurnamenID).then(res=>{
     if(mounted){
       setTournamentName(res.data.tournamentName)
       // setTournamentPicture(res.data.tournamentPicture)

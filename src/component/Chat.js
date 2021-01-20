@@ -27,7 +27,7 @@ function Chat() {
 
   useEffect(() => {
     const getConversation = async ()=>{
-      await axios.post(`/chats/${id}`)
+      await axios.get(`/chats/${id}`)
       .then(res=>{
         setConversation(res.data)
         scrollToBottom()
@@ -45,7 +45,7 @@ function Chat() {
 
   useEffect(() => {
     const getRecipientDetails = async ()=>{
-      await axios.post(`/user/${id}`)
+      await axios.get(`/user/${id}`)
       .then(res=> dispatch(setToRecipient(res.data)))
       .catch(err=> console.log(err))
     }

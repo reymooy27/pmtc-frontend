@@ -20,7 +20,7 @@ function ChatList() {
 
   useEffect(() => {
     const getChatList = async ()=>{
-      await axios.post('/chatList')
+      await axios.get('/chatList')
       .then(res=> setChatList(res.data))
       .catch(err=> {
         console.log(err)

@@ -73,7 +73,7 @@ function ProfileFriends({isUser, user_}) {
 
   
   const updateInput = async (input) => {
-    await axios.post('/user/all')
+    await axios.get('/user/all')
     .then(res=> {
         const filtered = res.data.filter(p => {
           return p.username.toLowerCase().includes(input.toLowerCase())

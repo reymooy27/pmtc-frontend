@@ -28,7 +28,7 @@ export const fetchCheckUser = ()=> async dispatch => {
   try {
     const req = await axios.get('/status')
     if(req.status === 200){
-      const r = await axios.post(`user/${req.data.user._id}`)
+      const r = await axios.get(`user/${req.data.user._id}`)
       dispatch(checkUser(r.data))
       }
   } catch (error) {

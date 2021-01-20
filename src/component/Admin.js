@@ -31,7 +31,7 @@ function Admin() {
 useEffect(() => {
   let mounted = true
 
-  axios.post('/tournament/'+ currentTurnamenID).then(res=>{
+  axios.get('/tournament/'+ currentTurnamenID).then(res=>{
     if(mounted){
       setcurrentTurnamen(res.data.teams)
       }

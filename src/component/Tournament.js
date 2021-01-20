@@ -37,7 +37,7 @@ function Tournament() {
   useEffect(() => {
     let mounted = true
     const fetchTournamentData = async ()=>{
-      const res = await axios.post(`/tournament/${tournamentID}`)
+      const res = await axios.get(`/tournament/${tournamentID}`)
       if(mounted){
         dispatch(getTournamentData(res.data))
         dispatch(getTournamentTeam(res.data.teams))

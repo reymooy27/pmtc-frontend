@@ -132,7 +132,7 @@ const useStyles = makeStyles(() => ({
     let mounted = true
     if(!isUserLoggedIn){
       const fecthUser = async ()=>{
-        const req = await axios.post(`/user/${id}`)
+        const req = await axios.get(`/user/${id}`)
         if(mounted){
         setUser_(req.data)
         }
