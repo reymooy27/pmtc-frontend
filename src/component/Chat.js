@@ -76,7 +76,7 @@ function Chat() {
       </div>
       <div ref={chatBottom}/>
       <div className='chat-send-message'>
-        <input type='text' value={sentMessage} onChange={(e)=> setSentMessage(e.target.value)}/>
+        <input type='text' autoFocus value={sentMessage} onChange={(e)=> setSentMessage(e.target.value)}/>
         <IconButton onClick={sendMessage} disabled={sentMessage === '' ? true : false} aria-label="send message" component="span">
           <SendIcon style={sentMessage === '' ? {color: '#0e1013', fontSize: '32px'} : {color: '#00dbae', fontSize: '32px'} } />
         </IconButton>
