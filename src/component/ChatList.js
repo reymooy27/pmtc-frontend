@@ -28,6 +28,8 @@ function ChatList() {
 
   useEffect(() => {
     socket.on("sendMessage", (data) => setNewChatList(data));
+
+    return ()=> socket.removeAllListeners("sendMessage");
   }, [])
 
 
