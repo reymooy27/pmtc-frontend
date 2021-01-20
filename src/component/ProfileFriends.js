@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {selectUser} from '../redux/reducers/userSlice'
-import {useSelector } from 'react-redux'
+import {useDispatch, useSelector } from 'react-redux'
 import './ProfileFriends.css'
 import AddIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,10 +12,13 @@ import axios from '../axios'
 import { Link } from 'react-router-dom';
 import { Avatar } from '@material-ui/core';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { setErrorMessage, setOpenErrorSnackbar } from '../redux/reducers/appSlice';
 
 function ProfileFriends({isUser, user_}) {
   const user = useSelector(selectUser)
   const data = isUser ? user : user_
+
+  const dispatch = useDispatch()
 
   document.title = `${user.username} - Teman`
 
@@ -30,6 +33,10 @@ function ProfileFriends({isUser, user_}) {
   const fontsize = matches ? '1.5em' : '2em'
 
   const useStyles = makeStyles(() => ({
+    root: {
+    width: '80px',
+    height: '80px'
+  },
   paper:{
       backgroundColor: '#2d303e',
       width: '600px',
@@ -74,7 +81,11 @@ function ProfileFriends({isUser, user_}) {
         setInput(input);
         setFilteredUser(filtered);
     })
-    .catch(err=> console.log(err))
+    .catch(err=> {
+      console.log(err)
+      dispatch(setOpenErrorSnackbar(true))
+      dispatch(setErrorMessage(err.response.data))
+    })
   }
   return (
     <div className='container'>
@@ -89,7 +100,7 @@ function ProfileFriends({isUser, user_}) {
         {data?.friends.map(t=> (
             <div key={t._id} className='profile-team-wraper'>
               <div className='profile-team-avatar'>
-                <Link to={'/user/' + t._id} >
+                <Link to={'/profile/' + t._id} >
                   <Avatar className={classes.root} src={t.profilePicture} alt={t.username}/>
                   <h5>{t.username}</h5>
                 </Link>
@@ -121,7 +132,7 @@ function ProfileFriends({isUser, user_}) {
           {filteredUser.map(p=>(
             <div key={p._id}>
               <Link to={`/profile/${p._id}`}>
-                <Avatar className={classes.root} src={p.profilePicture} alt={p.username}/>
+                <Avatar src={p.profilePicture} alt={p.username}/>
                 <span>{p.username}</span>
               </Link>
               <button className='profile-friends-add-button'>Tambahkan</button>
