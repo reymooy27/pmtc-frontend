@@ -7,6 +7,7 @@ import './ChatList.css'
 import { setToRecipient } from '../redux/reducers/chatSlice'
 import { Avatar } from '@material-ui/core'
 import socket from '../socket.io'
+import { setOpenErrorSnackbar,setErrorMessage } from '../redux/reducers/appSlice'
 
 function ChatList() {
 
@@ -21,10 +22,14 @@ function ChatList() {
     const getChatList = async ()=>{
       await axios.post('/chatList')
       .then(res=> setChatList(res.data))
-      .catch(err=> console.log(err))
+      .catch(err=> {
+        console.log(err)
+        dispatch(setOpenErrorSnackbar(true))
+        dispatch(setErrorMessage(err.response.data))
+      })
     }
     getChatList()
-  }, [newChatList])
+  }, [newChatList,dispatch])
 
   useEffect(() => {
     socket.on("sendMessage", (data) => setNewChatList(data));
