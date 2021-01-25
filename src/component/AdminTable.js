@@ -40,7 +40,7 @@ playerName5}) {
   useEffect(() => {
     let mounted = true
 
-    axios.post('/team/'+ _id).then(res=>{
+    axios.get('/team/'+ _id).then(res=>{
       if(mounted){
         setPlcPoint(res.data.teamPlcPoint)
         setPlayerKill(res.data.playerKill)
