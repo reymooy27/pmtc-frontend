@@ -12,6 +12,7 @@ import InstagramIcon from '@material-ui/icons/Instagram';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import ChatIcon from '@material-ui/icons/Chat';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 
 function SideBar(props) {
 const dispatch = useDispatch()
@@ -35,6 +36,7 @@ const isAdmin = user !== null ? user.role === 'ADMIN' : null
             ""
           )}
           {user && <Link to='/chat'><ChatIcon/> Chat</Link>}
+          {user && <Link to='/notification'><NotificationsIcon/>Notifikasi</Link>}
         </div>
         <div className="sidebar-bottom">
           <div className="sidebar-social">
