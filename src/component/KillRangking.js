@@ -1,11 +1,16 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import "./KillRangking.css";
 import { Link } from "react-router-dom";
 import {selectTournament} from '../redux/reducers/tournamentSlice'
 import { useSelector } from "react-redux";
+import socket from '../socket.io'
 
 function KillRangking() {
   const tournament = useSelector(selectTournament)
+
+  document.title = `${tournament?.tournamentName} - Kill Rangking`
+
+  const [teamUpdated, setTeamUpdated] = useState('')
 
   function sortTable() {
     var table, i, x, y;
@@ -38,6 +43,7 @@ function KillRangking() {
       pos[i].innerHTML = i + 1;
     }
   }
+
   useEffect(() => {
     let mounted = true;
     if (mounted && tournament.showKillStanding && tournament.teams.length >= 1 ) {
@@ -45,7 +51,13 @@ function KillRangking() {
       pos();
     }
     return () => (mounted = false);
-  }, [tournament.showKillStanding,tournament.teams.length]);
+  }, [teamUpdated, tournament.showKillStanding,tournament.teams.length]);
+
+  useEffect(() => {
+    socket.on("updateTeam", (data) => setTeamUpdated(data === teamUpdated ? data+'1' : data));
+
+    return ()=> socket.removeAllListeners("updateTeam");
+  }, [teamUpdated])
 
   return (
     <div className="container">

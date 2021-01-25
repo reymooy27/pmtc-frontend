@@ -24,7 +24,7 @@ function ProfileTeam({isUser,user_}) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formErrors, setFormErrors] = useState('');
 
-    document.title = `${user.username} - Tim`
+    document.title = `${data?.username} - Tim`
 
 const createTeam = async (e)=>{
   e.preventDefault()

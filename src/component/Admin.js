@@ -17,6 +17,8 @@ import TournamentParticipantDetails from './TournamentParticipantDetails'
 
 function Admin() {
 
+  document.title = `Admin`
+  
   const allTournament = useSelector(selectAllTournament)
   const user = useSelector(selectUser)
 

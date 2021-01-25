@@ -8,6 +8,8 @@ import TournamentCard from './TournamentCard'
 import socket from '../socket.io'
 
 function Tournaments() {
+
+  document.title = `Home`
   
   moment.updateLocale('id', {
     relativeTime : {

@@ -11,6 +11,8 @@ import { setOpenErrorSnackbar,setErrorMessage } from '../redux/reducers/appSlice
 
 function ChatList() {
 
+  document.title = `Chat`
+
   const user = useSelector(selectUser)
 
   const [chatList, setChatList] = useState([])

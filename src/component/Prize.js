@@ -8,6 +8,8 @@ function Prize() {
   
   const tournament = useSelector(selectTournament)
 
+  document.title = `${tournament?.tournamentName} - Hadiah`
+  
   const [firstWinner, setFirstWinner] = useState(false);
   const [secondWinner, setSecondWinner] = useState(false);
   const [thirdWinner, setThirdWinner] = useState(false);

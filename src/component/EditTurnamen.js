@@ -6,9 +6,11 @@ import SaveIcon from '@material-ui/icons/Save';
 import { setErrorMessage, setOpenErrorSnackbar, setOpenSuccessSnackbar, setSuccessMessage } from '../redux/reducers/appSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAllTournament } from '../redux/reducers/tournamentSlice';
- 
 
 function EditTurnamen() {
+
+  document.title = `Edit Turnamen`
+
   const [tournamentName, setTournamentName] = useState('')
   const [description, setDescription] = useState('');
   const [information, setInformation] = useState('')

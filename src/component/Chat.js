@@ -10,6 +10,7 @@ import SendIcon from '@material-ui/icons/Send';
 
 function Chat() {
 
+  document.title = `Chat`
 
   const [sentMessage, setSentMessage] = useState('')
   const [conversation, setConversation] = useState(null)

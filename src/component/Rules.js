@@ -1,6 +1,14 @@
 import React from "react";
 import "./Rules.css";
+import { useSelector } from "react-redux";
+import {selectTournament} from '../redux/reducers/tournamentSlice'
+
 function Rules() {
+
+  const tournament = useSelector(selectTournament)
+
+  document.title = `${tournament?.tournamentName} - Peraturan`
+
   return (
     <div className="container">
       <div className="specialFont-wraper">

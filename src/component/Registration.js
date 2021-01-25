@@ -3,7 +3,14 @@ import Loader from "react-loader-spinner";
 import { Redirect, useRouteMatch } from "react-router-dom";
 import axios from "../axios";
 import './Registration.css'
+import { useSelector } from "react-redux";
+import {selectTournament} from '../redux/reducers/tournamentSlice'
+
 function Registration() {
+  const tournament = useSelector(selectTournament)
+
+  document.title = `${tournament?.tournamentName} - Pendaftaran`
+
   let {url} = useRouteMatch();
   
   const initialState = {

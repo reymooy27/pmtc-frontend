@@ -20,7 +20,7 @@ function ProfileFriends({isUser, user_}) {
 
   const dispatch = useDispatch()
 
-  document.title = `${user.username} - Teman`
+  document.title = `${data?.username} - Teman`
 
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState('')

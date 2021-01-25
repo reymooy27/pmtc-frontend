@@ -9,6 +9,8 @@ function Overview() {
 
   const tournament = useSelector(selectTournament)
 
+  document.title = `${tournament?.tournamentName} - Tinjauan`
+
   moment.updateLocale('id', {
     weekdaysShort : ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"]
 });
@@ -26,6 +28,10 @@ moment.updateLocale('id', {
         <h4 className="specialFont">Tinjauan</h4>
       </div>
       <div className="overview">
+        {tournament?.description && <div className='overview-description'>
+          <h4>Deskripsi</h4>
+          <p>{tournament?.description}</p>
+        </div>}
         <div className='overview-registration-waitlist'>
           <h4>Registrasi dan Daftar Tunggu</h4>
           <p>Turnamen ini mengaktifkan daftar tunggu. Daftar tunggu memungkinkan jumlah tim yang tidak terbatas untuk mendaftar ke turnamen di mana pendaftar dipisahkan menjadi dua kelompok: daftar standar dan daftar daftar tunggu.
@@ -54,15 +60,10 @@ moment.updateLocale('id', {
             }
           </tbody>
         </table>
-        <div className='overview-information'>
+        {tournament?.information && <div className='overview-information'>
           <h4>Informasi</h4>
-          <ul>
-            <li>Server : Asia</li>
-            <li>System Poin : PMGC</li>
-            <li>Mobile Only</li>
-            <li>Akun min Lv.30</li>
-          </ul>
-        </div>
+          <p>{tournament?.information}</p>
+        </div>}
         <div className='overview-submit-score'>
           <h4>Kirim Hasil Pertandingan</h4>
           <p>Pemain bertanggung jawab untuk mengirimkan skor pertandingan anda sendiri ke Admin.

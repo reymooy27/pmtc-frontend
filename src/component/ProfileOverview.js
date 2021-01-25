@@ -93,7 +93,7 @@ function ProfileOverview({isUser, user_}) {
     setOpenAddGameAccountDialog(false)
   }
 
-    document.title = `${user?.username} - Overview`
+    document.title = `${data?.username} - Overview`
 
     const sm = data?.socialMedia.facebook || data?.socialMedia.instagram || data?.socialMedia.twitter || data?.socialMedia.youtube
 

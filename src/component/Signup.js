@@ -5,6 +5,8 @@ import axios from '../axios'
 import './Signup.css'
 function Signup() {
 
+document.title = `Signup`
+
   const initialState = {email: '', username: '', password: ''}
   const [formValues, setFormValues] = useState(initialState)
   const [formErrors, setFormErrors] = useState({});

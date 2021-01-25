@@ -12,9 +12,6 @@
   font-size: 14px;
 }
 
-.overview-registration-waitlist {
-  margin-bottom: 20px;
-}
 .overview table {
   overflow: auto;
   width: 100%;
@@ -49,23 +46,16 @@
 .overview table tbody td:last-child {
   border-right: 0.8px rgba(255, 255, 255, 0.288) solid;
 }
+.overview-description,
+.overview-registration-waitlist,
+.overview-information,
+.overview-submit-score,
+.overview-report,
+.overview-admin {
+  margin-bottom: 20px;
+}
 
-.overview-information {
-  margin-bottom: 20px;
-}
-.overview-submit-score {
-  margin-bottom: 20px;
-}
-.overview-information ul li {
-  font-size: 14px;
-}
-.overview-report {
-  margin-bottom: 20px;
-}
 .overview a {
   font-size: 14px;
   color: #00dbae;
-}
-.overview-admin {
-  margin-bottom: 20px;
 }

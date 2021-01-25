@@ -8,7 +8,7 @@ function ProfileTournaments({isUser, user_}) {
   const user = useSelector(selectUser)
   const data = isUser ? user : user_
 
-  document.title = `${user?.username} - Turnamen`
+  document.title = `${data?.username} - Turnamen`
   
   const tournaments = data.inTournaments.map(f=> <span>{f.tournamentName}</span>)
   

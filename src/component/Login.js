@@ -13,6 +13,8 @@ function Login() {
 
 const user  = useSelector(selectUser)
 
+document.title = `Login`
+
 const initialState = {username: '', password: ''}
 const [formValues, setFormValues] = useState(initialState)
 const [formErrors, setFormErrors] = useState({});

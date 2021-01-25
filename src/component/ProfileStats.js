@@ -8,7 +8,7 @@ function ProfileStats({isUser, user_}) {
   const data = isUser ? user : user_
 
 
-  document.title = `${user.username} - Statistik`
+  document.title = `${data?.username} - Statistik`
 
   return (
     <div className='container'>

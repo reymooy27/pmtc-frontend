@@ -10,6 +10,8 @@ function Team() {
   
   const tournament = useSelector(selectTournament)
 
+  document.title = `${tournament?.tournamentName} - Tim`
+
   useEffect(() => {
     let mounted = true;
     if (mounted) {

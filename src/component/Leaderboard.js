@@ -7,6 +7,9 @@ import { useSelector } from "react-redux";
 
 function Leaderboard() {
   const tournament = useSelector(selectTournament)
+  
+  document.title = `${tournament?.tournamentName} - Leaderboard`
+
   const group = ['A','B','C','D','E','F','G','H','I','J','K','L','M'] 
 
   return (

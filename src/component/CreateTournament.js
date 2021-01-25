@@ -7,6 +7,9 @@ import { useDispatch } from 'react-redux';
 
 
 function CreateTournament() {
+
+  document.title = `Buat Turnamen`
+
   const [tournamentName, setTournamentName] = useState('')
   const [description, setDescription] = useState('');
   const [information, setInformation] = useState('')
