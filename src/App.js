@@ -27,6 +27,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import Chat from "./component/Chat";
 import ChatList from './component/ChatList'
+import Notification from "./component/Notification";
 
 function App() {
   const dispatch = useDispatch()
@@ -75,6 +76,13 @@ function Alert(props) {
         />
       ) : (
           <Switch>
+            <Route path="/notification">
+              <Navbar backButton={true}/>
+              <SideBar/>
+              <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
+                <Notification/>
+              </div>
+            </Route>
             <Route path="/chat/:id">
               <Navbar isChat={true} backButton={true}/>
               <SideBar/>
