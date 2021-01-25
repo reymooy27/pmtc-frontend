@@ -33,6 +33,7 @@ function Tournament() {
   const [loading, setLoading] = useState(true)
   const [updateTournament, setUpdateTournament] = useState('')
   const [teamRegistered, setTeamRegistered] = useState('')
+  const [teamUpdated, setTeamUpdated] = useState('')
 
   useEffect(() => {
     let mounted = true
@@ -46,7 +47,7 @@ function Tournament() {
     }
     fetchTournamentData()
     return ()=> mounted = false
-}, [dispatch,tournamentID,updateTournament,teamRegistered])
+}, [dispatch,tournamentID,updateTournament,teamRegistered,teamUpdated])
 
 useEffect(() => {
     socket.on("updateTournament", (data) => setUpdateTournament(data === updateTournament ? data+'1' : data));
@@ -59,6 +60,12 @@ useEffect(() => {
 
     return ()=> socket.removeAllListeners("registTournament");
   }, [teamRegistered])
+
+  useEffect(() => {
+    socket.on("updateTeam", (data) => setTeamUpdated(data === teamUpdated ? data+'1' : data));
+
+    return ()=> socket.removeAllListeners("updateTeam");
+  }, [teamUpdated])
 
 
   return (

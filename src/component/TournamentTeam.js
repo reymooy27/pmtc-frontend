@@ -4,14 +4,16 @@ import axios from "../axios";
 import Loader from "react-loader-spinner";
 import PlayerDetail from "./PlayerDetail";
 import { useParams} from "react-router-dom";
+import socket from '../socket.io'
 
 function TournamentTeam() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [teamUpdated, setTeamUpdated] = useState('')
 
   let {teamID} = useParams();
 
-
+  
   useEffect(() => {
     let mounted = true;
     async function fetchData() {
@@ -19,13 +21,20 @@ function TournamentTeam() {
       if (mounted) {
         setData(req.data);
         setLoading(false);
+        document.title = `Tim - ${req?.data.teamName}`
       }
     }
     fetchData();
     return () => {
       mounted = false;
     };
-  }, [teamID]);
+  }, [teamID,teamUpdated]);
+  
+    useEffect(() => {
+    socket.on("updateTeam", (data) => setTeamUpdated(data === teamUpdated ? data+'1' : data));
+
+    return ()=> socket.removeAllListeners("updateTeam");
+  }, [teamUpdated])
 
   return (
     <Fragment>
