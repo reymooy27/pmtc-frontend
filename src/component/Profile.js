@@ -75,6 +75,8 @@ const useStyles = makeStyles(() => ({
   const [open, setOpen] = useState(false);
   const [profilePicture, setProfilePicture] = useState(null)
   const [user_, setUser_] = useState(null)
+  const [requestSent, setRequestSent] = useState(false)
+  const [isFriend, setIsFriend] = useState(false)
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -142,12 +144,27 @@ const useStyles = makeStyles(() => ({
     return ()=> mounted = false
   }, [isUserLoggedIn,id])
 
+  let x = user?.friends
+  useEffect(() => {
+    if(x?.length > 0){
+      const a = x.filter(f=>(
+        f._id === id
+      ))
+      if(a.length > 0){
+        setIsFriend(true)
+      }else{
+        setIsFriend(false)
+      }
+    }
+  }, [id,x])
+
   const sendFriendRequest = async ()=>{
     await axios.post(`/friendRequest/send/${id}`)
     .then(res=> {
       console.log(res.data)
       dispatch(setOpenSuccessSnackbar(true))
       dispatch(setSuccessMessage(res.data))
+      setRequestSent(true)
     })
     .catch(err=> {
       console.log(err)
@@ -161,7 +178,43 @@ const useStyles = makeStyles(() => ({
     {!user && <Redirect to='/'/>}
     <>
       <div className='profile'>
-       <Dialog classes={{paper: classes.paper}} open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <Badge
+        overlap="circle"
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        badgeContent={ isUserLoggedIn &&
+          <IconButton onClick={handleClickOpen} aria-label="uploadPhoto" size="small">
+              <AddAPhotoIcon fontSize="small" style={{color: 'white'}}/>
+          </IconButton>
+        }
+      >
+        <Avatar className={classes.root} src={isUserLoggedIn ? user?.profilePicture : user_?.profilePicture} 
+        alt={isUserLoggedIn ? user?.username : user_?.username}/>
+      </Badge>
+        <h3>{isUserLoggedIn ? user?.username : user_?.username}</h3>
+        {!isUserLoggedIn && <div className='profile-button-wraper'>
+          <Link to={`/chat/${id}`} className='profile-button-chat'>Chat</Link>
+          <button disabled={isFriend} onClick={sendFriendRequest} className={isFriend ? 'isFriend' : 'profile-button-add-friends'}>Tambahkan Teman</button>
+        </div>}
+        <div className='profile-overview-stats'>
+          <div>
+            <h5>Match</h5>
+            <span>0</span>
+          </div>
+          <div>
+            <h5>Winrate</h5>
+            <span>0%</span>
+          </div>
+          <div>
+            <h5>Followers</h5>
+            <span>0</span>
+          </div>
+        </div>
+      </div>
+
+      <Dialog classes={{paper: classes.paper}} open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle classes={{root: classes.title}} id="form-dialog-title">Upload Foto Profil</DialogTitle>
         <DialogContent classes={{root: classes.content}}>
           <input
@@ -187,42 +240,7 @@ const useStyles = makeStyles(() => ({
           </button>
         </DialogActions>
       </Dialog>
-
-        <Badge
-        overlap="circle"
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        badgeContent={ isUserLoggedIn &&
-          <IconButton onClick={handleClickOpen} aria-label="uploadPhoto" size="small">
-              <AddAPhotoIcon fontSize="small" style={{color: 'white'}}/>
-          </IconButton>
-        }
-      >
-        <Avatar className={classes.root} src={isUserLoggedIn ? user?.profilePicture : user_?.profilePicture} 
-        alt={isUserLoggedIn ? user?.username : user_?.username}/>
-      </Badge>
-        <h3>{isUserLoggedIn ? user?.username : user_?.username}</h3>
-        {!isUserLoggedIn && <div className='profile-button-wraper'>
-          <Link to={`/chat/${id}`} className='profile-button-chat'>Chat</Link>
-          <button onClick={sendFriendRequest} className='profile-button-add-friends'>Tambahkan Teman</button>
-        </div>}
-        <div className='profile-overview-stats'>
-          <div>
-            <h5>Match</h5>
-            <span>0</span>
-          </div>
-          <div>
-            <h5>Winrate</h5>
-            <span>0%</span>
-          </div>
-          <div>
-            <h5>Followers</h5>
-            <span>0</span>
-          </div>
-        </div>
-      </div> 
+      
       <Switch>
         <Route exact path={path}>
           <ProfileTabs isUser={isUserLoggedIn} user_={user_} tab={1}/>

@@ -63,6 +63,9 @@
 .profile-button-add-friends:hover {
   background: rgb(4, 172, 132);
 }
+.isFriend {
+  display: none;
+}
 .profile-overview-stats {
   display: flex;
   justify-content: center;
