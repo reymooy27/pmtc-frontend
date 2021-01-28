@@ -1,14 +1,11 @@
 import axios from "axios";
-import { cacheAdapterEnhancer, throttleAdapterEnhancer } from 'axios-extensions';
-
+// import { cacheAdapterEnhancer, throttleAdapterEnhancer } from 'axios-extensions';
+const baseURL = process.env.NODE_ENV === 'production' ? "https://pmtc-tourney.herokuapp.com" : "http://localhost:8000"
 const instance = axios.create({
-  // Development
-  // baseURL: "http://localhost:8000",
-  // Production
-  baseURL: "https://pmtc-tourney.herokuapp.com",
+  baseURL: baseURL,
   withCredentials: true,
   headers: { 'Cache-Control': 'no-cache' },
-  adapter: throttleAdapterEnhancer(cacheAdapterEnhancer(axios.defaults.adapter))
+  // adapter: throttleAdapterEnhancer(cacheAdapterEnhancer(axios.defaults.adapter))
 });
 
 export default instance;
