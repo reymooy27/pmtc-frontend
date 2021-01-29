@@ -21,9 +21,14 @@ function ChatList() {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    let mounted = true
     const getChatList = async ()=>{
       await axios.get('/chatList')
-      .then(res=> setChatList(res.data))
+      .then(res=> {
+        if(mounted){
+          setChatList(res.data)
+        }}
+      )
       .catch(err=> {
         console.log(err)
         dispatch(setOpenErrorSnackbar(true))
@@ -31,6 +36,8 @@ function ChatList() {
       })
     }
     getChatList()
+
+    return ()=> mounted = false
   }, [newChatList,dispatch])
 
   useEffect(() => {
