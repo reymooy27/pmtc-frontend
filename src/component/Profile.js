@@ -75,7 +75,7 @@ const useStyles = makeStyles(() => ({
   const [open, setOpen] = useState(false);
   const [profilePicture, setProfilePicture] = useState(null)
   const [user_, setUser_] = useState(null)
-  const [requestSent, setRequestSent] = useState(false)
+  // const [requestSent, setRequestSent] = useState(false)
   const [isFriend, setIsFriend] = useState(false)
 
   const handleClickOpen = () => {
@@ -164,7 +164,7 @@ const useStyles = makeStyles(() => ({
       console.log(res.data)
       dispatch(setOpenSuccessSnackbar(true))
       dispatch(setSuccessMessage(res.data))
-      setRequestSent(true)
+      // setRequestSent(true)
     })
     .catch(err=> {
       console.log(err)

@@ -26,7 +26,7 @@ function CreateTournament() {
   const [rounds, setRounds] = useState([])
   const [groups, setGroups] = useState('')
   const [maxSlot, setMaxSlot] = useState('')
-  const [admins, setAdmins] = useState([])
+  // const [admins, setAdmins] = useState([])
 
   const dispatch = useDispatch()
 
@@ -46,7 +46,7 @@ function CreateTournament() {
   formdata.append('rounds',JSON.stringify(rounds))
   formdata.append('groups',groups)
   formdata.append('maxSlot',maxSlot)
-  formdata.append('admins',JSON.stringify(admins))
+  // formdata.append('admins',JSON.stringify(admins))
 
   const createTournament = ()=>{
     axios.post('/tournament/create',formdata,{
