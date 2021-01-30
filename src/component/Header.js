@@ -5,32 +5,11 @@ import "./Header.css";
 import {selectTournament, selectTournamentTeam} from '../redux/reducers/tournamentSlice'
 import { useSelector } from "react-redux";
 import moment from 'moment'
+
 function Header() {
+
   const tournament = useSelector(selectTournament)
   const tournamentTeam = useSelector(selectTournamentTeam)
-
-moment.updateLocale('en', {
-    calendar : {
-        lastDay : '[Yesterday at] LT',
-        sameDay : '[Today at]',
-        nextDay : '[Tomorrow at] LT',
-        lastWeek : '[last] dddd [at] LT',
-        nextWeek : 'dddd [at] LT',
-        sameElse : 'L'
-    }
-});
-
-moment.updateLocale('en', {
-    months : [
-        "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli",
-        "Augustus", "September", "Oktober", "November", "Desember"
-    ]
-});
-moment.updateLocale('en', {
-    weekdays : [
-        "Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"
-    ]
-});
 
   return (
     <div className="header">

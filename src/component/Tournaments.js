@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import './Tournaments.css'
 import {fetchAllTournament, selectAllTournament, selectLoading} from '../redux/reducers/tournamentSlice'
 import {useDispatch, useSelector } from 'react-redux'
-import moment from 'moment'
 import Loader from 'react-loader-spinner'
 import TournamentCard from './TournamentCard'
 import socket from '../socket.io'
@@ -10,27 +9,6 @@ import socket from '../socket.io'
 function Tournaments() {
 
   document.title = `Home`
-  
-  moment.updateLocale('id', {
-    relativeTime : {
-        future: "%s lagi",
-        past:   "%s lalu",
-        s  : 'beberapa detik',
-        ss : '%d detik',
-        m:  "1 menit",
-        mm: "%d menit",
-        h:  "1 jam",
-        hh: "%d jam",
-        d:  "1 hari",
-        dd: "%d hari",
-        w:  "1 minggu",
-        ww: "%d minggu",
-        M:  "1 bulan",
-        MM: "%d bulan",
-        y:  "1 tahun",
-        yy: "%d tahun"
-    }
-});
 
   const allTournament = useSelector(selectAllTournament)
   const loading = useSelector(selectLoading)

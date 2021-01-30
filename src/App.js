@@ -28,7 +28,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import Chat from "./component/Chat";
 import ChatList from './component/ChatList'
 import Notification from "./component/Notification";
-
+import moment from 'moment'
 function App() {
   const dispatch = useDispatch()
 
@@ -39,6 +39,50 @@ function App() {
   const errorMessage = useSelector(selectErrorMessage)
 
   const [loading, setLoading] = useState(true);
+
+    moment.updateLocale('id', {
+    relativeTime : {
+        future: "%s lagi",
+        past:   "%s lalu",
+        s  : 'beberapa detik',
+        ss : '%d detik',
+        m:  "1 menit",
+        mm: "%d menit",
+        h:  "1 jam",
+        hh: "%d jam",
+        d:  "1 hari",
+        dd: "%d hari",
+        w:  "1 minggu",
+        ww: "%d minggu",
+        M:  "1 bulan",
+        MM: "%d bulan",
+        y:  "1 tahun",
+        yy: "%d tahun"
+    }
+});
+
+moment.updateLocale('id', {
+    calendar : {
+        lastDay : '[Yesterday at] LT',
+        sameDay : '[Today at]',
+        nextDay : '[Tomorrow at] LT',
+        lastWeek : '[last] dddd [at] LT',
+        nextWeek : 'dddd [at] LT',
+        sameElse : 'L'
+    }
+});
+
+moment.updateLocale('id', {
+    months : [
+        "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli",
+        "Augustus", "September", "Oktober", "November", "Desember"
+    ]
+});
+moment.updateLocale('id', {
+    weekdays : [
+        "Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"
+    ]
+});
 
 useEffect(() => {
   let mounted = true
