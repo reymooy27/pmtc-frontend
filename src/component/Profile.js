@@ -27,6 +27,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import axios from '../axios'
 import { setErrorMessage, setOpenErrorSnackbar, setOpenSuccessSnackbar, setSuccessMessage } from '../redux/reducers/appSlice'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import socket from '../socket.io';
 
 function Profile() {
 
@@ -78,6 +79,8 @@ const useStyles = makeStyles(() => ({
   const [requestSent, setRequestSent] = useState(false)
   const [isFriend, setIsFriend] = useState(false)
   const [friendRequest, setFriendRequest] = useState(null)
+  const [newRequest, setNewRequest] = useState(null)
+  const [unFriend, setUnFriend] = useState(null)
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -129,8 +132,6 @@ const useStyles = makeStyles(() => ({
     })
   }
 
-  
-  
   useEffect(() => {
     let mounted = true
     if(!isUserLoggedIn){
@@ -143,7 +144,7 @@ const useStyles = makeStyles(() => ({
       fecthUser()
     }
     return ()=> mounted = false
-  }, [isUserLoggedIn,id])
+  }, [isUserLoggedIn,id, newRequest, unFriend])
 
   let x = user?.friends
   useEffect(() => {
@@ -151,13 +152,14 @@ const useStyles = makeStyles(() => ({
       const a = x.filter(f=>(
         f._id === id
       ))
+      console.log(a)
       if(a.length > 0){
         setIsFriend(true)
       }else{
         setIsFriend(false)
       }
     }
-  }, [id,x])
+  }, [id,x, newRequest, unFriend])
 
   useEffect(() => {
     let mounted = true
@@ -174,7 +176,7 @@ const useStyles = makeStyles(() => ({
     getFriendRequest()
   }
     return ()=> mounted = false
-  }, [isUserLoggedIn, id])
+  }, [isUserLoggedIn, id, newRequest, unFriend])
 
   useEffect(() => {
     if(!isUserLoggedIn){
@@ -184,23 +186,63 @@ const useStyles = makeStyles(() => ({
         setRequestSent(false)
       }
     }
-  }, [isUserLoggedIn, friendRequest])
-  console.log(friendRequest);
+  }, [isUserLoggedIn, friendRequest, newRequest, unFriend])
+
+  useEffect(() => {
+    dispatch(fetchCheckUser())
+  }, [dispatch,newRequest, unFriend])
+
+  useEffect(() => {
+    socket.on("friendRequest", (data) => setNewRequest(data === newRequest ? data+'1' : data));
+
+    return ()=> socket.removeAllListeners("friendRequest");
+  }, [newRequest])
+
+  useEffect(() => {
+    socket.on("unFriend", (data) => setUnFriend(data === unFriend ? data+'1' : data));
+
+    return ()=> socket.removeAllListeners("unFriend");
+  }, [unFriend])
 
   const sendFriendRequest = async ()=>{
     await axios.post(`/friendRequest/send/${id}`)
     .then(res=> {
-      console.log(res.data)
       dispatch(setOpenSuccessSnackbar(true))
       dispatch(setSuccessMessage(res.data))
       setRequestSent(true)
     })
     .catch(err=> {
-      console.log(err)
       dispatch(setOpenErrorSnackbar(true))
       dispatch(setErrorMessage(err.response.data))
     })
   }
+
+  const cancelFriendRequest = async ()=>{
+    await axios.get(`/friendRequest/cancel/${id}`)
+    .then(res=> {
+      dispatch(setOpenSuccessSnackbar(true))
+      dispatch(setSuccessMessage(res.data))
+      setRequestSent(false)
+    })
+    .catch(err=> {
+      dispatch(setOpenErrorSnackbar(true))
+      dispatch(setErrorMessage(err.response.data))
+    })
+  }
+
+  const cancelFriendship = async ()=>{
+    await axios.get(`/user/unfriend/${id}`)
+    .then(res=>{
+      dispatch(setOpenSuccessSnackbar(true))
+      dispatch(setSuccessMessage(res.data))
+      setRequestSent(false)
+    })
+    .catch(err=> {
+      dispatch(setOpenErrorSnackbar(true))
+      dispatch(setErrorMessage(err.response.data))
+    })
+  }
+
 
   return (
     <>
@@ -225,11 +267,14 @@ const useStyles = makeStyles(() => ({
         <h3>{isUserLoggedIn ? user?.username : user_?.username}</h3>
         {!isUserLoggedIn && <div className='profile-button-wraper'>
           <Link to={`/chat/${id}`} className='profile-button-chat'>Chat</Link>
-          {!isFriend && <button disabled={requestSent} 
+          {isFriend ? <button className='requestSent profile-button-add-friends' onClick={cancelFriendship}>Unfriend</button> : requestSent 
+          ? 
+          <button className='requestSent profile-button-add-friends' onClick={cancelFriendRequest}>Batalkan</button> 
+          :  
+          <button disabled={requestSent} 
                   onClick={sendFriendRequest} 
-                  className={requestSent ? 'requestSent profile-button-add-friends' : 'profile-button-add-friends'}
-          >
-            {requestSent ? 'Batalkan' : 'Tambahkan Teman'}
+                  className='profile-button-add-friends'
+          >Tambahkan Teman
           </button>}
         </div>}
         <div className='profile-overview-stats'>
