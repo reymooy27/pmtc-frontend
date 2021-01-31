@@ -8,6 +8,7 @@ import { setToRecipient } from '../redux/reducers/chatSlice'
 import { Avatar } from '@material-ui/core'
 import socket from '../socket.io'
 import { setOpenErrorSnackbar,setErrorMessage } from '../redux/reducers/appSlice'
+import moment from 'moment'
 
 function ChatList() {
 
@@ -68,6 +69,7 @@ function ChatList() {
           <div className='chatList-chat-recipient'>
             <h4>{handleRecipient(cl.recipients).username}</h4>
             <span>{cl.lastMessage.length > 10 ? cl.lastMessage.substring(0,20) + '...' : cl.lastMessage}</span>
+            <p className='chatList-time'>{moment(cl.updatedAt).fromNow()}</p>
           </div>
         </Link>
       )) : 
