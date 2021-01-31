@@ -40,19 +40,32 @@ function Notification() {
     return ()=> socket.removeAllListeners("notification");
   }, [notification])
 
+  const manageFriendRequest = async (a)=>{
+    const accepted = a.actionType === 'Terima' ? true : false
+    await axios.post(a.actionLink, {accepted: accepted})
+    .then(res=> console.log(res.data))
+    .catch(err=> console.log(err))
+  }
+
+
   return (
     <div className='notification'>
       <h1>Notifikasi</h1>
       <br></br>
       {data.map(d=>(
-        <Link to='/' className='notification-wraper' key={d._id}>
+        <div key={d._id}>
+        <Link to={d.link} className='notification-wraper'>
           <Avatar className={classes.root} src={d.sender?.profilePicture}/>
           <div className='notification-detail'>
             <p>{d.message}</p>
             {d.sender && <p className='notification-sender'>{d.sender.username}</p>}
-            <p className='notification-time'>{moment(d.createdAt).fromNow()}</p>  
+            <p className='notification-time'>{moment(d.createdAt).fromNow()}</p>
           </div>
         </Link>
+        {d.action && d.action.map(a=>(
+          <span key={a._id} className='notification-action' onClick={()=> manageFriendRequest(a)}>{a.actionType}</span>
+        ))} 
+        </div>
       ))}
     </div>
   )
