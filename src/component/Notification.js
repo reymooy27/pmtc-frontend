@@ -3,8 +3,21 @@ import './Notification.css'
 import axios from '../axios'
 import socket from '../socket.io'
 import { Avatar } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom'
+import moment from 'moment'
 
 function Notification() {
+
+  const useStyles = makeStyles(() => ({
+    root: {
+      width: '60px',
+      height: '60px'
+    },
+  }))
+
+  const classes = useStyles()
+
 
   const [data, setData] = useState([])
   const [notification, setNotification] = useState('')
@@ -32,12 +45,14 @@ function Notification() {
       <h1>Notifikasi</h1>
       <br></br>
       {data.map(d=>(
-        <div key={d._id}>
-          {d.sender && <Avatar src={d.sender.profilePicture}/>}
-          {d.sender && <p>{d.sender.username}</p>}
-          <p>{d.message}</p>
-          <p>{d.createdAt}</p>
-        </div>
+        <Link to='/' className='notification-wraper' key={d._id}>
+          <Avatar className={classes.root} src={d.sender?.profilePicture}/>
+          <div className='notification-detail'>
+            <p>{d.message}</p>
+            {d.sender && <p className='notification-sender'>{d.sender.username}</p>}
+            <p className='notification-time'>{moment(d.createdAt).fromNow()}</p>  
+          </div>
+        </Link>
       ))}
     </div>
   )
