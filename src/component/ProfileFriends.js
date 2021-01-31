@@ -97,7 +97,8 @@ function ProfileFriends({isUser, user_}) {
         <div className='profile-no-friends'>
           <h3>Belum punya teman</h3>
         </div>}
-        {data?.friends.map(t=> (
+        <div className='profile-team-teams'>
+          {data?.friends.map(t=> (
             <div key={t._id} className='profile-team-wraper'>
               <div className='profile-team-avatar'>
                 <Link to={'/profile/' + t._id} >
@@ -108,6 +109,7 @@ function ProfileFriends({isUser, user_}) {
               </div>
             </div>
           ))}
+        </div>
         {isUser && <div className='profile-team-create-team'>
           <button onClick={handleClickOpen} className='create-button' type='submit'>
             <AddIcon />
