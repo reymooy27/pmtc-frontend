@@ -75,8 +75,9 @@ const useStyles = makeStyles(() => ({
   const [open, setOpen] = useState(false);
   const [profilePicture, setProfilePicture] = useState(null)
   const [user_, setUser_] = useState(null)
-  // const [requestSent, setRequestSent] = useState(false)
+  const [requestSent, setRequestSent] = useState(false)
   const [isFriend, setIsFriend] = useState(false)
+  const [friendRequest, setFriendRequest] = useState(null)
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -158,13 +159,41 @@ const useStyles = makeStyles(() => ({
     }
   }, [id,x])
 
+  useEffect(() => {
+    let mounted = true
+    if(!isUserLoggedIn){
+    const getFriendRequest = async ()=>{
+      await axios.get(`/friendRequest/${id}`)
+      .then(res=>{
+        if(mounted){
+          setFriendRequest(res.data)
+        }
+      })
+      .catch(err=> console.log(err))
+    }
+    getFriendRequest()
+  }
+    return ()=> mounted = false
+  }, [isUserLoggedIn, id])
+
+  useEffect(() => {
+    if(!isUserLoggedIn){
+      if(friendRequest?.accepted === false && friendRequest?.pending === true){
+        setRequestSent(true)
+      }else{
+        setRequestSent(false)
+      }
+    }
+  }, [isUserLoggedIn, friendRequest])
+  console.log(friendRequest);
+
   const sendFriendRequest = async ()=>{
     await axios.post(`/friendRequest/send/${id}`)
     .then(res=> {
       console.log(res.data)
       dispatch(setOpenSuccessSnackbar(true))
       dispatch(setSuccessMessage(res.data))
-      // setRequestSent(true)
+      setRequestSent(true)
     })
     .catch(err=> {
       console.log(err)
@@ -196,7 +225,12 @@ const useStyles = makeStyles(() => ({
         <h3>{isUserLoggedIn ? user?.username : user_?.username}</h3>
         {!isUserLoggedIn && <div className='profile-button-wraper'>
           <Link to={`/chat/${id}`} className='profile-button-chat'>Chat</Link>
-          <button disabled={isFriend} onClick={sendFriendRequest} className={isFriend ? 'isFriend' : 'profile-button-add-friends'}>Tambahkan Teman</button>
+          {!isFriend && <button disabled={requestSent} 
+                  onClick={sendFriendRequest} 
+                  className={requestSent ? 'requestSent profile-button-add-friends' : 'profile-button-add-friends'}
+          >
+            {requestSent ? 'Batalkan' : 'Tambahkan Teman'}
+          </button>}
         </div>}
         <div className='profile-overview-stats'>
           <div>

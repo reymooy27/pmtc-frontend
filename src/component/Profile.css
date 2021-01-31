@@ -63,8 +63,11 @@
 .profile-button-add-friends:hover {
   background: rgb(4, 172, 132);
 }
-.isFriend {
-  display: none;
+.requestSent {
+  background: rgb(167, 177, 175);
+}
+.requestSent:hover {
+  background: rgb(107, 110, 110);
 }
 .profile-overview-stats {
   display: flex;
