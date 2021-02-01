@@ -223,6 +223,7 @@ const useStyles = makeStyles(() => ({
       dispatch(setOpenSuccessSnackbar(true))
       dispatch(setSuccessMessage(res.data))
       setRequestSent(false)
+      setIsFriend(false)
     })
     .catch(err=> {
       dispatch(setOpenErrorSnackbar(true))
@@ -236,6 +237,7 @@ const useStyles = makeStyles(() => ({
       dispatch(setOpenSuccessSnackbar(true))
       dispatch(setSuccessMessage(res.data))
       setRequestSent(false)
+      setIsFriend(false)
     })
     .catch(err=> {
       dispatch(setOpenErrorSnackbar(true))
