@@ -81,6 +81,8 @@ const useStyles = makeStyles(() => ({
   const [friendRequest, setFriendRequest] = useState(null)
   const [newRequest, setNewRequest] = useState(null)
   const [unFriend, setUnFriend] = useState(null)
+  const [sendTeamInvitation, setSendTeamInvitation ] = useState(null)
+  const [removePlayer, setRemovePlayer] = useState('')
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -144,7 +146,7 @@ const useStyles = makeStyles(() => ({
       fecthUser()
     }
     return ()=> mounted = false
-  }, [isUserLoggedIn,id, newRequest, unFriend])
+  }, [isUserLoggedIn,id, newRequest, unFriend, sendTeamInvitation])
 
   let x = user?.friends
   useEffect(() => {
@@ -190,7 +192,7 @@ const useStyles = makeStyles(() => ({
 
   useEffect(() => {
     dispatch(fetchCheckUser())
-  }, [dispatch,newRequest, unFriend])
+  }, [dispatch,newRequest, unFriend, sendTeamInvitation, removePlayer])
 
   useEffect(() => {
     socket.on("friendRequest", (data) => setNewRequest(data === newRequest ? data+'1' : data));
@@ -203,6 +205,18 @@ const useStyles = makeStyles(() => ({
 
     return ()=> socket.removeAllListeners("unFriend");
   }, [unFriend])
+  
+  useEffect(() => {
+    socket.on("sendTeamInvitation", (data) => setSendTeamInvitation(data === sendTeamInvitation ? data+'1' : data));
+
+    return ()=> socket.removeAllListeners("sendTeamInvitation");
+  }, [sendTeamInvitation])
+
+  useEffect(() => {
+    socket.on("removePlayer", (data) => setRemovePlayer(data === removePlayer ? data+'1' : data));
+
+    return ()=> socket.removeAllListeners("removePlayer");
+  }, [removePlayer])
 
   const sendFriendRequest = async ()=>{
     await axios.post(`/friendRequest/send/${id}`)
