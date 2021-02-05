@@ -52,7 +52,24 @@
   font-size: 1.5em;
   font-weight: bold;
 }
-
+.user-team-invite-button-wraper {
+  margin: 0 auto;
+}
+.user-team-invite-button {
+  background: #00dbae;
+  color: black;
+  border-radius: 20px;
+  padding: 10px;
+  outline: none;
+  font-weight: bold;
+  font-size: 11px;
+  cursor: pointer;
+  transition: 0.3s all ease-in-out;
+  text-transform: uppercase;
+  border: none;
+  width: 250px;
+  margin: 0 5px;
+}
 /* 
 .user-team-roster {
 

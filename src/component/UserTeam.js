@@ -9,23 +9,41 @@ import {
 import './UserTeam.css'
 import {fetchCheckUser, selectUser} from '../redux/reducers/userSlice'
 import {useDispatch, useSelector} from 'react-redux'
-import { Avatar } from '@material-ui/core';
+import { Avatar, DialogContent } from '@material-ui/core';
 import { setErrorMessage, setOpenErrorSnackbar, setOpenSuccessSnackbar, setSuccessMessage } from '../redux/reducers/appSlice';
 import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import socket from '../socket.io'
 
 function UserTeam() {
   
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [deleteSuccess, setDeleteSuccess] = useState(false)
-  const {id} = useParams();
   const [open, setOpen] = useState(false)
+  const [open2, setOpen2] = useState(false)
+  const [input, setInput] = useState('')
+  const [filteredUser, setFilteredUser] = useState([])
+  const [invitatonSent, setInvitatonSent] = useState(false)
+  const [sendTeamInvitation, setSendTeamInvitation] = useState('')
+  const [removePlayer, setRemovePlayer] = useState('')
+
+  const {id} = useParams();
+
   const user = useSelector(selectUser)
+
+  const dispatch = useDispatch()
+
   const isMyTeam = user?.myTeam.filter(p=> p._id === id)
+
+  
+  const matches = useMediaQuery('(min-width:600px)');
+
+  document.title = `Tim - ${data.teamName}`
+
   const useStyles = makeStyles(() => ({
   root: {
     width: '130px',
@@ -33,10 +51,18 @@ function UserTeam() {
   },
   paper:{
       backgroundColor: '#2d303e',
-      width: '600px'
+      width: '600px',
+      margin : matches ? '32px' : '0px',
+      height : matches ? 'none' : '100%',
+      maxHeight : matches ? 'calc(100% - 64px)' : 'none'
     },
     title:{
-      color: 'white'
+      color: 'white',
+      '& h2':{
+        fontFamily: 'Open Sans',
+        fontWeight: 600,
+        fontSize : matches ? '1.5em' : '2em'
+      }
     },
     content:{
       overflow: 'hidden'
@@ -48,12 +74,20 @@ function UserTeam() {
 }));
   const classes = useStyles()
   
-const handleClickOpen = () => {
+  const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleClickOpen2 = () => {
+    setOpen2(true);
+  };
+
+  const handleClose2 = () => {
+    setOpen2(false);
   };
 
   useEffect(() => {
@@ -70,11 +104,8 @@ const handleClickOpen = () => {
     return () => {
       mounted = false;
     };
-  }, [id]);
+  }, [id,sendTeamInvitation, removePlayer]);
   
-  document.title = `Tim - ${data.teamName}`
-
-  const dispatch = useDispatch()
 
   const deleteTeam = async ()=>{
   await axios.delete(`/user/team/${id}/delete`)
@@ -89,6 +120,72 @@ const handleClickOpen = () => {
     dispatch(setOpenErrorSnackbar(true))
   })
 }
+
+  const updateInput = async (input) => {
+    await axios.get('/user/all')
+    .then(res=> {
+        const filtered = res.data.filter(p => {
+          return p.username.toLowerCase().includes(input.toLowerCase())
+        })
+        setInput(input);
+        setFilteredUser(filtered);
+    })
+    .catch(err=> {
+      dispatch(setOpenErrorSnackbar(true))
+      dispatch(setErrorMessage(err.response.data))
+    })
+  }
+
+  const inviteToTeam = async (userID)=>{
+    await axios.post(`/team/invite/${userID}`, {teamId: id})
+    .then(res=>{
+      dispatch(setSuccessMessage(res.data))
+      dispatch(setOpenSuccessSnackbar(true))
+      setInvitatonSent(true)
+    })
+    .catch(err=> {
+      dispatch(setOpenErrorSnackbar(true))
+      dispatch(setErrorMessage(err.response.data))
+    })
+  }
+
+  const cancelTeamInvite = async (userID)=>{
+    await axios.post(`/team/invite/cancel/${userID}`)
+    .then(res=>{
+      dispatch(setSuccessMessage(res.data))
+      dispatch(setOpenSuccessSnackbar(true))
+      setInvitatonSent(false)
+    })
+    .catch(err=> {
+      dispatch(setOpenErrorSnackbar(true))
+      dispatch(setErrorMessage(err.response.data))
+    })
+  }
+
+  const removePlayerFromTeam = async (userID)=>{
+    await axios.post(`/team/${id}/user/${userID}/remove`)
+    .then(res=>{
+      dispatch(setSuccessMessage(res.data))
+      dispatch(setOpenSuccessSnackbar(true))
+      setInvitatonSent(false)
+    })
+    .catch(err=> {
+      dispatch(setOpenErrorSnackbar(true))
+      dispatch(setErrorMessage(err.response.data))
+    })
+  }
+
+   useEffect(() => {
+    socket.on("sendTeamInvitation", (data) => setSendTeamInvitation(data === sendTeamInvitation ? data+'1' : data));
+
+    return ()=> socket.removeAllListeners("sendTeamInvitation");
+  }, [sendTeamInvitation])
+
+   useEffect(() => {
+    socket.on("removePlayer", (data) => setRemovePlayer(data === removePlayer ? data+'1' : data));
+
+    return ()=> socket.removeAllListeners("removePlayer");
+  }, [removePlayer])
 
 if(deleteSuccess){
   return <Redirect to={`/profile/${user._id}/team`}/>
@@ -133,6 +230,9 @@ if(deleteSuccess){
               </div>
             </div>
           </div>
+          {isMyTeam?.length > 0 && user._id === data?.createdBy ? <div className='user-team-invite-button-wraper'>
+            <button className='user-team-invite-button' onClick={handleClickOpen2}>Invite</button>
+          </div> : ''}
           <div className='user-team-bottom'>
             <h3>Roster</h3>
             <div className='user-team-roster-wraper'>
@@ -142,6 +242,7 @@ if(deleteSuccess){
                     <Avatar src={player.profilePicture} alt={player.username}/>
                     <span>{player.username}</span>
                   </Link>
+                  {user?._id === data?.createdBy ? isMyTeam?.length > 0 && player._id !== data?.createdBy && <button onClick={()=> removePlayerFromTeam(player._id)}>Hapus Pemain</button> : ''}
                 </div>
               ))}
             </div>
@@ -165,6 +266,39 @@ if(deleteSuccess){
               height={20}
               width={30}
             /> : 'Upload'} */}
+          </button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog classes={{paper: classes.paper}} open={open2} onClose={handleClose2} aria-labelledby="form-dialog-title">
+        <DialogTitle classes={{root: classes.title}} id="form-dialog-title">Undang Teman</DialogTitle>
+        <DialogContent classes={{root: classes.content}}>
+          <input
+            className='create-team-input'
+            placeholder='Undang teman'
+            autoFocus
+            type="text"
+            value={input}
+            onChange={e=> updateInput(e.target.value)}
+          />
+        {/* <span className="error-msg" style={{opacity:formErrors ? 1 : 0 }}>{formErrors ? formErrors : 'error'}</span> */}
+        <div className='profile-friends-list' style={input === '' ? {display: 'none'} : {display: 'block'}}>
+          {filteredUser.map(p=>(
+            <div key={p._id}>
+              <Link to={`/profile/${p._id}`}>
+                <Avatar src={p.profilePicture} alt={p.username}/>
+                <span>{p.username}</span>
+              </Link>
+              {invitatonSent ? 
+              <button className='requestSent profile-button-add-friends' onClick={()=> cancelTeamInvite(p._id)}>Batalkan</button> : 
+              <button className='profile-friends-add-button' onClick={()=> inviteToTeam(p._id)}>Undang</button>}
+            </div>
+          ))}
+        </div>
+        </DialogContent>
+        <DialogActions classes={{root: classes.action}}>
+          <button className='cancel-button' onClick={handleClose2}>
+            Batal
           </button>
         </DialogActions>
       </Dialog>
