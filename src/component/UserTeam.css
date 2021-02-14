@@ -11,15 +11,28 @@
 .user-team-bottom {
   width: 95%;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+.user-team-bottom-roster {
+  width: 100%;
+}
+
+.user-team-bottom-tournament {
+  width: 100%;
 }
 .user-team-roster-wraper {
   margin-top: 20px;
   display: flex;
+  flex-wrap: wrap;
 }
 .user-team-roster {
+  margin: 10px 0;
+  width: 33%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 }
 .user-team-roster a {
   color: white;
@@ -70,6 +83,12 @@
   width: 250px;
   margin: 0 5px;
 }
+
+.three-dots {
+  position: absolute;
+  top: 2px;
+  right: -3px;
+}
 /* 
 .user-team-roster {
 
@@ -79,5 +98,17 @@
     flex-direction: row;
     height: 250px;
     margin: 3.7em auto 0;
+  }
+
+  .user-team-bottom {
+    flex-direction: row;
+  }
+
+  .user-team-bottom-roster {
+    width: 50%;
+  }
+
+  .user-team-bottom-tournament {
+    width: 50%;
   }
 }

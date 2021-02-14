@@ -17,6 +17,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import socket from '../socket.io'
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import Popover from '@material-ui/core/Popover';
 
 function UserTeam() {
   
@@ -30,6 +32,17 @@ function UserTeam() {
   const [invitatonSent, setInvitatonSent] = useState(false)
   const [sendTeamInvitation, setSendTeamInvitation] = useState('')
   const [removePlayer, setRemovePlayer] = useState('')
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const openPopover = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const closePopover = () => {
+    setAnchorEl(null);
+  };
+
+  const popoverOpen = Boolean(anchorEl);
 
   const {id} = useParams();
 
@@ -46,8 +59,8 @@ function UserTeam() {
 
   const useStyles = makeStyles(() => ({
   root: {
-    width: '130px',
-    height: '130px'
+    width: '80px',
+    height: '80px'
   },
   paper:{
       backgroundColor: '#2d303e',
@@ -71,6 +84,11 @@ function UserTeam() {
       margin: '20px',
       justifyContent: 'flex-end'
     },
+    popover:{
+      display: 'flex',
+      flexDirection: 'column',
+      minWidth: '170px',
+    }
 }));
   const classes = useStyles()
   
@@ -234,20 +252,40 @@ if(deleteSuccess){
             <button className='user-team-invite-button' onClick={handleClickOpen2}>Invite</button>
           </div> : ''}
           <div className='user-team-bottom'>
-            <h3>Roster</h3>
-            <div className='user-team-roster-wraper'>
-            {data.roster.map(player=>(
-                <div className='user-team-roster' key={player._id}>
-                  <Link to={`/profile/${player._id}`}>
-                    <Avatar src={player.profilePicture} alt={player.username}/>
-                    <span>{player.username}</span>
-                  </Link>
-                  {user?._id === data?.createdBy ? isMyTeam?.length > 0 && player._id !== data?.createdBy && <button onClick={()=> removePlayerFromTeam(player._id)}>Hapus Pemain</button> : ''}
-                </div>
-              ))}
+            <div className='user-team-bottom-roster'>
+              <h3>Roster</h3>
+              <div className='user-team-roster-wraper'>
+              {data.roster.map(player=>(
+                  <div className='user-team-roster' key={player._id}>
+                    <Link to={`/profile/${player._id}`}>
+                      <Avatar className={classes.root} src={player.profilePicture} alt={player.username}/>
+                      <span>{player.username}</span>
+                    </Link>
+                    {user?._id === data?.createdBy ? player._id !== data?.createdBy ? <MoreHorizIcon onClick={openPopover} className='three-dots'/> : '' : ''}
+                      <Popover className={classes.popover}
+                      open={popoverOpen}
+                      anchorEl={anchorEl}
+                      onClose={closePopover}
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                      }}
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center',
+                      }}
+                      >
+                        <button onClick={()=> removePlayerFromTeam(player._id)}>Hapus Pemain</button>
+                      </Popover>
+                  </div>
+                ))}
+              </div>
             </div>
-            {isMyTeam?.length > 0 && <button className='user-team-delete-team' onClick={handleClickOpen}>Hapus Tim</button>}
+            <div className='user-team-bottom-tournament'>
+
+            </div>
           </div>
+            {isMyTeam?.length > 0 && <button className='user-team-delete-team' onClick={handleClickOpen}>Hapus Tim</button>}
         </>
         )}
       </div>
