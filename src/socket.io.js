@@ -5,7 +5,7 @@ const socket = io(baseURL,
   {
   withCredentials: true,
   path: '/socket.io',
-  transports: ['websocket'],
+  transports: ['websocket', 'polling'],
   secure: true,
 })
 export default socket
