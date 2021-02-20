@@ -4,7 +4,6 @@ const baseURL = process.env.NODE_ENV === 'production' ? "https://pmtc-tourney.he
 const socket = io(baseURL,
   {
   withCredentials: true,
-  path: '/socket.io',
   transports: ['websocket'],
   secure: true,
 })
