@@ -61,7 +61,7 @@ function Tournaments() {
         /> :
         <>
     <div className='tournaments-img'>
-    <img loading='lazy' src='https://images.wallpapersden.com/image/download/pubg-key-art_bGVuZ26UmZqaraWkpJRoZ2VlrWZtZWU.jpg' alt=''/>
+    <img loading='lazy' src={require('../img/wallpapersden.com_pubg-key-art_3200x1800.jpg')} alt=''/>
     <div className='fade'>
       <h1>Step up your game</h1>
       <span>Bertarung dengan pemain lain yang lebih kompetitif</span>
