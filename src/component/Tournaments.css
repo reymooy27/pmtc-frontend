@@ -1,7 +1,6 @@
 .tournaments-img {
-  margin-top: 3em;
   position: relative;
-  height: 50vh;
+  height: 100vh;
 }
 .tournaments-img img {
   width: 100%;
@@ -39,8 +38,9 @@
   font-size: 14px;
 }
 .tournaments {
-  margin: 0 auto;
+  margin: -8em auto 4em;
   width: 95%;
+  position: relative;
 }
 .pubg-logo {
   position: absolute;
@@ -138,7 +138,7 @@
 
 @media screen and (min-width: 680px) {
   .tournaments {
-    margin: 1em auto;
+    margin: -4em auto 0;
   }
   .tournament {
     margin: 10px;
@@ -157,8 +157,63 @@
   }
 }
 
-@media screen and (min-width: 1200px) {
-  .tournaments-img {
-    height: 80vh;
+.t--header {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+}
+
+.t--header img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fade1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2em;
+  color: white;
+  font-size: 1.7em;
+  line-height: 1;
+}
+.fade1 {
+  background: linear-gradient(rgba(255, 255, 255, 0) 20%, #151a2c 85%);
+}
+.fade1 > * {
+  z-index: 1;
+  text-shadow: rgb(44, 44, 44) 2px 2px 1px;
+}
+
+.h1--grey {
+  color: #516363;
+}
+.fade1 span {
+  color: #814ac9;
+}
+
+.fade1 h6 {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #516363;
+}
+
+@media screen and (max-width: 1024px) {
+  .t--header {
+    height: 100vh;
+  }
+
+  .t--header img {
+    object-fit: cover;
+  }
+  .fade1 {
+    padding: 20px;
   }
 }

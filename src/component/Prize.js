@@ -36,7 +36,7 @@ function Prize() {
   }, [tournament.teams]);
 
   return (
-    <div className=" tourneyInfoPrize">
+    <div className=" container">
       <div className="specialFont-wraper">
         <h4 className="specialFont">Hadiah</h4>
       </div>

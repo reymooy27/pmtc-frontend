@@ -22,7 +22,7 @@ import { closeSideBar } from '../redux/reducers/appSlice';
 import TournamentTeam from './TournamentTeam';
 import axios from '../axios'
 import socket from '../socket.io'
-
+import FooterMenu from './FooterMenu';
 
 function Tournament() {
   const dispatch = useDispatch()
@@ -67,10 +67,9 @@ useEffect(() => {
     return ()=> socket.removeAllListeners("updateTeam");
   }, [teamUpdated])
 
-
   return (
     <>
-          <Navbar/>
+          <Navbar backButton={true}/>
           <SideBar/>
           <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
             {loading ? <Loader
@@ -123,6 +122,7 @@ useEffect(() => {
           </Switch>
           </>}
           </div>
+        <FooterMenu/>
     </>
   )
 }

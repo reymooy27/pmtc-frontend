@@ -19,9 +19,13 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import socket from '../socket.io'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Popover from '@material-ui/core/Popover';
+import Navbar from './Navbar';
+import SideBar from './SideBar';
+import { closeSideBar } from '../redux/reducers/appSlice'
+import FooterMenu from './FooterMenu';
 
 function UserTeam() {
-  
+
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [deleteSuccess, setDeleteSuccess] = useState(false)
@@ -211,136 +215,140 @@ if(deleteSuccess){
 
   return (
     <>
-      <div>
-        {loading ? (
-          <Loader
-            className="loader"
-            type="ThreeDots"
-            color="#00DEAB"
-            height={120}
-            width={120}
-          />
-        ) : (
-        <>
-          <div className="user-team-detail" 
-              style={data.logo && {background: `url(${data.logo})`, 
-                      backgroundRepeat: 'no-repeat', 
-                      backgroundPosition: 'center', 
-                      backgroundSize: '500px', 
-                      backgroundBlendMode: 'overlay', 
-                      backgroundColor: '#151A2C'}}>
-            <div className="team-detail-identity">
-              <img className="team-detail-logo" src={data.logo} alt="" />
-              <p className="team-detail-team-name">{data.teamName}</p>
-            </div>
-            <div className="team-detail-info">
-              <div>
-                <span>Match Played</span>
-                <span>-</span>
-              </div>
-              <div>
-                <span>Win</span>
-                <span>-</span>
-              </div>
-              <div>
-                <span>Reputation</span>
-                <span>-</span>
-              </div>
-            </div>
-          </div>
-          {isMyTeam?.length > 0 && user._id === data?.createdBy ? <div className='user-team-invite-button-wraper'>
-            <button className='user-team-invite-button' onClick={handleClickOpen2}>Invite</button>
-          </div> : ''}
-          <div className='user-team-bottom'>
-            <div className='user-team-bottom-roster'>
-              <h3>Roster</h3>
-              <div className='user-team-roster-wraper'>
-              {data.roster.map(player=>(
-                  <div className='user-team-roster' key={player._id}>
-                    <Link to={`/profile/${player._id}`}>
-                      <Avatar className={classes.root} src={player.profilePicture} alt={player.username}/>
-                      <span>{player.username}</span>
-                    </Link>
-                    {user?._id === data?.createdBy ? player._id !== data?.createdBy ? <MoreHorizIcon onClick={openPopover} className='three-dots'/> : '' : ''}
-                      <Popover className={classes.popover}
-                      open={popoverOpen}
-                      anchorEl={anchorEl}
-                      onClose={closePopover}
-                      anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'left',
-                      }}
-                      transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'center',
-                      }}
-                      >
-                        <button onClick={()=> removePlayerFromTeam(player._id)}>Hapus Pemain</button>
-                      </Popover>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className='user-team-bottom-tournament'>
-
-            </div>
-          </div>
-            {isMyTeam?.length > 0 && <button className='user-team-delete-team' onClick={handleClickOpen}>Hapus Tim</button>}
-        </>
-        )}
-      </div>
-
-      <Dialog classes={{paper: classes.paper}} open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle classes={{root: classes.title}} id="form-dialog-title">Yakin ingin menghapus tim ini ?</DialogTitle>
-        <DialogActions classes={{root: classes.action}}>
-          <button className='cancel-button' onClick={handleClose}>
-            Batal
-          </button>
-          <button className='create-team-button' onClick={deleteTeam}>Hapus
-            {/* {isSubmitting ?  
+      <Navbar backButton={true}/>
+      <SideBar/>
+      <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
+        <div className='user-team'>
+          {loading ? (
             <Loader
+              className="loader"
               type="ThreeDots"
-              color="black"
-              height={20}
-              width={30}
-            /> : 'Upload'} */}
-          </button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog classes={{paper: classes.paper}} open={open2} onClose={handleClose2} aria-labelledby="form-dialog-title">
-        <DialogTitle classes={{root: classes.title}} id="form-dialog-title">Undang Teman</DialogTitle>
-        <DialogContent classes={{root: classes.content}}>
-          <input
-            className='create-team-input'
-            placeholder='Undang teman'
-            autoFocus
-            type="text"
-            value={input}
-            onChange={e=> updateInput(e.target.value)}
-          />
-        {/* <span className="error-msg" style={{opacity:formErrors ? 1 : 0 }}>{formErrors ? formErrors : 'error'}</span> */}
-        <div className='profile-friends-list' style={input === '' ? {display: 'none'} : {display: 'block'}}>
-          {filteredUser.map(p=>(
-            <div key={p._id}>
-              <Link to={`/profile/${p._id}`}>
-                <Avatar src={p.profilePicture} alt={p.username}/>
-                <span>{p.username}</span>
-              </Link>
-              {invitatonSent ? 
-              <button className='requestSent profile-button-add-friends' onClick={()=> cancelTeamInvite(p._id)}>Batalkan</button> : 
-              <button className='profile-friends-add-button' onClick={()=> inviteToTeam(p._id)}>Undang</button>}
+              color="#00DEAB"
+              height={120}
+              width={120}
+            />
+          ) : (
+          <>
+            <div className="user-team-detail" 
+                style={data.logo && {background: `url(${data.logo})`, 
+                        backgroundRepeat: 'no-repeat', 
+                        backgroundPosition: 'center', 
+                        backgroundSize: '500px', 
+                        backgroundBlendMode: 'overlay', 
+                        backgroundColor: '#151A2C'}}>
+              <div className="team-detail-identity">
+                <img className="team-detail-logo" src={data.logo} alt="" />
+                <p className="team-detail-team-name">{data.teamName}</p>
+              </div>
+              <div className="team-detail-info">
+                <div>
+                  <span>Match Played</span>
+                  <span>-</span>
+                </div>
+                <div>
+                  <span>Win</span>
+                  <span>-</span>
+                </div>
+                <div>
+                  <span>Reputation</span>
+                  <span>-</span>
+                </div>
+              </div>
             </div>
-          ))}
-        </div>
-        </DialogContent>
-        <DialogActions classes={{root: classes.action}}>
-          <button className='cancel-button' onClick={handleClose2}>
-            Batal
-          </button>
-        </DialogActions>
-      </Dialog>
+            {isMyTeam?.length > 0 && user._id === data?.createdBy ? <div className='user-team-invite-button-wraper'>
+              <button className='user-team-invite-button' onClick={handleClickOpen2}>Invite</button>
+            </div> : ''}
+            <div className='user-team-bottom'>
+              <div className='user-team-bottom-roster'>
+                <h3>Roster</h3>
+                <div className='user-team-roster-wraper'>
+                {data.roster.map(player=>(
+                    <div className='user-team-roster' key={player._id}>
+                      <Link to={`/profile/${player._id}`}>
+                        <Avatar className={classes.root} src={player.profilePicture} alt={player.username}/>
+                        <span>{player.username}</span>
+                      </Link>
+                      {user?._id === data?.createdBy ? player._id !== data?.createdBy ? <MoreHorizIcon onClick={openPopover} className='three-dots'/> : '' : ''}
+                        <Popover className={classes.popover}
+                        open={popoverOpen}
+                        anchorEl={anchorEl}
+                        onClose={closePopover}
+                        anchorOrigin={{
+                          vertical: 'bottom',
+                          horizontal: 'left',
+                        }}
+                        transformOrigin={{
+                          vertical: 'top',
+                          horizontal: 'center',
+                        }}
+                        >
+                          <button onClick={()=> removePlayerFromTeam(player._id)}>Hapus Pemain</button>
+                        </Popover>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className='user-team-bottom-tournament'>
 
+              </div>
+            </div>
+              {isMyTeam?.length > 0 && <button className='user-team-delete-team' onClick={handleClickOpen}>Hapus Tim</button>}
+          </>
+          )}
+        </div>
+
+        <Dialog classes={{paper: classes.paper}} open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+          <DialogTitle classes={{root: classes.title}} id="form-dialog-title">Yakin ingin menghapus tim ini ?</DialogTitle>
+          <DialogActions classes={{root: classes.action}}>
+            <button className='cancel-button' onClick={handleClose}>
+              Batal
+            </button>
+            <button className='create-team-button' onClick={deleteTeam}>Hapus
+              {/* {isSubmitting ?  
+              <Loader
+                type="ThreeDots"
+                color="black"
+                height={20}
+                width={30}
+              /> : 'Upload'} */}
+            </button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog classes={{paper: classes.paper}} open={open2} onClose={handleClose2} aria-labelledby="form-dialog-title">
+          <DialogTitle classes={{root: classes.title}} id="form-dialog-title">Undang Teman</DialogTitle>
+          <DialogContent classes={{root: classes.content}}>
+            <input
+              className='create-team-input'
+              placeholder='Undang teman'
+              autoFocus
+              type="text"
+              value={input}
+              onChange={e=> updateInput(e.target.value)}
+            />
+          {/* <span className="error-msg" style={{opacity:formErrors ? 1 : 0 }}>{formErrors ? formErrors : 'error'}</span> */}
+          <div className='profile-friends-list' style={input === '' ? {display: 'none'} : {display: 'block'}}>
+            {filteredUser.map(p=>(
+              <div key={p._id}>
+                <Link to={`/profile/${p._id}`}>
+                  <Avatar src={p.profilePicture} alt={p.username}/>
+                  <span>{p.username}</span>
+                </Link>
+                {invitatonSent ? 
+                <button className='requestSent profile-button-add-friends' onClick={()=> cancelTeamInvite(p._id)}>Batalkan</button> : 
+                <button className='profile-friends-add-button' onClick={()=> inviteToTeam(p._id)}>Undang</button>}
+              </div>
+            ))}
+          </div>
+          </DialogContent>
+          <DialogActions classes={{root: classes.action}}>
+            <button className='cancel-button' onClick={handleClose2}>
+              Batal
+            </button>
+          </DialogActions>
+        </Dialog>
+      </div>
+    <FooterMenu/>                    
     </>
   )
 }

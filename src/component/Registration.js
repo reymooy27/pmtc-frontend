@@ -211,6 +211,8 @@ if(redirectTo){
 
 
   return (
+    <>
+    {tournament.registrationClosed || tournament.status !== 'OPEN' ? <Redirect to="/" /> : 
       <div className="form">
         <form encType="multipart/form-data" className="kiri" onSubmit={handleSubmit}>
           <h2 className="pendaftaran-title">Pendaftaran</h2>
@@ -485,6 +487,9 @@ if(redirectTo){
           </div>
         </form>
       </div>
+    }
+
+    </>
   );
 }
 

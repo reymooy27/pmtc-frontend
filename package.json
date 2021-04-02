@@ -23,6 +23,7 @@
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.4",
+    "react-swipeable": "^6.0.1",
     "socket.io-client": "^3.0.5"
   },
   "scripts": {

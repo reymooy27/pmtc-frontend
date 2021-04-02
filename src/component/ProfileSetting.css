@@ -1,5 +1,5 @@
 .profile-setting {
-  margin: 3em auto 1em;
+  margin: 0 auto 1em;
   display: flex;
   width: 95%;
   flex-direction: column;
@@ -79,10 +79,6 @@
   color: black;
 }
 @media screen and (min-width: 700px) {
-  .profile-setting {
-    margin: 4em auto 1em;
-  }
-
   .profile-setting-save-button {
     width: fit-content;
   }

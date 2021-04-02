@@ -1,5 +1,5 @@
 .notification {
-  margin: 4em auto 0;
+  margin: 0 auto 5em;
   width: 96%;
 }
 
@@ -38,4 +38,10 @@
   color: white;
   margin-right: 10px;
   font-size: 14px;
+}
+
+@media screen and (min-width: 976px) {
+  .notification {
+    margin: 0 auto 1em;
+  }
 }

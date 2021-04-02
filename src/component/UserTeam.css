@@ -1,5 +1,7 @@
+.user-team {
+  margin: 0 auto 4em;
+}
 .user-team-detail {
-  margin: 3em auto 1em;
   padding: 20px;
   height: 350px;
   color: white;
@@ -94,6 +96,9 @@
 
 } */
 @media screen and (min-width: 800px) {
+  .user-team {
+    margin: 0 auto 1em;
+  }
   .user-team-detail {
     flex-direction: row;
     height: 250px;

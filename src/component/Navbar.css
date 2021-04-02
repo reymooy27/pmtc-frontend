@@ -13,10 +13,6 @@
   align-items: center;
   transition: all 0.3s ease;
 }
-.navbar-responsive a {
-  text-decoration: none;
-  margin-right: 10px;
-}
 
 .navbar-responsive .login-button {
   display: inline-block;
@@ -67,6 +63,35 @@
   left: 2px;
 }
 
+.search-input-wraper {
+  position: absolute;
+  left: 250px;
+  padding: 10px;
+  display: none;
+}
+
+.search-input {
+  border-radius: 10px;
+  background-color: #0e1013;
+  color: white;
+  width: 300px;
+  height: 40px;
+  text-align: left;
+  text-indent: 10px;
+  margin: 10px auto;
+  border: 2px solid rgb(85, 85, 85);
+  outline: none;
+  transition: ease-in-out 0.3s;
+}
+
+.search-input:focus {
+  border: 2px solid #00deab;
+  transition: ease-in-out 0.3s;
+}
+.search-input:hover {
+  border: 2px solid #00deab;
+  transition: ease-in-out 0.3s;
+}
 @media screen and (min-width: 976px) {
   .navbar-responsive {
     height: 60px;
@@ -76,5 +101,8 @@
   }
   .chat-username {
     padding-left: 200px;
+  }
+  .search-input-wraper {
+    display: block;
   }
 }

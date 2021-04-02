@@ -3,7 +3,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
 } from "react-router-dom";
 import "./App.css";
 import Navbar from "./component/Navbar";
@@ -14,13 +13,13 @@ import Loader from "react-loader-spinner";
 import Login from "./component/Login";
 import Admin from "./component/Admin";
 import {fetchCheckUser} from './redux/reducers/userSlice'
-import {fetchAllTournament, selectTournament} from './redux/reducers/tournamentSlice'
+import {fetchAllTournament} from './redux/reducers/tournamentSlice'
 import {useSelector, useDispatch} from 'react-redux'
 import Signup from "./component/Signup";
 import Profile from "./component/Profile";
 import Tournaments from "./component/Tournaments";
 import Tournament from "./component/Tournament";
-import { closeSideBar, selectErrorMessage, selectOpenErrorSnackbar, selectOpenSuccessSnackbar, setOpenErrorSnackbar, setOpenSuccessSnackbar, selectSuccessMessage } from "./redux/reducers/appSlice";
+import { closeSideBar, selectErrorMessage, selectOpenErrorSnackbar, selectOpenSuccessSnackbar, setOpenErrorSnackbar, setOpenSuccessSnackbar, selectSuccessMessage, showSideBar } from "./redux/reducers/appSlice";
 import UserTeam from './component/UserTeam'
 import ProfileSetting from "./component/ProfileSetting";
 import Snackbar from '@material-ui/core/Snackbar';
@@ -29,10 +28,14 @@ import Chat from "./component/Chat";
 import ChatList from './component/ChatList'
 import Notification from "./component/Notification";
 import moment from 'moment'
+import { useSwipeable } from "react-swipeable";
+import FooterMenu from "./component/FooterMenu";
+import { makeStyles, useMediaQuery } from "@material-ui/core";
+
 function App() {
+  
   const dispatch = useDispatch()
 
-  const tournament = useSelector(selectTournament)
   const openSuccessSnackbar = useSelector(selectOpenSuccessSnackbar)
   const openErrorSnackbar = useSelector(selectOpenErrorSnackbar)
   const successMessage = useSelector(selectSuccessMessage)
@@ -84,6 +87,16 @@ moment.updateLocale('id', {
     ]
 });
 
+const matches = useMediaQuery('(min-width: 976px)')
+
+const useStyles = makeStyles(() => ({
+  bottom: {
+    bottom: matches ? '8px' : '78px',
+  },
+}));
+
+  const classes = useStyles()
+
 useEffect(() => {
   let mounted = true
   if(mounted){
@@ -107,6 +120,12 @@ function Alert(props) {
     dispatch(setOpenErrorSnackbar(false))
   };
 
+  const handlers = useSwipeable({
+    trackMouse: true,
+    onSwipedRight: () => dispatch(showSideBar()),
+    onSwipedLeft: ()=> dispatch(closeSideBar())
+  });
+
   return (
     <>
     <Router>
@@ -120,91 +139,36 @@ function Alert(props) {
         />
       ) : (
           <Switch>
-            <Route path="/notification">
-              <Navbar backButton={true}/>
-              <SideBar/>
-              <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
-                <Notification/>
-              </div>
-            </Route>
-            <Route path="/chat/:id">
-              <Navbar isChat={true} backButton={true}/>
-              <SideBar/>
-              <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
-                <Chat/>
-              </div>
-            </Route>
-            <Route path="/chat">
-              <Navbar/>
-              <SideBar/>
-              <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
-                <ChatList/>
-              </div>
-            </Route>
-            <Route path="/profile/team/:id">
-              <Navbar/>
-              <SideBar/>
-              <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
-                <UserTeam/>
-              </div>
-            </Route>
-            <Route path="/admin">
-              <Navbar/>
-              <SideBar/>
-              <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
-                  <Admin />
-              </div>
-            </Route>
-            <Route path='/profile/setting'>
-              <Navbar/>
-              <SideBar/>
-              <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
-              <ProfileSetting/>                        
-              </div>
-            </Route>
-            <Route path="/profile/:id">
-              <Navbar/>
-              <SideBar/>
-              <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
-                <Profile />
-              </div>
-            </Route>
-            <Route path="/signup">
-              <Signup />
-            </Route>
-            <Route path="/login">
-              <Login />
-            </Route>
-            <Route path="/email-confirmation">
-              <EmailConfirmation />
-            </Route>
-            <Route path="/team/create/:id">
-              {tournament.registrationClosed || tournament.status !== 'OPEN' ? (
-                <Redirect to="/" />
-              ) : (
-                <Registration />
-              )}
-            </Route>
-            <Route path="/tournament/:tournamentID">
-              <Tournament />
-            </Route>
+            <Route path="/notification" component={Notification}/>
+            <Route path="/chat/:id" component={Chat}/>
+            <Route path="/chat" component={ChatList}/>
+            <Route path="/profile/team/:id" component={UserTeam}/>
+            <Route path="/admin" component={Admin}/>
+            <Route path='/profile/setting' component={ProfileSetting}/>
+            <Route path="/profile/:id" component={Profile}/>
+            <Route path="/signup" component={Signup}/>
+            <Route path="/login" component={Login}/>
+            <Route path="/email-confirmation" component={EmailConfirmation}/>
+            <Route path="/team/create/:id"component={Registration}/>
+            <Route path="/tournament/:tournamentID" component={Tournament}/>
             <Route path="/">
               <Navbar/>
               <SideBar/>
-              <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
+              <div {...handlers} className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
                 <Tournaments loading={loading} />
               </div>
+              <FooterMenu/>
             </Route>
           </Switch>
       )}
     </Router>
 
-      <Snackbar open={openSuccessSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+      <Snackbar className={classes.bottom} open={openSuccessSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
         <Alert onClose={handleCloseSnackbar} severity="success">
         {successMessage}
         </Alert>
       </Snackbar>
-      <Snackbar open={openErrorSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+      <Snackbar className={classes.bottom} open={openErrorSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
         <Alert onClose={handleCloseSnackbar} severity="error">
           {errorMessage}
         </Alert>

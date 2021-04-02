@@ -9,9 +9,13 @@ import { Avatar } from '@material-ui/core'
 import socket from '../socket.io'
 import { setOpenErrorSnackbar,setErrorMessage } from '../redux/reducers/appSlice'
 import moment from 'moment'
+import Navbar from './Navbar'
+import SideBar from './SideBar'
+import { closeSideBar } from '../redux/reducers/appSlice'
+import FooterMenu from './FooterMenu'
 
 function ChatList() {
-
+  
   document.title = `Chat`
 
   const user = useSelector(selectUser)
@@ -60,22 +64,29 @@ function ChatList() {
   };
 
   return (
-    <div className='chatList'>
-      {chatList.length > 0 ? chatList.map(cl=>(
-        <Link className='chatList-chat' onClick={()=> dispatch(setToRecipient(handleRecipient(cl.recipients)))} key={cl._id} to={`/chat/${handleRecipient(cl.recipients)._id}`}>
-          <div className='chatList-chat-avatar'>
-            <Avatar src={handleRecipient(cl.recipients).profilePicture} alt=''/>
-          </div>
-          <div className='chatList-chat-recipient'>
-            <h4>{handleRecipient(cl.recipients).username}</h4>
-            <span>{cl.lastMessage.length > 10 ? cl.lastMessage.substring(0,20) + '...' : cl.lastMessage}</span>
-            <p className='chatList-time'>{moment(cl.updatedAt).fromNow()}</p>
-          </div>
-        </Link>
-      )) : 
-      <h3>Belum ada pesan apapun</h3>
-      }
-    </div>
+    <>
+      <Navbar backButton={true}/>
+      <SideBar/>
+      <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
+        <div className='chatList'>
+          {chatList.length > 0 ? chatList.map(cl=>(
+            <Link className='chatList-chat' onClick={()=> dispatch(setToRecipient(handleRecipient(cl.recipients)))} key={cl._id} to={`/chat/${handleRecipient(cl.recipients)._id}`}>
+              <div className='chatList-chat-avatar'>
+                <Avatar src={handleRecipient(cl.recipients).profilePicture} alt=''/>
+              </div>
+              <div className='chatList-chat-recipient'>
+                <h4>{handleRecipient(cl.recipients).username}</h4>
+                <span>{cl.lastMessage.length > 10 ? cl.lastMessage.substring(0,20) + '...' : cl.lastMessage}</span>
+                <p className='chatList-time'>{moment(cl.updatedAt).fromNow()}</p>
+              </div>
+            </Link>
+          )) : 
+          <h3>Belum ada pesan apapun</h3>
+          }
+        </div>
+      </div>
+      <FooterMenu/>
+    </>
   )
 }
 

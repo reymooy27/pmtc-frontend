@@ -1,97 +1,75 @@
 import React from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link} from "react-router-dom";
 import "./SideBar.css";
-import {sideBarOpen} from '../redux/reducers/appSlice'
-import {selectUser, fetchLogout} from '../redux/reducers/userSlice'
-import { useDispatch, useSelector } from "react-redux";
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
-import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
-import FacebookIcon from '@material-ui/icons/Facebook';
-import InstagramIcon from '@material-ui/icons/Instagram';
-import WhatsAppIcon from '@material-ui/icons/WhatsApp';
-import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import ChatIcon from '@material-ui/icons/Chat';
+import {closeSideBar, sideBarOpen} from '../redux/reducers/appSlice'
+import {selectUser} from '../redux/reducers/userSlice'
+import {useDispatch, useSelector } from "react-redux";
+
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import {Facebook, 
+  Twitter, 
+  Instagram, 
+  YouTube,
+  PersonOutline,
+  Search,
+  Group,
+  Chat,
+  SportsEsports,
+  Favorite,
+  Assignment,
+  Subscriptions,
+  Help,
+  ConfirmationNumber,
+  PermDataSetting,
+  AccountBalanceWallet,
+  Score,
+  ImageAspectRatio,
+} from '@material-ui/icons';
 
 function SideBar(props) {
-const dispatch = useDispatch()
   
 const user = useSelector(selectUser)
 const open = useSelector(sideBarOpen)
-const isAdmin = user !== null ? user.role === 'ADMIN' : null
+
+const dispatch = useDispatch()
+
+const handleClose = ()=>{
+  dispatch(closeSideBar())
+}
+
   return (
-    <nav className={open ? "side-bar active" : "side-bar"}>
-      <div className="nav">
-        <div className="sidebar-top">
-          <Link to="/">
-            <SportsEsportsIcon />
-            Turnamen
-          </Link>
-          {isAdmin ? (
-            <Link to="/admin">
-              <SupervisorAccountIcon /> Admin
-            </Link>
-          ) : (
-            ""
-          )}
-          {user && <Link to='/chat'><ChatIcon/> Chat</Link>}
-          {user && <Link to='/notification'><NotificationsIcon/>Notifikasi</Link>}
+    <div className={open ? 'sidebar active' : 'sidebar'}>
+        <div className='sidebar--logo'>
+          <h3>Game Portal</h3>
         </div>
-        <div className="sidebar-bottom">
-          <div className="sidebar-social">
-            <span>Media Sosial</span>
-            <div className="sidebar-social-icon">
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://www.facebook.com/pubgmtc.official"
-              >
-                <FacebookIcon />
-              </a>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://www.instagram.com/pmtc.official/"
-              >
-                <InstagramIcon />
-              </a>
-            </div>
-          </div>
-          <div className="sidebar-contact">
-            <span>Kontak</span>
-            <div className="sidebar-contact-icon">
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="http://wa.me/6282237813869"
-              >
-                <WhatsAppIcon />
-              </a>
-              <a
-                target="_blank"
-                rel="noopener noreferrer"
-                href="mailto:pmtc.official@gmail.com"
-              >
-                <MailOutlineIcon />
-              </a>
-            </div>
-          </div>
-          <div className="sidebar-logout">
-            {user ? (
-              <button onClick={() =>{
-                dispatch(fetchLogout())
-                return <Redirect to='/'/>
-              }}>
-                <ExitToAppIcon /> Logout
-              </button>
-            ) : (
-              ""
-            )}
-          </div>
+        <div className='sidebar--menu'>
+          {user && <Link onClick={handleClose} to={`/profile/${user?._id}`}><PersonOutline/> Profile</Link>}
+          <Link onClick={handleClose} to='/'><Search/> Search</Link>
+          {user && <Link onClick={handleClose} to={`/profile/${user?._id}/friends`}><Group/> Friends</Link>}
+          {user && <Link onClick={handleClose} to='/chat'><Chat/> Messages</Link>}
+          {user && <Link onClick={handleClose} to='/notification'><NotificationsIcon/> Notification</Link>}
+          {user && <Link onClick={handleClose} to='/admin'><ImageAspectRatio/> Admin</Link>}
+          <Link onClick={handleClose} to='/'><Score/> Score</Link>
+          <Link onClick={handleClose} to='/'><Assignment/>Tasks</Link>
+          <Link onClick={handleClose} to='/'><Favorite/> Favorite</Link>
+          <Link onClick={handleClose} to='/'><SportsEsports/> League</Link>
+          <Link onClick={handleClose} to='/'><AccountBalanceWallet/> Balance</Link>
+          <Link onClick={handleClose} to='/'><Subscriptions/> Suggestions</Link>
+        </div>
+        <div className='sidebar--social'>
+          <Twitter/>
+          <Facebook/>
+          <Instagram/>
+          <Twitter/>
+          <YouTube/>
+          <Facebook/>
+        </div>
+        <div className='sidebar--help'>
+          <Link onClick={handleClose} to='/'><Help/> Help</Link>
+          <Link onClick={handleClose} to='/'><ConfirmationNumber/> Conditions</Link>
+          <Link onClick={handleClose} to='/'><PermDataSetting/> Confidentialy</Link>
         </div>
       </div>
-    </nav>
   );
 }
 

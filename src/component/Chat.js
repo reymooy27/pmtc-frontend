@@ -7,9 +7,12 @@ import { useDispatch} from 'react-redux'
 import {setToRecipient } from '../redux/reducers/chatSlice'
 import IconButton from '@material-ui/core/IconButton';
 import SendIcon from '@material-ui/icons/Send';
+import Navbar from './Navbar'
+import SideBar from './SideBar'
+import { closeSideBar } from '../redux/reducers/appSlice'
 
 function Chat() {
-
+  
   document.title = `Chat`
 
   const [sentMessage, setSentMessage] = useState('')
@@ -69,21 +72,27 @@ function Chat() {
   }, [newConversation])
 
   return (
-    <div className='chat'>
-      <div className='chat-messages-wraper'>
-        {conversation && conversation.map(c=>(
-          <p className={id === c.to ? 'chat-message byUser' : 'chat-message bySender'} key={c._id}>{c.message}</p>
-        ))}
+    <>
+      <Navbar isChat={true} backButton={true}/>
+      <SideBar/>
+      <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
+        <div className='chat'>
+          <div className='chat-messages-wraper'>
+            {conversation && conversation.map(c=>(
+              <p className={id === c.to ? 'chat-message byUser' : 'chat-message bySender'} key={c._id}>{c.message}</p>
+            ))}
+          </div>
+          <div ref={chatBottom}/>
+          <div className='chat-send-message'>
+            <input type='text' autoFocus value={sentMessage} onChange={(e)=> setSentMessage(e.target.value)}/>
+            <IconButton onClick={sendMessage} disabled={sentMessage === '' ? true : false} aria-label="send message" component="span">
+              <SendIcon style={sentMessage === '' ? {color: '#0e1013', fontSize: '32px'} : {color: '#00dbae', fontSize: '32px'} } />
+            </IconButton>
+            {/* <button onClick={sendMessage}>Send</button> */}
+          </div>
+        </div>
       </div>
-      <div ref={chatBottom}/>
-      <div className='chat-send-message'>
-        <input type='text' autoFocus value={sentMessage} onChange={(e)=> setSentMessage(e.target.value)}/>
-        <IconButton onClick={sendMessage} disabled={sentMessage === '' ? true : false} aria-label="send message" component="span">
-          <SendIcon style={sentMessage === '' ? {color: '#0e1013', fontSize: '32px'} : {color: '#00dbae', fontSize: '32px'} } />
-        </IconButton>
-        {/* <button onClick={sendMessage}>Send</button> */}
-      </div>
-    </div>
+    </>
   )
 }
 

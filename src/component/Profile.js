@@ -25,9 +25,12 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import axios from '../axios'
-import { setErrorMessage, setOpenErrorSnackbar, setOpenSuccessSnackbar, setSuccessMessage } from '../redux/reducers/appSlice'
+import { closeSideBar, setErrorMessage, setOpenErrorSnackbar, setOpenSuccessSnackbar, setSuccessMessage } from '../redux/reducers/appSlice'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import socket from '../socket.io';
+import Navbar from './Navbar'
+import SideBar from './SideBar'
+import FooterMenu from './FooterMenu'
 
 function Profile() {
 
@@ -154,7 +157,6 @@ const useStyles = makeStyles(() => ({
       const a = x.filter(f=>(
         f._id === id
       ))
-      console.log(a)
       if(a.length > 0){
         setIsFriend(true)
       }else{
@@ -262,108 +264,113 @@ const useStyles = makeStyles(() => ({
 
   return (
     <>
-    {!user && <Redirect to='/'/>}
-    <>
-      <div className='profile'>
-        <Badge
-        overlap="circle"
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        badgeContent={ isUserLoggedIn &&
-          <IconButton onClick={handleClickOpen} aria-label="uploadPhoto" size="small">
-              <AddAPhotoIcon fontSize="small" style={{color: 'white'}}/>
-          </IconButton>
-        }
-      >
-        <Avatar className={classes.root} src={isUserLoggedIn ? user?.profilePicture : user_?.profilePicture} 
-        alt={isUserLoggedIn ? user?.username : user_?.username}/>
-      </Badge>
-        <h3>{isUserLoggedIn ? user?.username : user_?.username}</h3>
-        {!isUserLoggedIn && <div className='profile-button-wraper'>
-          <Link to={`/chat/${id}`} className='profile-button-chat'>Chat</Link>
-          {isFriend ? <button className='requestSent profile-button-add-friends' onClick={cancelFriendship}>Unfriend</button> : requestSent 
-          ? 
-          <button className='requestSent profile-button-add-friends' onClick={cancelFriendRequest}>Batalkan</button> 
-          :  
-          <button disabled={requestSent} 
-                  onClick={sendFriendRequest} 
-                  className='profile-button-add-friends'
-          >Tambahkan Teman
-          </button>}
-        </div>}
-        <div className='profile-overview-stats'>
-          <div>
-            <h5>Match</h5>
-            <span>0</span>
+      <Navbar backButton={true}/>
+      <SideBar/>
+      <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
+        {!user && <Redirect to='/'/>}
+        <>
+          <div className='profile'>
+            <Badge
+            overlap="circle"
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            badgeContent={ isUserLoggedIn &&
+              <IconButton onClick={handleClickOpen} aria-label="uploadPhoto" size="small">
+                  <AddAPhotoIcon fontSize="small" style={{color: 'white'}}/>
+              </IconButton>
+            }
+          >
+            <Avatar className={classes.root} src={isUserLoggedIn ? user?.profilePicture : user_?.profilePicture} 
+            alt={isUserLoggedIn ? user?.username : user_?.username}/>
+          </Badge>
+            <h3>{isUserLoggedIn ? user?.username : user_?.username}</h3>
+            {!isUserLoggedIn && <div className='profile-button-wraper'>
+              <Link to={`/chat/${id}`} className='profile-button-chat'>Chat</Link>
+              {isFriend ? <button className='requestSent profile-button-add-friends' onClick={cancelFriendship}>Unfriend</button> : requestSent 
+              ? 
+              <button className='requestSent profile-button-add-friends' onClick={cancelFriendRequest}>Batalkan</button> 
+              :  
+              <button disabled={requestSent} 
+                      onClick={sendFriendRequest} 
+                      className='profile-button-add-friends'
+              >Tambahkan Teman
+              </button>}
+            </div>}
+            <div className='profile-overview-stats'>
+              <div>
+                <h5>Match</h5>
+                <span>0</span>
+              </div>
+              <div>
+                <h5>Winrate</h5>
+                <span>0%</span>
+              </div>
+              <div>
+                <h5>Followers</h5>
+                <span>0</span>
+              </div>
+            </div>
           </div>
-          <div>
-            <h5>Winrate</h5>
-            <span>0%</span>
-          </div>
-          <div>
-            <h5>Followers</h5>
-            <span>0</span>
-          </div>
-        </div>
-      </div>
 
-      <Dialog classes={{paper: classes.paper}} open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle classes={{root: classes.title}} id="form-dialog-title">Upload Foto Profil</DialogTitle>
-        <DialogContent classes={{root: classes.content}}>
-          <input
-            type="file"
-            name="profilePicture"
-            accept="image/png"
-            onChange={handleLogoChange}
-          />
-        {/* <span className="error-msg" style={{opacity:formErrors ? 1 : 0 }}>{formErrors ? formErrors : 'error'}</span> */}
-        </DialogContent>
-        <DialogActions classes={{root: classes.action}}>
-          <button className='cancel-button' onClick={handleClose}>
-            Batal
-          </button>
-          <button className='create-team-button' onClick={uploadProfilePicture}>Upload
-            {/* {isSubmitting ?  
-            <Loader
-              type="ThreeDots"
-              color="black"
-              height={20}
-              width={30}
-            /> : 'Upload'} */}
-          </button>
-        </DialogActions>
-      </Dialog>
-      
-      <Switch>
-        <Route exact path={path}>
-          <ProfileTabs isUser={isUserLoggedIn} user_={user_} tab={1}/>
-          <ProfileOverview isUser={isUserLoggedIn} user_={user_}/>
-        </Route>
-        <Route path={`/profile/${isUserLoggedIn ? user?._id : user_?._id}/overview`}>
-          <ProfileTabs isUser={isUserLoggedIn} user_={user_} tab={1}/>
-          <ProfileOverview isUser={isUserLoggedIn} user_={user_}/>
-        </Route>
-        <Route path={`/profile/${isUserLoggedIn ? user?._id : user_?._id}/stats`}>
-          <ProfileTabs isUser={isUserLoggedIn} user_={user_} tab={2}/>
-          <ProfileStats isUser={isUserLoggedIn} user_={user_}/>
-        </Route>
-        
-        <Route path={`/profile/${isUserLoggedIn ? user?._id : user_?._id}/team`}>
-          <ProfileTabs isUser={isUserLoggedIn} user_={user_} tab={3}/>
-          <ProfileTeam isUser={isUserLoggedIn} user_={user_}/>
-        </Route>
-        <Route path={`/profile/${isUserLoggedIn ? user?._id : user_?._id}/friends`}>
-          <ProfileTabs isUser={isUserLoggedIn} user_={user_} tab={4}/>
-          <ProfileFriends isUser={isUserLoggedIn} user_={user_}/>
-        </Route>
-        <Route path={`/profile/${isUserLoggedIn ? user?._id : user_?._id}/tournaments`}>
-          <ProfileTabs isUser={isUserLoggedIn} user_={user_} tab={5}/>
-          <ProfileTournaments isUser={isUserLoggedIn} user_={user_}/>
-        </Route>
-      </Switch>
-    </>
+          <Dialog classes={{paper: classes.paper}} open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+            <DialogTitle classes={{root: classes.title}} id="form-dialog-title">Upload Foto Profil</DialogTitle>
+            <DialogContent classes={{root: classes.content}}>
+              <input
+                type="file"
+                name="profilePicture"
+                accept="image/png"
+                onChange={handleLogoChange}
+              />
+            {/* <span className="error-msg" style={{opacity:formErrors ? 1 : 0 }}>{formErrors ? formErrors : 'error'}</span> */}
+            </DialogContent>
+            <DialogActions classes={{root: classes.action}}>
+              <button className='cancel-button' onClick={handleClose}>
+                Batal
+              </button>
+              <button className='create-team-button' onClick={uploadProfilePicture}>Upload
+                {/* {isSubmitting ?  
+                <Loader
+                  type="ThreeDots"
+                  color="black"
+                  height={20}
+                  width={30}
+                /> : 'Upload'} */}
+              </button>
+            </DialogActions>
+          </Dialog>
+          
+          <Switch>
+            <Route exact path={path}>
+              <ProfileTabs isUser={isUserLoggedIn} user_={user_} tab={1}/>
+              <ProfileOverview isUser={isUserLoggedIn} user_={user_}/>
+            </Route>
+            <Route path={`/profile/${isUserLoggedIn ? user?._id : user_?._id}/overview`}>
+              <ProfileTabs isUser={isUserLoggedIn} user_={user_} tab={1}/>
+              <ProfileOverview isUser={isUserLoggedIn} user_={user_}/>
+            </Route>
+            <Route path={`/profile/${isUserLoggedIn ? user?._id : user_?._id}/stats`}>
+              <ProfileTabs isUser={isUserLoggedIn} user_={user_} tab={2}/>
+              <ProfileStats isUser={isUserLoggedIn} user_={user_}/>
+            </Route>
+            
+            <Route path={`/profile/${isUserLoggedIn ? user?._id : user_?._id}/team`}>
+              <ProfileTabs isUser={isUserLoggedIn} user_={user_} tab={3}/>
+              <ProfileTeam isUser={isUserLoggedIn} user_={user_}/>
+            </Route>
+            <Route path={`/profile/${isUserLoggedIn ? user?._id : user_?._id}/friends`}>
+              <ProfileTabs isUser={isUserLoggedIn} user_={user_} tab={4}/>
+              <ProfileFriends isUser={isUserLoggedIn} user_={user_}/>
+            </Route>
+            <Route path={`/profile/${isUserLoggedIn ? user?._id : user_?._id}/tournaments`}>
+              <ProfileTabs isUser={isUserLoggedIn} user_={user_} tab={5}/>
+              <ProfileTournaments isUser={isUserLoggedIn} user_={user_}/>
+            </Route>
+          </Switch>
+        </>
+      </div>
+      <FooterMenu/>
     </>
   )
 }

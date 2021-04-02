@@ -1,127 +1,84 @@
-.side-bar {
+.sidebar {
   position: fixed;
+  padding: 0 40px;
   left: -100%;
-  top: 0px;
-  width: 200px;
+  top: 0;
+  width: 250px;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background: #2d303e;
-  transition: all 0.3s ease;
+  background: #2d303eec;
+  transition: all 0.3s ease-in-out;
   z-index: 4;
-  font-weight: bold;
   overflow-y: auto;
   box-shadow: 0 1px 5px 1px rgba(0, 0, 0, 0.4);
 }
 
-.side-bar.active {
+.sidebar.active {
   left: 0;
 }
 
-.side-bar .nav {
+.sidebar a {
+  transition: all ease-in-out 0.3s;
+  color: #fff;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.sidebar--logo {
+  margin-bottom: 30px;
+  padding: 20px;
+  font-family: "Oswald", sans-serif;
+  color: white;
+}
+
+.sidebar--play--button {
+  margin-bottom: 20px;
+}
+
+.sidebar--menu {
   display: flex;
   flex-direction: column;
-  width: 200px;
-  height: 100%;
-  padding: 5px;
+  margin-bottom: 20px;
 }
 
-.side-bar .nav a {
+.sidebar--social {
   display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 10px;
-  margin: 10px auto 0;
-  color: white;
-  text-decoration: none;
-  font-size: 16px;
-  text-align: left;
+  margin-bottom: 20px;
 }
 
-.side-bar .nav a:hover {
-  background: #151a2c;
-  border-radius: 10px;
-}
-
-.side-bar .nav a svg {
+.sidebar--social svg {
   margin-right: 10px;
+  width: 13px;
 }
-.nav {
+
+.sidebar--help {
   display: flex;
-  height: 100%;
-}
-.sidebar-top {
-  height: 40%;
-  padding: 5px;
-}
-.sidebar-bottom {
-  height: 30%;
-  padding: 5px;
+  flex-direction: column;
+  margin-bottom: 20px;
 }
 
-.sidebar-social {
-  margin: 10px 0;
-}
-.sidebar-social-icon {
-  display: flex;
-}
-
-.sidebar-social .sidebar-social-icon a:hover {
-  background-color: transparent;
-}
-.sidebar-social .sidebar-social-icon a {
-  width: 30px;
-  padding: 0 10px;
-  margin: 0 0 10px;
-}
-
-.sidebar-contact {
-  margin: 10px 0;
-}
-.sidebar-contact-icon {
-  display: flex;
-}
-
-.sidebar-contact .sidebar-contact-icon a:hover {
-  background-color: transparent;
-  text-decoration: underline;
-}
-.sidebar-contact .sidebar-contact-icon a {
-  width: 30px;
-  padding: 0 10px;
-  font-size: 12px;
-  margin: 0 0 10px;
-}
-
-.sidebar-logout button {
+.sidebar--menu a,
+.sidebar--help a {
+  margin-bottom: 10px;
   display: flex;
   align-items: center;
-  height: 50px;
-  width: 100%;
-  margin: 10px auto 0;
-  padding-left: 10px;
-  border: none;
-  outline: none;
-  font-size: 16px;
-  text-align: left;
+}
+
+.sidebar--menu svg,
+.sidebar--help svg {
+  margin-right: 20px;
+  width: 18px;
+}
+
+.sidebar--menu a:hover,
+.sidebar--help a:hover,
+.sidebar--social svg:hover {
+  color: white;
   cursor: pointer;
-  background-color: transparent;
-  color: white;
-  font-weight: bold;
-}
-
-.sidebar-logout button:hover {
-  background: #151a2c;
-  border-radius: 10px;
-}
-
-.sidebar-logout button svg {
-  margin-right: 10px;
 }
 
 @media screen and (min-width: 976px) {
-  .side-bar {
+  .sidebar {
     left: 0;
+    background: #2c2e3c;
   }
 }

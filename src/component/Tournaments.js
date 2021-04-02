@@ -5,7 +5,7 @@ import {useDispatch, useSelector } from 'react-redux'
 import Loader from 'react-loader-spinner'
 import TournamentCard from './TournamentCard'
 import socket from '../socket.io'
-
+import img from '../img/PGI.S-Key-Art-4.png'
 function Tournaments() {
 
   document.title = `Home`
@@ -60,12 +60,20 @@ function Tournaments() {
           width={120}
         /> :
         <>
-    <div className='tournaments-img'>
-    <img loading='lazy' src={require('../img/wallpapersden.com_pubg-key-art_3200x1800.jpg')} alt=''/>
-    <div className='fade'>
-      <h1>Step up your game</h1>
-      <span>Bertarung dengan pemain lain yang lebih kompetitif</span>
-    </div>
+    {/* <div className='tournaments-img'>
+      <img loading='lazy' src={require('../img/wallpapersden.com_pubg-key-art_3200x1800.jpg')} alt=''/>
+      <div className='fade'>
+        <h1>Step up your game</h1>
+        <span>Bertarung dengan pemain lain yang lebih kompetitif</span>
+      </div>
+    </div> */}
+    <div className='t--header'>
+      <img src={img} alt='img' />
+      <div className='fade1'>
+        <h1>Online soon</h1>
+        <h1 className='h1--grey'>Build your <span>team</span></h1>
+        <h6>more details</h6>
+      </div>
     </div>
     <div className='tournaments'>
       {availableTournament.length > 0 &&
