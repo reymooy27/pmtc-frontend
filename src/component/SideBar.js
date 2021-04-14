@@ -5,15 +5,10 @@ import {closeSideBar, sideBarOpen} from '../redux/reducers/appSlice'
 import {selectUser} from '../redux/reducers/userSlice'
 import {useDispatch, useSelector } from "react-redux";
 
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import {Facebook, 
   Twitter, 
   Instagram, 
   YouTube,
-  PersonOutline,
-  Search,
-  Group,
-  Chat,
   SportsEsports,
   Favorite,
   Assignment,
@@ -39,15 +34,12 @@ const handleClose = ()=>{
 
   return (
     <div className={open ? 'sidebar active' : 'sidebar'}>
+      <Link to='/'>
         <div className='sidebar--logo'>
           <h3>Game Portal</h3>
         </div>
+      </Link>
         <div className='sidebar--menu'>
-          {user && <Link onClick={handleClose} to={`/profile/${user?._id}`}><PersonOutline/> Profile</Link>}
-          <Link onClick={handleClose} to='/'><Search/> Search</Link>
-          {user && <Link onClick={handleClose} to={`/profile/${user?._id}/friends`}><Group/> Friends</Link>}
-          {user && <Link onClick={handleClose} to='/chat'><Chat/> Messages</Link>}
-          {user && <Link onClick={handleClose} to='/notification'><NotificationsIcon/> Notification</Link>}
           {user && <Link onClick={handleClose} to='/admin'><ImageAspectRatio/> Admin</Link>}
           <Link onClick={handleClose} to='/'><Score/> Score</Link>
           <Link onClick={handleClose} to='/'><Assignment/>Tasks</Link>

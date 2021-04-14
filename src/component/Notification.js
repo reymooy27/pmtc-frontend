@@ -6,11 +6,6 @@ import { Avatar } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom'
 import moment from 'moment'
-import Navbar from './Navbar'
-import SideBar from './SideBar'
-import { closeSideBar } from '../redux/reducers/appSlice'
-import { useDispatch } from 'react-redux'
-import FooterMenu from './FooterMenu'
 
 function Notification() {
 
@@ -23,8 +18,6 @@ function Notification() {
 
   const classes = useStyles()
 
-  const dispatch = useDispatch()
-
   const [data, setData] = useState([])
   const [notification, setNotification] = useState('')
 
@@ -33,7 +26,6 @@ function Notification() {
       await axios.get('/notifications')
       .then(res=> {
         setData(res.data)
-        console.log(res.data)
       })
       .catch(err=> console.log(err))
     }
@@ -56,30 +48,25 @@ function Notification() {
 
   return (
     <>
-      <Navbar backButton={true}/>
-      <SideBar/>
-      <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
-        <div className='notification'>
-          <h1>Notifikasi</h1>
-          <br></br>
-          {data.map(d=>(
-            <div key={d._id}>
-            <Link to={d.link} className='notification-wraper'>
-              <Avatar className={classes.root} src={d.sender?.profilePicture}/>
-              <div className='notification-detail'>
-                <p>{d.message}</p>
-                {d.sender && <p className='notification-sender'>{d.sender.username}</p>}
-                <p className='notification-time'>{moment(d.createdAt).fromNow()}</p>
-              </div>
-            </Link>
-            {d.action && d.action.map(a=>(
-              <span key={a._id} className='notification-action' onClick={()=> manageFriendRequest(a)}>{a.actionType}</span>
-            ))} 
+      <div className='notification'>
+        <h1>Notifikasi</h1>
+        <br></br>
+        {data.map(d=>(
+          <div key={d._id}>
+          <Link to={d.link} className='notification-wraper'>
+            <Avatar className={classes.root} src={d.sender?.profilePicture}/>
+            <div className='notification-detail'>
+              <p>{d.message}</p>
+              {d.sender && <p className='notification-sender'>{d.sender.username}</p>}
+              <p className='notification-time'>{moment(d.createdAt).fromNow()}</p>
             </div>
-          ))}
-        </div>
+          </Link>
+          {d.action && d.action.map(a=>(
+            <span key={a._id} className='notification-action' onClick={()=> manageFriendRequest(a)}>{a.actionType}</span>
+          ))} 
+          </div>
+        ))}
       </div>
-      <FooterMenu/>
     </>
   )
 }

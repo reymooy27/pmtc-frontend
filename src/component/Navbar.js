@@ -1,28 +1,29 @@
 import React, { useState } from "react";
 import "./Navbar.css";
 import Avatar from "@material-ui/core/Avatar";
-import { Link, useHistory } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { fetchLogout, selectUser } from "../redux/reducers/userSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { showSideBar } from "../redux/reducers/appSlice";
+import { selectSearchInput, setSearchInput, showSideBar } from "../redux/reducers/appSlice";
 import { selectToRecipient } from "../redux/reducers/chatSlice";
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import {IconButton, Menu, MenuItem, useMediaQuery } from "@material-ui/core";
+import {IconButton, ListItemIcon, ListItemText, Menu, MenuItem, useMediaQuery } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
+import {IoChatboxOutline,IoNotificationsOutline,IoArrowBackOutline,IoLogOutOutline,IoTrophyOutline,IoSettingsOutline,IoPeopleOutline,IoPersonOutline} from 'react-icons/io5'
 
-function Navbar({isChat, backButton}) {
+function Navbar(props) {
 
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const dispatch = useDispatch();
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const user = useSelector(selectUser);
+  const input = useSelector(selectSearchInput);
+  const toRecipient = useSelector(selectToRecipient)
 
-  const matches = useMediaQuery('(min-width:976px)');
+  const isHome = props.location.pathname === '/' ? true : false
+  const isChat = props.location.pathname.includes('/chat/') ? true : false
+
+  const matches = useMediaQuery('(min-width: 1024px)');
 
   const useStyles = makeStyles(() => ({
     root: {
@@ -40,34 +41,79 @@ function Navbar({isChat, backButton}) {
         '& ul':{
           '& a':{
             textDecoration: 'none',
-            color: 'white'
+            color: 'white',
           },
+          minWidth: '180px',
           backgroundColor: '#2C2E3C',
           color: 'white'
         }
       }
+    },
+    itemIcon:{
+      minWidth: 0,
+      marginRight: '10px',
+      color: 'white',
+      '& svg':{
+        fontSize: '18px',
+      }
+    },
+    itemText:{
+      '& span':{
+        fontSize: '14px',
+        fontWeight: 'normal',
+        fontFamily: 'Open Sans',
+      }
+    },
+    notifchat:{
+      color: 'white'
     }
   }));
-  
-  const dispatch = useDispatch();
-
-  const user = useSelector(selectUser);
-  const toRecipient = useSelector(selectToRecipient)
 
   const classes = useStyles()
 
   const history = useHistory()
 
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleChange = (e)=>{
+    dispatch(setSearchInput(e.target.value))
+  }
+
+  const handleClickInput = ()=>{
+    if(input !== ''){
+      console.log('click')
+      return (<Redirect to='/search'/>)
+    } 
+  }
+
   return (
     <div className="navbar-responsive">
+      {!isChat && 
       <div className='search-input-wraper'>
-        <input className='search-input' type='text' placeholder='Search'/>
-      </div>
-      {backButton && !matches ?
-      <IconButton onClick={()=> history.goBack()} className={classes.root} aria-label="send message" component="span">
-        <ArrowBackIcon/>
-      </IconButton> :
-      <div onClick={() => dispatch(showSideBar())} className="menuicon noSelect"></div>}
+        <input className='search-input' type='text' placeholder='Search' value={input} onClick={handleClickInput} onChange={handleChange}/>
+        <Link to='/notification'>
+          <IconButton className={classes.notifchat} aria-label="notification" component="span">
+            <IoNotificationsOutline/>
+          </IconButton> 
+        </Link>
+        <Link to='/chat'>
+          <IconButton className={classes.notifchat} aria-label="chat" component="span">
+            <IoChatboxOutline/>
+          </IconButton> 
+        </Link>
+      </div>}
+      {!isHome && !matches ?
+        <IconButton onClick={()=> history.goBack()} className={classes.root} aria-label="go back" component="span">
+          <IoArrowBackOutline/>
+        </IconButton> 
+        :
+        <div onClick={() => dispatch(showSideBar())} className="menuicon noSelect"></div>}
       {isChat && <div className='chat-username'>{toRecipient?.username}</div>}
       {!isChat && user ? (
         <>
@@ -75,22 +121,63 @@ function Navbar({isChat, backButton}) {
             alt={user.username}
             src={user.profilePicture}
           />
-        <Menu
-        className={classes.list}
-        id="simple-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <Link to={`/profile/${user?._id}`}>
-          <MenuItem onClick={handleClose}>Profile</MenuItem>
-        </Link>
-        <Link to='/'>
-          <MenuItem onClick={handleClose}>My account</MenuItem>
-        </Link>
-        <MenuItem onClick={()=> dispatch(fetchLogout())}>Logout</MenuItem>
-      </Menu>
+            <Menu
+              className={classes.list}
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <Link to={`/profile/${user?._id}`}>
+                <MenuItem onClick={handleClose}>
+                  <ListItemIcon className={classes.itemIcon}>
+                    <IoPersonOutline/>
+                  </ListItemIcon>
+                  <ListItemText className={classes.itemText} primary="Profile" />
+                </MenuItem>
+              </Link>
+              <Link to={`/profile/setting`}>
+                <MenuItem onClick={handleClose}>
+                  <ListItemIcon className={classes.itemIcon}>
+                    <IoSettingsOutline/>
+                  </ListItemIcon>
+                  <ListItemText primary="Settings" />
+                </MenuItem>
+              </Link>
+              <Link to={`/profile/${user?._id}/friends`}>
+                <MenuItem onClick={handleClose}>
+                  <ListItemIcon className={classes.itemIcon}>
+                    <IoPeopleOutline/>
+                  </ListItemIcon>
+                  <ListItemText primary="Friends" />
+                </MenuItem>
+              </Link>
+              <Link to={`/profile/${user?._id}/team`}>
+                <MenuItem onClick={handleClose}>
+                  <ListItemIcon className={classes.itemIcon}>
+                    <IoPeopleOutline/>
+                  </ListItemIcon>
+                  <ListItemText primary="Team" />
+                </MenuItem>
+              </Link>
+              <Link to={`/profile/${user?._id}/tournaments`}>
+                <MenuItem onClick={handleClose}>
+                  <ListItemIcon className={classes.itemIcon}>
+                    <IoTrophyOutline/>
+                  </ListItemIcon>
+                  <ListItemText primary="Tournaments" />
+                </MenuItem>
+              </Link>
+              <Link to={`/profile/${user?._id}/tournaments`}>
+                <MenuItem onClick={()=> dispatch(fetchLogout())}>
+                  <ListItemIcon className={classes.itemIcon}>
+                    <IoLogOutOutline/>
+                  </ListItemIcon>
+                  <ListItemText primary="Log Out" />
+                </MenuItem>
+              </Link>
+          </Menu>
       </>
       ) : (
         ""

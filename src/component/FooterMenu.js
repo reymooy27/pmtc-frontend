@@ -1,52 +1,59 @@
 import { IconButton, makeStyles } from '@material-ui/core'
-import { ChatOutlined, HomeOutlined, NotificationsOutlined, PersonOutline, SearchOutlined } from '@material-ui/icons'
+import { IoNotificationsOutline,IoPersonOutline,IoHomeOutline,IoSearchOutline,IoChatboxOutline } from 'react-icons/io5';
 import React from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { selectUser } from '../redux/reducers/userSlice';
 import './FooterMenu.css'
 
-function FooterMenu() {
+function FooterMenu(props) {
 
   const useStyles = makeStyles(() => ({
   color: {
     color: 'white',
-    fontSize: '2rem'
-  }
+    fontSize: '2rem',
+    '& svg':{
+      fontSize: '24px'
+    }
+  },
 }));
 
-const user = useSelector(selectUser)
+  const user = useSelector(selectUser)
+
+  const hidden = props.location.pathname.includes('/chat/') ? true : false
 
   const classes = useStyles()
   
   return (
-    <div className='footer--menu'>
-      <Link to='/'>
+    <>
+    {!hidden && <div className='footer--menu'>
+      <Link to='/search'>
         <IconButton className={classes.color}>
-          <SearchOutlined/>
+          <IoSearchOutline/>
         </IconButton>
       </Link>
       <Link to='/notification'>
         <IconButton className={classes.color}>
-          <NotificationsOutlined/>
+          <IoNotificationsOutline/>
         </IconButton>
       </Link>
       <Link to='/'>
         <IconButton className={classes.color}>
-          <HomeOutlined/>
+          <IoHomeOutline/>
         </IconButton>
       </Link>
       <Link to='/chat'>
         <IconButton className={classes.color}>
-          <ChatOutlined/>
+          <IoChatboxOutline/>
         </IconButton>
       </Link>
       <Link to={`/profile/${user?._id}`}>
         <IconButton className={classes.color}>
-          <PersonOutline/>
+          <IoPersonOutline/>
         </IconButton>
       </Link>
-    </div>
+    </div>}
+  </>
   )
 }
 

@@ -1,0 +1,44 @@
+.search {
+  width: 95%;
+  margin: 0 auto;
+}
+
+.search-wrpr {
+  width: 100%;
+}
+
+.search-wrpr input {
+  border-radius: 10px;
+  background-color: #0e1013;
+  color: white;
+  width: 100%;
+  height: 40px;
+  text-align: left;
+  text-indent: 10px;
+  margin: 10px auto;
+  border: 2px solid rgb(85, 85, 85);
+  outline: none;
+  transition: ease-in-out 0.3s;
+}
+
+.search-wrpr input:focus {
+  border: 2px solid #00deab;
+  transition: ease-in-out 0.3s;
+}
+.search-wrpr input:hover {
+  border: 2px solid #00deab;
+  transition: ease-in-out 0.3s;
+}
+
+.search-empty {
+  margin: 0 auto;
+  width: 100%;
+  padding: 3em;
+  text-align: center;
+}
+
+@media screen and (min-width: 976px) {
+  .search-wrpr {
+    display: none;
+  }
+}

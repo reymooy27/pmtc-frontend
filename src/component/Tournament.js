@@ -5,9 +5,7 @@ import {
   useRouteMatch,
   useParams,
 } from "react-router-dom";
-import Navbar from "./Navbar";
 import Header from "./Header";
-import SideBar from "./SideBar";
 import Prize from "./Prize";
 import Overview from "./Overview";
 import Rules from "./Rules";
@@ -18,11 +16,9 @@ import Leaderboard from "./Leaderboard";
 import { useDispatch } from 'react-redux';
 import {getTournamentData, getTournamentTeam } from '../redux/reducers/tournamentSlice';
 import Loader from "react-loader-spinner";
-import { closeSideBar } from '../redux/reducers/appSlice';
 import TournamentTeam from './TournamentTeam';
 import axios from '../axios'
 import socket from '../socket.io'
-import FooterMenu from './FooterMenu';
 
 function Tournament() {
   const dispatch = useDispatch()
@@ -69,9 +65,6 @@ useEffect(() => {
 
   return (
     <>
-          <Navbar backButton={true}/>
-          <SideBar/>
-          <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
             {loading ? <Loader
           className="loader"
           type="ThreeDots"
@@ -121,8 +114,6 @@ useEffect(() => {
             </Route>
           </Switch>
           </>}
-          </div>
-        <FooterMenu/>
     </>
   )
 }

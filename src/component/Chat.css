@@ -2,10 +2,14 @@
   margin: 0 auto;
 }
 .chat-messages-wraper {
+  position: relative;
+  width: 100%;
+}
+
+.chat-messages {
   width: 95%;
   height: fit-content;
-  margin: 0 auto;
-  padding-bottom: 70px;
+  margin: 0 auto 60px;
   display: flex;
   flex-direction: column;
 }
@@ -62,8 +66,8 @@
   transition: ease-in-out 0.3s;
 }
 
-@media screen and (min-width: 976px) {
+@media screen and (min-width: 1024px) {
   .chat-send-message {
-    padding-left: 200px;
+    padding-left: 250px;
   }
 }

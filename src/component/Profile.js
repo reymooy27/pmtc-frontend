@@ -25,12 +25,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import axios from '../axios'
-import { closeSideBar, setErrorMessage, setOpenErrorSnackbar, setOpenSuccessSnackbar, setSuccessMessage } from '../redux/reducers/appSlice'
+import {setErrorMessage, setOpenErrorSnackbar, setOpenSuccessSnackbar, setSuccessMessage } from '../redux/reducers/appSlice'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import socket from '../socket.io';
-import Navbar from './Navbar'
-import SideBar from './SideBar'
-import FooterMenu from './FooterMenu'
 
 function Profile() {
 
@@ -264,9 +261,6 @@ const useStyles = makeStyles(() => ({
 
   return (
     <>
-      <Navbar backButton={true}/>
-      <SideBar/>
-      <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
         {!user && <Redirect to='/'/>}
         <>
           <div className='profile'>
@@ -369,8 +363,6 @@ const useStyles = makeStyles(() => ({
             </Route>
           </Switch>
         </>
-      </div>
-      <FooterMenu/>
     </>
   )
 }

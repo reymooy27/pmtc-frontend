@@ -3,6 +3,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect,
 } from "react-router-dom";
 import "./App.css";
 import Navbar from "./component/Navbar";
@@ -11,26 +12,17 @@ import Registration from "./component/Registration";
 import EmailConfirmation from "./component/EmailConfirmation";
 import Loader from "react-loader-spinner";
 import Login from "./component/Login";
-import Admin from "./component/Admin";
 import {fetchCheckUser} from './redux/reducers/userSlice'
 import {fetchAllTournament} from './redux/reducers/tournamentSlice'
 import {useSelector, useDispatch} from 'react-redux'
 import Signup from "./component/Signup";
-import Profile from "./component/Profile";
-import Tournaments from "./component/Tournaments";
-import Tournament from "./component/Tournament";
-import { closeSideBar, selectErrorMessage, selectOpenErrorSnackbar, selectOpenSuccessSnackbar, setOpenErrorSnackbar, setOpenSuccessSnackbar, selectSuccessMessage, showSideBar } from "./redux/reducers/appSlice";
-import UserTeam from './component/UserTeam'
-import ProfileSetting from "./component/ProfileSetting";
+import {selectErrorMessage, selectOpenErrorSnackbar, selectOpenSuccessSnackbar, setOpenErrorSnackbar, setOpenSuccessSnackbar, selectSuccessMessage, selectSearchInput } from "./redux/reducers/appSlice";
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import Chat from "./component/Chat";
-import ChatList from './component/ChatList'
-import Notification from "./component/Notification";
 import moment from 'moment'
-import { useSwipeable } from "react-swipeable";
 import FooterMenu from "./component/FooterMenu";
 import { makeStyles, useMediaQuery } from "@material-ui/core";
+import MainContent from "./component/MainContent";
 
 function App() {
   
@@ -40,6 +32,7 @@ function App() {
   const openErrorSnackbar = useSelector(selectOpenErrorSnackbar)
   const successMessage = useSelector(selectSuccessMessage)
   const errorMessage = useSelector(selectErrorMessage)
+  const input = useSelector(selectSearchInput)
 
   const [loading, setLoading] = useState(true);
 
@@ -120,15 +113,12 @@ function Alert(props) {
     dispatch(setOpenErrorSnackbar(false))
   };
 
-  const handlers = useSwipeable({
-    trackMouse: true,
-    onSwipedRight: () => dispatch(showSideBar()),
-    onSwipedLeft: ()=> dispatch(closeSideBar())
-  });
-
   return (
     <>
     <Router>
+
+    {input !== '' && <Redirect to='/search'/>}
+
       {loading ? (
         <Loader
           className="loader"
@@ -138,28 +128,22 @@ function Alert(props) {
           width={120}
         />
       ) : (
+        <>
           <Switch>
-            <Route path="/notification" component={Notification}/>
-            <Route path="/chat/:id" component={Chat}/>
-            <Route path="/chat" component={ChatList}/>
-            <Route path="/profile/team/:id" component={UserTeam}/>
-            <Route path="/admin" component={Admin}/>
-            <Route path='/profile/setting' component={ProfileSetting}/>
-            <Route path="/profile/:id" component={Profile}/>
             <Route path="/signup" component={Signup}/>
             <Route path="/login" component={Login}/>
             <Route path="/email-confirmation" component={EmailConfirmation}/>
             <Route path="/team/create/:id"component={Registration}/>
-            <Route path="/tournament/:tournamentID" component={Tournament}/>
-            <Route path="/">
-              <Navbar/>
-              <SideBar/>
-              <div {...handlers} className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
-                <Tournaments loading={loading} />
-              </div>
-              <FooterMenu/>
-            </Route>
+            <Route path="/" render={(props) => (
+              <>
+                <Navbar {...props}/>
+                <SideBar/>
+                <MainContent/>
+                <FooterMenu {...props}/> 
+              </>
+            )}/>
           </Switch>
+        </>
       )}
     </Router>
 

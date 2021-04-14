@@ -3,9 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchCheckUser, selectUser } from '../redux/reducers/userSlice'
 import './ProfileSetting.css'
 import axios from '../axios'
-import {closeSideBar, setErrorMessage, setOpenErrorSnackbar, setOpenSuccessSnackbar, setSuccessMessage } from '../redux/reducers/appSlice'
-import Navbar from './Navbar'
-import SideBar from './SideBar'
+import {setErrorMessage, setOpenErrorSnackbar, setOpenSuccessSnackbar, setSuccessMessage } from '../redux/reducers/appSlice'
 
 function ProfileSetting() {
 
@@ -60,9 +58,6 @@ function ProfileSetting() {
   }
   return (
     <>
-      <Navbar backButton={true}/>
-      <SideBar/>
-      <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
         <div className='profile-setting'>
           <h1>Setting</h1>
           <form id="profil" className='profile-setting-form'>
@@ -119,7 +114,6 @@ function ProfileSetting() {
               }>SAVE</button>
           </form>
         </div>                        
-      </div>
     </>
     
   )

@@ -128,7 +128,7 @@ table td {
   text-align: center;
 }
 
-@media screen and (min-width: 976px) {
+@media screen and (min-width: 1024px) {
   ::-webkit-scrollbar {
     background: #070613;
     width: 8px;

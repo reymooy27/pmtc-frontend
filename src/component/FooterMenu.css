@@ -9,11 +9,11 @@
   height: 65px;
   align-items: center;
   justify-content: space-between;
-  display: none;
+  display: flex;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (min-width: 1024px) {
   .footer--menu {
-    display: flex;
+    display: none;
   }
 }

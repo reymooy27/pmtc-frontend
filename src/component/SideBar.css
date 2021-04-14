@@ -76,7 +76,7 @@
   cursor: pointer;
 }
 
-@media screen and (min-width: 976px) {
+@media screen and (min-width: 1024px) {
   .sidebar {
     left: 0;
     background: #2c2e3c;

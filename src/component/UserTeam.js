@@ -19,10 +19,6 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import socket from '../socket.io'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import Popover from '@material-ui/core/Popover';
-import Navbar from './Navbar';
-import SideBar from './SideBar';
-import { closeSideBar } from '../redux/reducers/appSlice'
-import FooterMenu from './FooterMenu';
 
 function UserTeam() {
 
@@ -215,9 +211,6 @@ if(deleteSuccess){
 
   return (
     <>
-      <Navbar backButton={true}/>
-      <SideBar/>
-      <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
         <div className='user-team'>
           {loading ? (
             <Loader
@@ -347,8 +340,6 @@ if(deleteSuccess){
             </button>
           </DialogActions>
         </Dialog>
-      </div>
-    <FooterMenu/>                    
     </>
   )
 }

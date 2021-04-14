@@ -5,7 +5,7 @@ import {selectUser} from '../redux/reducers/userSlice'
 import {selectAllTournament,} from '../redux/reducers/tournamentSlice'
 import AdminTable from './AdminTable'
 import axios from '../axios'
-import {useDispatch, useSelector } from 'react-redux'
+import {useSelector } from 'react-redux'
 import CreateTournament from './CreateTournament'
 import EditTurnamen from './EditTurnamen'
 import {
@@ -14,14 +14,8 @@ import {
   useRouteMatch,
 } from "react-router-dom";
 import TournamentParticipantDetails from './TournamentParticipantDetails'
-import Navbar from './Navbar'
-import SideBar from './SideBar'
-import { closeSideBar } from '../redux/reducers/appSlice'
-import FooterMenu from './FooterMenu'
 
 function Admin() {
-
-  const dispatch = useDispatch()
 
   document.title = `Admin`
   
@@ -77,9 +71,6 @@ const isAdmin = user !== null ? user?.role === 'ADMIN' : null
 
   return (
     <>
-      <Navbar backButton={true}/>
-      <SideBar/>
-      <div className="main-content-wraper" onClick={()=> dispatch(closeSideBar())}>
         {!isAdmin && <Redirect to='/'/>}
           <div className='admin'>
               <Switch>
@@ -160,7 +151,6 @@ const isAdmin = user !== null ? user?.role === 'ADMIN' : null
                   </tbody>
                 </table >
               </div>
-            <FooterMenu/>
                 </Route>
                 <Route path='/admin/tournament/edit'>
                   <EditTurnamen currentTurnamenID={currentTurnamenID}/>
@@ -173,7 +163,6 @@ const isAdmin = user !== null ? user?.role === 'ADMIN' : null
                 </Route>
               </Switch>
           </div>
-      </div>
     </>
     
   )

@@ -70,6 +70,13 @@
   display: none;
 }
 
+.search-input-wraper a {
+  margin-left: 5px;
+}
+.search-input-wraper svg {
+  font-size: 24px;
+}
+
 .search-input {
   border-radius: 10px;
   background-color: #0e1013;
@@ -92,7 +99,7 @@
   border: 2px solid #00deab;
   transition: ease-in-out 0.3s;
 }
-@media screen and (min-width: 976px) {
+@media screen and (min-width: 1024px) {
   .navbar-responsive {
     height: 60px;
   }
@@ -103,6 +110,7 @@
     padding-left: 200px;
   }
   .search-input-wraper {
-    display: block;
+    display: flex;
+    align-items: center;
   }
 }
