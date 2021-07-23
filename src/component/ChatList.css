@@ -1,5 +1,5 @@
 .chatList {
-  margin: 70px auto;
+  margin: 0 auto 5em;
   width: 95%;
   height: 100%;
 }
@@ -9,8 +9,13 @@
   color: white;
   display: flex;
   align-items: center;
-  margin: 10px 0;
+  padding: 5px;
+  transition: 0.3s all ease-in-out;
 }
+.chatList-chat:hover {
+  background-color: #ddd9d918;
+}
+
 .chatList-chat-avatar {
   margin-right: 15px;
   margin-bottom: 10px;
@@ -34,4 +39,13 @@
   bottom: 2px;
   color: rgba(255, 255, 255, 0.425);
   font-size: 12px;
+}
+
+@media (min-width: 1024px) {
+  .chatList {
+    margin: 0 auto 1em;
+  }
+  .chatList-chat {
+    padding: 10px;
+  }
 }

@@ -8,7 +8,7 @@ import { selectSearchInput, setSearchInput, showSideBar } from "../redux/reducer
 import { selectToRecipient } from "../redux/reducers/chatSlice";
 import {IconButton, ListItemIcon, ListItemText, Menu, MenuItem, useMediaQuery } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
-import {IoChatboxOutline,IoNotificationsOutline,IoArrowBackOutline,IoLogOutOutline,IoTrophyOutline,IoSettingsOutline,IoPeopleOutline,IoPersonOutline} from 'react-icons/io5'
+import {IoMenuOutline,IoChatboxOutline,IoNotificationsOutline,IoArrowBackOutline,IoLogOutOutline,IoTrophyOutline,IoSettingsOutline,IoPeopleOutline,IoPersonOutline} from 'react-icons/io5'
 
 function Navbar(props) {
 
@@ -97,23 +97,28 @@ function Navbar(props) {
       {!isChat && 
       <div className='search-input-wraper'>
         <input className='search-input' type='text' placeholder='Search' value={input} onClick={handleClickInput} onChange={handleChange}/>
-        <Link to='/notification'>
-          <IconButton className={classes.notifchat} aria-label="notification" component="span">
-            <IoNotificationsOutline/>
-          </IconButton> 
-        </Link>
-        <Link to='/chat'>
-          <IconButton className={classes.notifchat} aria-label="chat" component="span">
-            <IoChatboxOutline/>
-          </IconButton> 
-        </Link>
+        {user && <>
+          <Link to='/notification'>
+            <IconButton className={classes.notifchat} aria-label="notification" component="span">
+              <IoNotificationsOutline/>
+            </IconButton> 
+          </Link>
+          <Link to='/chat'>
+            <IconButton className={classes.notifchat} aria-label="chat" component="span">
+              <IoChatboxOutline/>
+            </IconButton> 
+          </Link>
+        </>}
       </div>}
       {!isHome && !matches ?
         <IconButton onClick={()=> history.goBack()} className={classes.root} aria-label="go back" component="span">
           <IoArrowBackOutline/>
         </IconButton> 
         :
-        <div onClick={() => dispatch(showSideBar())} className="menuicon noSelect"></div>}
+        <IconButton onClick={() => dispatch(showSideBar())} className={classes.root} aria-label="menu" component="span">
+          <IoMenuOutline/>
+        </IconButton>
+      }
       {isChat && <div className='chat-username'>{toRecipient?.username}</div>}
       {!isChat && user ? (
         <>
@@ -169,14 +174,12 @@ function Navbar(props) {
                   <ListItemText primary="Tournaments" />
                 </MenuItem>
               </Link>
-              <Link to={`/profile/${user?._id}/tournaments`}>
                 <MenuItem onClick={()=> dispatch(fetchLogout())}>
                   <ListItemIcon className={classes.itemIcon}>
                     <IoLogOutOutline/>
                   </ListItemIcon>
                   <ListItemText primary="Log Out" />
                 </MenuItem>
-              </Link>
           </Menu>
       </>
       ) : (

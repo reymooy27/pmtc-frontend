@@ -5,7 +5,7 @@
 
 .notification-wraper {
   display: flex;
-  margin-bottom: 20px;
+  padding: 5px;
   text-decoration: none;
   transition: 0.3s all ease-in-out;
 }
@@ -40,8 +40,11 @@
   font-size: 14px;
 }
 
-@media screen and (min-width: 976px) {
+@media screen and (min-width: 1024px) {
   .notification {
     margin: 0 auto 1em;
+  }
+  .notification-wraper {
+    padding: 10px;
   }
 }

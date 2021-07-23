@@ -13,7 +13,6 @@ import EmailConfirmation from "./component/EmailConfirmation";
 import Loader from "react-loader-spinner";
 import Login from "./component/Login";
 import {fetchCheckUser} from './redux/reducers/userSlice'
-import {fetchAllTournament} from './redux/reducers/tournamentSlice'
 import {useSelector, useDispatch} from 'react-redux'
 import Signup from "./component/Signup";
 import {selectErrorMessage, selectOpenErrorSnackbar, selectOpenSuccessSnackbar, setOpenErrorSnackbar, setOpenSuccessSnackbar, selectSuccessMessage, selectSearchInput } from "./redux/reducers/appSlice";
@@ -94,7 +93,6 @@ useEffect(() => {
   let mounted = true
   if(mounted){
     dispatch(fetchCheckUser())
-    dispatch(fetchAllTournament())
     setLoading(false)
   }
   return ()=> mounted = false

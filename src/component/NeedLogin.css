@@ -1,0 +1,42 @@
+.need--login {
+  width: 95%;
+  margin: 0 auto;
+}
+
+.need--login--wraper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 350px;
+  margin: 2em auto 0;
+}
+
+.need--login--wraper span {
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.need--login--buttons--wraper {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+}
+
+.need--login--buttons--wraper a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 45%;
+  height: 40px;
+  border-radius: 50px;
+  text-decoration: none;
+  color: white;
+  padding: 10px;
+  background-color: #00dbae;
+  font-size: 14px;
+  border: none;
+  outline: none;
+}

@@ -9,7 +9,6 @@ import ProfileOverview from './ProfileOverview'
 import {
   Switch,
   Route,
-  Redirect,
   useRouteMatch,
   useParams,
   Link,
@@ -28,6 +27,7 @@ import axios from '../axios'
 import {setErrorMessage, setOpenErrorSnackbar, setOpenSuccessSnackbar, setSuccessMessage } from '../redux/reducers/appSlice'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import socket from '../socket.io';
+import NeedLogin from './NeedLogin'
 
 function Profile() {
 
@@ -261,7 +261,7 @@ const useStyles = makeStyles(() => ({
 
   return (
     <>
-        {!user && <Redirect to='/'/>}
+        {!user ? <NeedLogin title='Profile'/> : 
         <>
           <div className='profile'>
             <Badge
@@ -362,7 +362,7 @@ const useStyles = makeStyles(() => ({
               <ProfileTournaments isUser={isUserLoggedIn} user_={user_}/>
             </Route>
           </Switch>
-        </>
+        </>}
     </>
   )
 }
