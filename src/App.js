@@ -6,22 +6,21 @@ import {
   Redirect,
 } from "react-router-dom";
 import "./App.css";
-import Navbar from "./component/Navbar";
-import SideBar from "./component/SideBar";
-import Registration from "./component/Registration";
-import EmailConfirmation from "./component/EmailConfirmation";
+import Navbar from "./component/Navbar/Navbar";
+import SideBar from "./component/SideBar/SideBar";
+import EmailConfirmation from "./component/EmailConfirmation/EmailConfirmation";
 import Loader from "react-loader-spinner";
-import Login from "./component/Login";
+import Login from "./component/Login/Login";
 import {fetchCheckUser} from './redux/reducers/userSlice'
 import {useSelector, useDispatch} from 'react-redux'
-import Signup from "./component/Signup";
+import Signup from "./component/Signup/Signup";
 import {selectErrorMessage, selectOpenErrorSnackbar, selectOpenSuccessSnackbar, setOpenErrorSnackbar, setOpenSuccessSnackbar, selectSuccessMessage, selectSearchInput } from "./redux/reducers/appSlice";
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import moment from 'moment'
-import FooterMenu from "./component/FooterMenu";
+import FooterMenu from "./component/FooterMenu/FooterMenu";
 import { makeStyles, useMediaQuery } from "@material-ui/core";
-import MainContent from "./component/MainContent";
+import MainContent from "./component/MainContent/MainContent";
 
 function App() {
   
@@ -131,7 +130,6 @@ function Alert(props) {
             <Route path="/signup" component={Signup}/>
             <Route path="/login" component={Login}/>
             <Route path="/email-confirmation" component={EmailConfirmation}/>
-            <Route path="/team/create/:id"component={Registration}/>
             <Route path="/" render={(props) => (
               <>
                 <Navbar {...props}/>
