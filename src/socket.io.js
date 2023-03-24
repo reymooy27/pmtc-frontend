@@ -1,5 +1,5 @@
 import io from 'socket.io-client'
-const baseURL = process.env.NODE_ENV === 'production' ? process.env.BACKEND_URL : "http://localhost:8000"
+const baseURL = 'https://pubg.up.railway.app/'
 
 const socket = io(baseURL,
   {
