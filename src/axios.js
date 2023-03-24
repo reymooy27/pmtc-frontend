@@ -1,6 +1,6 @@
 import axios from "axios";
 // import { cacheAdapterEnhancer, throttleAdapterEnhancer } from 'axios-extensions';
-const baseURL = process.env.NODE_ENV === 'production' ? "https://pmtc-tourney.herokuapp.com" : "http://localhost:8000"
+const baseURL = process.env.NODE_ENV === 'production' ? process.env.BACKEND_URL : "http://localhost:8000"
 const instance = axios.create({
   baseURL: baseURL,
   withCredentials: true,

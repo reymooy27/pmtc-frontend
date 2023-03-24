@@ -80,7 +80,7 @@ function Header() {
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Upload Foto Profil</DialogTitle>
         <DialogContent>
-          {user.myTeam.map((team,i)=>(
+          {user?.myTeam?.map((team,i)=>(
             <span>{team.teamName}</span>
           ))}
         </DialogContent>
