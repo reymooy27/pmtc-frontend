@@ -78,9 +78,9 @@ function Tournaments() {
     return ()=> socket.removeAllListeners("deleteTournament");
   }, [deleteTournament])
 
-  const ongoingTournament = allTournament.filter(r=> r.status === 'ONGOING')
-  const availableTournament = allTournament.filter(r=> new Date(r.startDate).getTime() > Date.now())
-  const pastTournament = allTournament.filter(r=> new Date(r.startDate).getTime() < Date.now() && r.status !== 'ONGOING')
+  const ongoingTournament = allTournament?.filter(r=> r?.status === 'ONGOING')
+  const availableTournament = allTournament?.filter(r=> new Date(r?.startDate).getTime() > Date.now())
+  const pastTournament = allTournament?.filter(r=> new Date(r?.startDate).getTime() < Date.now() && r?.status !== 'ONGOING')
 
   const allTourney = [
   {
@@ -120,16 +120,16 @@ function Tournaments() {
                         <TournamentCard
                           key={t?._id}
                           _id={t?._id}
-                          tournamentPicture={t.tournamentPicture}
-                          status={t.status}
-                          tournamentName={t.tournamentName}
-                          tournamentFirstPrize={t.tournamentFirstPrize}
-                          tournamentSecondPrize={t.tournamentSecondPrize}
-                          tournamentThirdPrize={t.tournamentThirdPrize}
-                          startDate={t.startDate}
-                          tournamentMode={t.tournamentMode}
-                          teams={t.teams}
-                          maxSlot={t.maxSlot}
+                          tournamentPicture={t?.tournamentPicture}
+                          status={t?.status}
+                          tournamentName={t?.tournamentName}
+                          tournamentFirstPrize={t?.tournamentFirstPrize}
+                          tournamentSecondPrize={t?.tournamentSecondPrize}
+                          tournamentThirdPrize={t?.tournamentThirdPrize}
+                          startDate={t?.startDate}
+                          tournamentMode={t?.tournamentMode}
+                          teams={t?.teams}
+                          maxSlot={t?.maxSlot}
                         />
                       }
                     </Fragment>
