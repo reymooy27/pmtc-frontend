@@ -118,8 +118,8 @@ function Tournaments() {
                     <Fragment key={x}>
                       {loading ? <Skeleton className={classes.skeleton} variant='rect' animation="wave"/> : 
                         <TournamentCard
-                          key={t._id}
-                          _id={t._id}
+                          key={t?._id}
+                          _id={t?._id}
                           tournamentPicture={t.tournamentPicture}
                           status={t.status}
                           tournamentName={t.tournamentName}
